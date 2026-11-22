@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Build the Capstone report PDF from Markdown (reportlab only, no network).
+"""Build the CloudServe report PDF from Markdown (reportlab only, no network).
 
 Usage (from ``submission/``):
 
     python docs/report/build_pdf.py
-    python docs/report/build_pdf.py --input docs/report/CloudServe_Capstone_Report.md \
-                                    --output docs/report/SameerJ_Capstone_Report.pdf
+    python docs/report/build_pdf.py --input docs/report/CloudServe_Assistant_Report.md \
+                                    --output docs/report/SameerJ_CloudServe_Report.pdf
 
 Dependency: ``pip install reportlab`` (documentation tooling only; it is not imported by
 the runtime and is not part of ``requirements.txt``).
@@ -73,8 +73,8 @@ except ImportError as exc:  # pragma: no cover
     raise SystemExit(2)
 
 HERE = Path(__file__).resolve().parent
-DEFAULT_INPUT = HERE / "CloudServe_Capstone_Report.md"
-DEFAULT_OUTPUT = HERE / "SameerJ_Capstone_Report.pdf"
+DEFAULT_INPUT = HERE / "CloudServe_Assistant_Report.md"
+DEFAULT_OUTPUT = HERE / "SameerJ_CloudServe_Report.pdf"
 
 PAGE_W, PAGE_H = A4
 MARGIN_X = 2.1 * cm
@@ -227,7 +227,7 @@ class ReportDoc(BaseDocTemplate):
             bottomMargin=MARGIN_BOTTOM,
             title=title,
             author=author,
-            subject="CloudServe Assistant - Capstone Report",
+            subject="CloudServe Assistant - CloudServe Report",
         )
         frame = Frame(self.leftMargin, self.bottomMargin, FRAME_W, PAGE_H - MARGIN_TOP - MARGIN_BOTTOM, id="main", leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
         self.addPageTemplates([PageTemplate(id="main", frames=[frame], onPage=self._decorate)])
@@ -678,7 +678,7 @@ def build(input_path: Path, output_path: Path) -> tuple[int, int | None, int | N
     story, title_text, captions = parse_markdown(md, input_path.parent)
     author_m = re.search(r"\*\*Author:\*\*\s*([^\n*]+)", md)
     author = author_m.group(1).strip() if author_m else "Sameer J"
-    title = re.sub(r"[`*]", "", title_text) or "CloudServe Assistant - Capstone Report"
+    title = re.sub(r"[`*]", "", title_text) or "CloudServe Assistant - CloudServe Report"
 
     for p in check_captions(captions, md):
         sys.stderr.write(f"warning: {p}\n")

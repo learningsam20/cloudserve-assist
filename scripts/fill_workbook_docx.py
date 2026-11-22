@@ -1,4 +1,4 @@
-"""Fill the Capstone Pack workbook templates (.docx) from the Markdown workbooks.
+"""Fill the reference datasets pack workbook templates (.docx) from the Markdown workbooks.
 
 The Markdown files in ``docs/workbooks/`` are the source of truth. Each data table in
 a Markdown file is preceded by an HTML comment that names the template table it fills:
@@ -15,7 +15,7 @@ a Markdown file is preceded by an HTML comment that names the template table it 
 
 For every workbook this script:
 
-1. copies the blank Capstone Pack template into the output directory (overwriting any
+1. copies the blank reference datasets pack template into the output directory (overwriting any
    earlier copy, so the run is repeatable);
 2. writes each Markdown table body into the matching template table, keeping the
    template's cell formatting (rows are added when the Markdown has more rows than the
@@ -25,7 +25,7 @@ For every workbook this script:
 Usage (from ``submission/``)::
 
     python -m scripts.fill_workbook_docx
-    python -m scripts.fill_workbook_docx --pack-dir ../capstone_guide/Capstone_Pack --out-dir docs/workbooks
+    python -m scripts.fill_workbook_docx --pack-dir /path/to/workbook_templates --out-dir docs/workbooks
 
 Requires ``python-docx`` (``pip install python-docx``).
 """
@@ -45,7 +45,6 @@ from docx.table import Table
 from docx.text.paragraph import Paragraph
 
 SUBMISSION_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_PACK_DIR = SUBMISSION_ROOT.parent / "capstone_guide" / "Capstone_Pack"
 DEFAULT_OUT_DIR = SUBMISSION_ROOT / "docs" / "workbooks"
 
 # (template path relative to the pack dir, Markdown source file name in the output dir)
@@ -254,9 +253,21 @@ def fill_workbook(template: Path, md_path: Path, out_path: Path) -> tuple[int, i
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Fill Capstone Pack .docx workbooks from Markdown sources.")
-    parser.add_argument("--pack-dir", type=Path, default=DEFAULT_PACK_DIR, help="Capstone_Pack directory (templates)")
-    parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR, help="Directory holding the .md sources; filled .docx are written here")
+    parser = argparse.ArgumentParser(
+        description="Fill .docx workbook templates from Markdown sources (optional ops helper)."
+    )
+    parser.add_argument(
+        "--pack-dir",
+        type=Path,
+        required=True,
+        help="Directory containing workbook .docx templates (caller-provided; not required at runtime)",
+    )
+    parser.add_argument(
+        "--out-dir",
+        type=Path,
+        default=DEFAULT_OUT_DIR,
+        help="Directory holding the .md sources; filled .docx are written here",
+    )
     args = parser.parse_args()
 
     pack_dir: Path = args.pack_dir.resolve()

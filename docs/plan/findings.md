@@ -1,6 +1,6 @@
-# Findings — Capstone Pack deviations and conflicts
+# Findings — reference datasets pack deviations and conflicts
 
-Decisions taken where the Capstone Pack documents disagree or mislead. Source: pack text (Brief, Setup Guide, Dataset Guide, Evaluation Framework) and suggested config under `capstone_guide/Capstone_Pack/06_Configuration/` (`.env.example`, `requirements.txt`). Used by the report, PRD revision log, and implementation.
+Decisions taken where the reference datasets pack documents disagree or mislead. Source: pack text (Brief, Setup Guide, Dataset Guide, Evaluation Framework) and suggested config under `reference 06_Configuration/` (`.env.example`, `requirements.txt`). Used by the report, PRD revision log, and implementation.
 
 **Config baseline:** always start from `06_Configuration`; document additives here or in the change-log — do not silently replace pack keys.
 
@@ -73,7 +73,7 @@ Decisions taken where the Capstone Pack documents disagree or mislead. Source: p
 
 ## D4 — Kill switch: what the question meant, and what we decided
 
-**The open question was not “do we need a kill switch?”** (Capstone already requires one.) It was: **when the switch flips while work is already running, what happens to tickets mid-flight?**
+**The open question was not “do we need a kill switch?”** (CloudServe already requires one.) It was: **when the switch flips while work is already running, what happens to tickets mid-flight?**
 
 Concrete cases:
 

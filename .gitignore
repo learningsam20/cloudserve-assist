@@ -67,7 +67,8 @@ docs/video/*.webm
 docs/video/*.m4v
 docs/video/*.mkv
 
-# Accidental package dumps inside submission
+# Local package / release dumps
 _package/
+dist/
 *.zip
 !docs/**/*.zip

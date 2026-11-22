@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "CloudServe Assistant",
-    "description": "Optional Postman collection for the Capstone API demo. Prefer curl from the video script if Postman is unavailable. Start API with ./scripts/start_api.sh first.",
+    "description": "Optional Postman collection for the CloudServe API demo. Prefer curl from the video script if Postman is unavailable. Start API with ./scripts/start_api.sh first.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [

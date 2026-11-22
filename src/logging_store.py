@@ -1,4 +1,4 @@
-"""SQLite decision log (Governance Framework fields, Capstone A8)."""
+"""SQLite decision log (Governance Framework fields, CloudServe A8)."""
 
 from __future__ import annotations
 

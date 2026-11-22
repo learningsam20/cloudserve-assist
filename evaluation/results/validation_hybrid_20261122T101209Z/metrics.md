@@ -3,7 +3,7 @@
 - **Version:** 0.1.0
 - **Run started:** 2026-11-22T10:12:12.529386+00:00
 - **Report generated:** 2026-11-22T10:12:14.615295+00:00
-- **Input:** `/Users/sameer_j/Documents/coding/fde/IIT_Capstone/submission/../capstone_guide/Capstone_Pack/05_Datasets/validation_tickets.json`
+- **Input:** `/Users/sameer_j/Documents/coding/fde/project root/submission/$DATASETS_PATH/validation_tickets.json`
 - **Targets source:** findings D1 success table + Evaluation Framework
 
 ## Volume

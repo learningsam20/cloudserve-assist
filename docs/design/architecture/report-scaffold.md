@@ -1,6 +1,6 @@
 # Report scaffold (02_Report) — CloudServe Assistant
 
-Use this outline for the 20–30 page Capstone report PDF. Fill from `docs/plan/*`, `docs/design/*`, and `evaluation/results/`.
+Use this outline for the 20–30 page CloudServe report PDF. Fill from `docs/plan/*`, `docs/design/*`, and `evaluation/results/`.
 
 1. Problem and stakeholders  
 2. Discovery / findings D1–D5  

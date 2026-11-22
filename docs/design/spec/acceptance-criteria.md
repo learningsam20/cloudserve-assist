@@ -1,6 +1,6 @@
 # Acceptance criteria (A1–A12)
 
-Source: Capstone Build Specification. Each is pass/fail.
+Source: CloudServe Build Specification. Each is pass/fail.
 
 | ID | Must hold | CAP / FR |
 |----|-----------|----------|

@@ -1,4 +1,4 @@
-# Gaps — CloudServe Assistant vs Capstone Pack
+# Gaps — CloudServe Assistant vs reference datasets pack
 
 Review date: **2026-11-22**. Updated after gap-closure implementation, and again after the report, workbooks, human-evaluation and clean-checkout work the same day.
 
@@ -10,7 +10,7 @@ Status legend: **Closed** · **Partial** (evidence incomplete) · **Pending** (n
 
 | ID | Status | Notes |
 |----|--------|-------|
-| A1 | Closed (deps fixed) | Resolvable `requirements.txt` verified on CPython 3.11.14 (`requirements-pin-log.md`). Set `CAPSTONE_DATASETS` before `setup_all` / pytest. See `independent-verification.md`. |
+| A1 | Closed (deps fixed) | Resolvable `requirements.txt` verified on CPython 3.11.14 (`requirements-pin-log.md`). Set `DATASETS_PATH` before `setup_all` / pytest. See `independent-verification.md`. |
 | A2 | Closed | Four-channel ingest; non-string channel coerce → email. |
 | A3 | Closed | Intent+urgency+confidence; rules path lists other rule intents as alternatives. |
 | A4 | Closed | Chroma retrieve with `doc_id`; `index_stats` + `/health.chroma` prove index wired (count 59). |
@@ -29,7 +29,7 @@ Status legend: **Closed** · **Partial** (evidence incomplete) · **Pending** (n
 
 | # | Item | Status |
 |---|------|--------|
-| 1 | Submission artifacts (report/workbooks/video) | **Report: Closed** (`docs/report/CloudServe_Capstone_Report.md` → `SameerJ_Capstone_Report.pdf`, 33 pages, 28 in sections 1–10). **Workbooks: Closed** (Stage 1–5 + Effort Log, md + docx, plus `human_eval_appendix.md`). **Video: Pending camera capture** — script and README complete (`docs/video/video-script.md`, `docs/video/README.md`); recording not yet made. |
+| 1 | Submission artifacts (report/workbooks/video) | **Report: Closed** (`docs/report/CloudServe_Assistant_Report.md` → `SameerJ_CloudServe_Report.pdf`, 33 pages, 28 in sections 1–10). **Workbooks: Closed** (Stage 1–5 + Effort Log, md + docx, plus `human_eval_appendix.md`). **Video: Pending camera capture** — script and README complete (`docs/video/video-script.md`, `docs/video/README.md`); recording not yet made. |
 | 2 | A11 timeout/backoff + induced failure tests | **Closed** |
 | 3 | A5/A8/kill/grounded tests | **Closed** |
 | 4 | Generate mock + BLOCK through graph | **Closed** |
@@ -56,6 +56,6 @@ Status legend: **Closed** · **Partial** (evidence incomplete) · **Pending** (n
 ## Still for marks (student hand-in)
 
 1. **Record the video** from `docs/video/video-script.md`.
-2. Re-assemble package (`PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh`), add video, zip, rename to enrolment name.
+2. Re-assemble package (`PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh`), add video, zip, rename to release name.
 3. Optional: live generate-on sample; export Effort Log to PDF if the guide requires PDF specifically.
 4. Rotate any OpenRouter key that lived in local `.env` if the workspace was shared.

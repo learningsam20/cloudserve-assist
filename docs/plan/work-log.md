@@ -1,6 +1,6 @@
 # Work log — CloudServe Assistant
 
-Part of the submission package. Updated as each Capstone stage / build slice lands. Prefer real Capstone Pack datasets; do not invent ticket bodies unless a criterion forces a fixture.
+Part of the submission package. Updated as each delivery stage / build slice lands. Prefer real reference datasets pack datasets; do not invent ticket bodies unless a criterion forces a fixture.
 
 **How to use:** append under the matching stage when work completes. Keep evidence paths concrete.
 
@@ -10,7 +10,7 @@ Part of the submission package. Updated as each Capstone stage / build slice lan
 
 ## Stage status snapshot
 
-| Capstone stage | Focus | Status |
+| delivery stage | Focus | Status |
 |----------------|--------|--------|
 | 0 — Setup / config | Resolvable deps, env, ops scripts | **Done** |
 | 1 — Discovery tooling | Aggregates + classifier train on pack data | **Done** |
@@ -66,11 +66,11 @@ Ordered in the sequence the work was done. **Est. phrs** = estimated person-hour
 | 25 | Human eval | Independent second-pass CSAT/citation simulation (n=28) | 3.5 | `docs/plan/human-eval-notes.md`, `human_eval_appendix.md` |
 | 26 | Workbooks | Stage 1–5 + Effort Log (md); `fill_workbook_docx.py` → docx | 5.0 | `docs/workbooks/`, `scripts/fill_workbook_docx.py` |
 | 27 | Workbooks | Extend `discovery_stats` for Stage 1 segment/effort tables | 1.0 | `scripts/discovery_stats.py` |
-| 28 | Report | Expand Capstone report + `build_pdf.py` → 33-page PDF | 6.0 | `docs/report/SameerJ_Capstone_Report.pdf` |
+| 28 | Report | Expand CloudServe report + `build_pdf.py` → 33-page PDF | 6.0 | `docs/report/SameerJ_CloudServe_Report.pdf` |
 | 29 | Video | Video outline/script + README (recording not made) | 2.0 | `docs/video/video-script.md` |
 | 30 | Rehearsal | Clean-checkout rehearsal; package copies 01–03; `PACKAGE_NO_ZIP` | 2.5 | `clean-checkout-rehearsal.md`, `package_submission.sh` |
 | 31 | Fix | Wire JSON output contract into generate messages | 0.5 | `src/generate.py` |
-| 32 | Fix | Tests resolve datasets via `CAPSTONE_DATASETS` (`conftest.py`) | 0.5 | `tests/conftest.py` |
+| 32 | Fix | Tests resolve datasets via `DATASETS_PATH` (`conftest.py`) | 0.5 | `tests/conftest.py` |
 | 33 | Fix | Scope `decisions_export` to harness run ticket_ids | 0.5 | `logging_store.py`, `harness.py` |
 | 34 | Verify | Independent assessor clean-checkout review → NOT READY (deps) | 2.0 | `docs/plan/independent-verification.md` |
 | 35 | Fix | Resolvable `requirements.txt` + pin log (Pack pins unsatisfiable) | 2.0 | `requirements.txt`, `requirements-pin-log.md` |
@@ -78,7 +78,7 @@ Ordered in the sequence the work was done. **Est. phrs** = estimated person-hour
 | 37 | Verify | Re-verify install + **28 pytest** on CPython 3.11.14 | 1.0 | pin log; independent-verification §12 |
 | | | **Subtotal (recorded slices above)** | **~81.5** | |
 | — | Pending | Record demo video (~20 min + prep/edit) | ~4.0 | `docs/video/` |
-| — | Pending | Final package re-assemble + enrolment-named zip | ~0.5 | `package_submission.sh` |
+| — | Pending | Final package re-assemble + release-named zip | ~0.5 | `package_submission.sh` |
 | | | **Estimated total incl. pending** | **~86** | Aligns with Effort Log ~102 reconstructed (includes discovery reading / iteration overhead not itemised above) |
 
 ---
@@ -161,6 +161,6 @@ Ordered in the sequence the work was done. **Est. phrs** = estimated person-hour
 ## Next up
 
 1. Record video from `docs/video/video-script.md` (~4 phrs estimated) — include Grafana folder if Docker is up  
-2. `PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh`, add video, zip, rename to enrolment name (~0.5 phrs)  
+2. `PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh`, add video, zip, rename to release name (~0.5 phrs)  
 3. Optional: live generate-on sample + dual review of live drafts  
 4. Rotate any OpenRouter key that lived in local `.env` if the workspace was shared  

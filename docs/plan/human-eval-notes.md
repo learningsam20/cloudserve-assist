@@ -6,7 +6,7 @@
 
 ## 1. Purpose
 
-The Capstone Evaluation Framework sets three human-review targets that the automated harness cannot score: CSAT of at least 4.0, citation accuracy of at least 95%, and hallucination of at most 5%. This document records a second-pass review that scores replies against those targets, and states plainly how far the evidence goes.
+The CloudServe Evaluation Framework sets three human-review targets that the automated harness cannot score: CSAT of at least 4.0, citation accuracy of at least 95%, and hallucination of at most 5%. This document records a second-pass review that scores replies against those targets, and states plainly how far the evidence goes.
 
 ## 2. Summary
 

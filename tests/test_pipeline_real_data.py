@@ -1,4 +1,4 @@
-"""Pipeline tests using Capstone Pack files — no invented ticket bodies."""
+"""Pipeline tests using reference datasets pack files — no invented ticket bodies."""
 
 from __future__ import annotations
 

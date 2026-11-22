@@ -1,12 +1,12 @@
-# CloudServe Assistant — Capstone Report
+# CloudServe Assistant — Product Report
 
 **Author:** Sameer J  
 **Product:** CloudServe Assistant (RAG triage and assist — not a chatbot)  
-**Client context:** CloudServe Solutions support organisation (fictional Capstone client)  
+**Client context:** CloudServe Solutions support organisation  
 **Date:** 2026-11-22  
 **Version:** 1.2  
 
-**Declaration of AI tool use.** Planning, drafting, coding assistance, workbook and report drafting, and an independent second-pass human-evaluation simulation were produced with AI coding assistants (including Cursor agents). The builder remains responsible for configuration choices, threshold freeze, recorded evaluation commands, and for verifying that a clean checkout follows this report and the README. No Capstone Pack ticket or knowledge-base *content* was used for planning insights beyond aggregate scripts and interview transcripts as required by the Pack. Generated drafts in the human-evaluation notes are explicitly labelled as passage-grounded simulations, not live model output.
+**Declaration of AI tool use.** Planning, drafting, coding assistance, workbook and report drafting, and an independent second-pass human-evaluation simulation were produced with AI coding assistants (including Cursor agents). The builder remains responsible for configuration choices, threshold freeze, recorded evaluation commands, and for verifying that a clean checkout follows this report and the README. No reference datasets pack ticket or knowledge-base *content* was used for planning insights beyond aggregate scripts and interview transcripts as required by the Pack. Generated drafts in the human-evaluation notes are explicitly labelled as passage-grounded simulations, not live model output.
 
 **Reading guide.** This report describes CloudServe Assistant in the third person, as a product that a reviewer could assess without having watched the build. Every number in it is a number that already exists in a recorded artefact of the repository: the discovery script output, the threshold-freeze note, the evaluation-run log, the recorded metrics file for the validation run, the human-evaluation notes, the governance documents, or the workbooks. No figure was estimated for this report. Where evidence is missing, the text says so. The three largest gaps are stated here at the start so that no reader needs to infer them. First, a live generate-on evaluation batch was not recorded, so no customer-facing first-contact-resolution claim is made. Second, the hidden grader set has been run zero times. Third, the demonstration video has not yet been recorded; its script is complete and the recording is pending camera capture.
 
@@ -14,7 +14,7 @@
 
 ## Summary
 
-CloudServe Assistant is a support triage and assist service built for the CloudServe Solutions Capstone. It accepts a support ticket from any of four channels, classifies its intent and urgency with deterministic rules followed by a locally trained scikit-learn classifier, retrieves passages from the 29-article CloudServe knowledge base through a Chroma vector index, and then routes the ticket in plain code. A ticket that is policy-restricted, poorly grounded, or low in confidence is escalated with a readable reason, a summary and the sources considered. A ticket that is confident and well grounded may receive a cited draft answer produced through LiteLLM and OpenRouter, which then passes through blocking guardrails before anything is treated as sendable. Every automated decision is written to a SQLite decision log, a kill switch can stop automatic answering without a redeploy, and an unattended harness takes `--input` and `--output` paths so that a grader can run the system on an injected ticket file.
+CloudServe Assistant is a support triage and assist service built for the CloudServe Solutions CloudServe. It accepts a support ticket from any of four channels, classifies its intent and urgency with deterministic rules followed by a locally trained scikit-learn classifier, retrieves passages from the 29-article CloudServe knowledge base through a Chroma vector index, and then routes the ticket in plain code. A ticket that is policy-restricted, poorly grounded, or low in confidence is escalated with a readable reason, a summary and the sources considered. A ticket that is confident and well grounded may receive a cited draft answer produced through LiteLLM and OpenRouter, which then passes through blocking guardrails before anything is treated as sendable. Every automated decision is written to a SQLite decision log, a kill switch can stop automatic answering without a redeploy, and an unattended harness takes `--input` and `--output` paths so that a grader can run the system on an injected ticket file.
 
 The recorded evidence supports the following claims, each qualified in the sections that follow. On the 80-ticket validation file, run route-only after the fairness fix, 66 tickets (82.5%) were routed to auto_respond and 14 (17.5%) were escalated, and all 14 escalations were policy must-not tickets. Intent classification accuracy on the labelled validation tickets was 98.75%. The fairness quality gap across customer tier and across language fluency was 0.0 percentage points against a limit of 5. The 28-test pytest suite passes on the build machine, and the Chroma collection holds 59 chunks. A second reviewer scored 28 passage-grounded simulated drafts with a mean satisfaction proxy of 4.68, 119 of 119 claims supported and 0 of 119 unsupported, but those drafts were written by the reviewer, so the figures describe the retrieved evidence rather than the behaviour of a live model.
 
@@ -50,7 +50,7 @@ Taken together, the interviews describe a findability and context problem rather
 
 ### 1.3 What success means
 
-The Capstone Project Brief contains two target tables that disagree. One, closer to a client wish list, quotes first-contact resolution of 65% or more, a two-hour first reply and a satisfaction score of 4.2. The other, the success and outcomes table with explicit calculation definitions in the Evaluation Framework, quotes first-contact resolution of at least 60%, a mean first reply under five minutes, a satisfaction proxy of at least 4.0 and an escalation rate of at most 30%. The project adopted the second table as the pass bar and treats the first as context (finding D1). Table 2 lists the targets that the rest of this report is measured against and where each comes from.
+The CloudServe Project Brief contains two target tables that disagree. One, closer to a client wish list, quotes first-contact resolution of 65% or more, a two-hour first reply and a satisfaction score of 4.2. The other, the success and outcomes table with explicit calculation definitions in the Evaluation Framework, quotes first-contact resolution of at least 60%, a mean first reply under five minutes, a satisfaction proxy of at least 4.0 and an escalation rate of at most 30%. The project adopted the second table as the pass bar and treats the first as context (finding D1). Table 2 lists the targets that the rest of this report is measured against and where each comes from.
 
 **Table 2.** Success targets used in this report and their sources.
 
@@ -179,9 +179,9 @@ Effort was proxied by elapsed resolution minutes summed per category, which over
 
 ### 2.5 Findings D1–D5
 
-While reading the Capstone Pack, five conflicts or errors were recorded as numbered findings, each with a stance taken and the risk of ignoring it. Table 7 summarises them. The findings are binding: later documents and code refer to them by identifier, and a change to any finding requires a logged revision.
+While reading the reference datasets pack, five conflicts or errors were recorded as numbered findings, each with a stance taken and the risk of ignoring it. Table 7 summarises them. The findings are binding: later documents and code refer to them by identifier, and a change to any finding requires a logged revision.
 
-**Table 7.** Capstone Pack deviations logged as findings D1–D5.
+**Table 7.** reference datasets pack deviations logged as findings D1–D5.
 
 | ID | Finding | Stance taken |
 |----|---------|--------------|
@@ -241,7 +241,7 @@ Table 9 lists the cross-cutting requirements and the mechanism that serves each.
 
 ### 3.3 Acceptance criteria A1–A12
 
-The acceptance criteria A1 to A12 from the Capstone Build Specification are the gate. Table 10 records their status as of this report. The status column is deliberately more conservative than a simple pass or fail: it distinguishes criteria proven by tests, criteria proven by a recorded run, and criteria that remain partly open. In particular, A6 has automated checks for citation identifiers and an indicative human sample, but not a reviewed sample of live model output, and A9 is demonstrated unattended on route-only runs, not on a recorded generate-on batch.
+The acceptance criteria A1 to A12 from the CloudServe Build Specification are the gate. Table 10 records their status as of this report. The status column is deliberately more conservative than a simple pass or fail: it distinguishes criteria proven by tests, criteria proven by a recorded run, and criteria that remain partly open. In particular, A6 has automated checks for citation identifiers and an indicative human sample, but not a reviewed sample of live model output, and A9 is demonstrated unattended on route-only runs, not on a recorded generate-on batch.
 
 **Table 10.** Acceptance criteria status as of 2026-11-22.
 
@@ -262,7 +262,7 @@ The acceptance criteria A1 to A12 from the Capstone Build Specification are the 
 
 ### 3.4 Scope
 
-Out of scope for version one are a consumer chat interface, billing settlement or contractual commitment engines, an agent desktop beyond API responses, automatic closure of tickets in an external system, multi-region deployment, a fine-tuned model, and any unsupervised handling of security, legal or data-location matters. The non-goals also exclude paying for model capacity, tuning against the hidden set, hard-coding its path, and extra test suites or dashboards beyond what the Capstone requires. These are not omissions made for lack of time; each follows from stakeholder evidence, notably Daniel’s list of categories he would not automate and Marcus’s insistence that a wrong answer is worse than silence.
+Out of scope for version one are a consumer chat interface, billing settlement or contractual commitment engines, an agent desktop beyond API responses, automatic closure of tickets in an external system, multi-region deployment, a fine-tuned model, and any unsupervised handling of security, legal or data-location matters. The non-goals also exclude paying for model capacity, tuning against the hidden set, hard-coding its path, and extra test suites or dashboards beyond what the CloudServe requires. These are not omissions made for lack of time; each follows from stakeholder evidence, notably Daniel’s list of categories he would not automate and Marcus’s insistence that a wrong answer is worse than silence.
 
 ### 3.5 How the requirements changed
 
@@ -353,7 +353,7 @@ At run time the system consists of an API process (`uvicorn` serving `src.api`),
 | prometheus-client | Counters and latency histograms | Business satisfaction scoring |
 | pytest | The A1 to A12 behaviour suite | Load or performance testing |
 
-The stack follows the Capstone Pack configuration. The only additive dependency approved is `litellm`, plus configuration keys for the kill switch and the classifier path. No framework was swapped. One departure was proposed and settled with the builder rather than made silently: the GLiNER classification plan was replaced by the supervised classifier (finding D5), recorded in the findings and in the revision log.
+The stack follows the reference datasets pack configuration. The only additive dependency approved is `litellm`, plus configuration keys for the kill switch and the classifier path. No framework was swapped. One departure was proposed and settled with the builder rather than made silently: the GLiNER classification plan was replaced by the supervised classifier (finding D5), recorded in the findings and in the revision log.
 
 ### 4.4 Configuration and reproducibility
 
@@ -365,7 +365,7 @@ Every runtime setting is read from `.env`, with no fallback defaults in code. A 
 
 ### 5.1 Corpus and index
 
-The retrieval corpus is the Capstone Pack’s `documentation.json`, which contains 29 reviewed support articles covering authentication, deployment, API usage, billing, data, security and account management. Each article has a `doc_id`, a title, a category and content. The corpus is deliberately small and deliberately closed: the agents’ private snippet files were never provided to the project and were never used, because Daniel warns that some of their content is stale, and Ines wants every answer to trace to a reviewed article. The pack’s ground-truth responses are used for evaluation only and are never retrieved at run time.
+The retrieval corpus is the reference datasets pack’s `documentation.json`, which contains 29 reviewed support articles covering authentication, deployment, API usage, billing, data, security and account management. Each article has a `doc_id`, a title, a category and content. The corpus is deliberately small and deliberately closed: the agents’ private snippet files were never provided to the project and were never used, because Daniel warns that some of their content is stale, and Ines wants every answer to trace to a reviewed article. The pack’s ground-truth responses are used for evaluation only and are never retrieved at run time.
 
 Articles are split into chunks of at most 800 characters with a 120-character overlap (`CHUNK_SIZE` and `CHUNK_OVERLAP` in the environment). The splitter respects paragraph boundaries where it can and falls back to windowed splitting for long paragraphs. Chunks are embedded with `sentence-transformers/all-MiniLM-L6-v2` and stored in a persistent Chroma collection named `cloudserve_docs` with cosine distance. After `scripts.build_index`, the collection holds 59 chunks, a count verified on the build machine and exposed as `chroma.count` on the `/health` endpoint so that an operator can see that the index is wired. Table 14 lists the retrieval parameters.
 
@@ -700,7 +700,7 @@ The most important result of the evaluation is the list of things it did not est
 | Region was not analysed for fairness | Only tier and fluency segments are checked |
 | Latency was measured without generation | No evidence about provider latency or the five-minute target in operation |
 | Decision export scope not isolated per run | The packaged `decisions_export.jsonl` contains accumulated rows from several runs (see section 9.1) |
-| Tests locate the Pack at a fixed path above `tests/` and ignore `CAPSTONE_DATASETS` | In the packaged layout, 6 tests fail, 3 error and 5 skip unless the Pack is placed at `<bundle>/capstone_guide/Capstone_Pack/05_Datasets`; with it placed, 28 pass |
+| Tests locate the Pack at a fixed path above `tests/` and ignore `DATASETS_PATH` | In the packaged layout, 6 tests fail, 3 error and 5 skip unless the Pack is placed at `<bundle>/your 05_Datasets directory`; with it placed, 28 pass |
 | No fresh virtual-environment install, no second machine, no Python 3.11 run | The rehearsal used global Python 3.14.5 on one machine |
 
 ---
@@ -769,7 +769,7 @@ The limitations below are the ones that most affect how far the evidence can be 
 8. **Guardrails check form, not meaning.** Citation membership and pattern absence are verified; claim support is not.
 9. **The decision export is not scoped to a run.** The shipped export contains accumulated rows, as section 9.1 explains.
 10. **The demonstration video is not yet recorded.** It is a Stage 6 performance artefact. The submission contains the full script and outline, and the recording awaits camera capture.
-11. **Clean checkout needs the Capstone Pack at a particular place for the tests.** The harness and the scripts accept injected paths, and the classifier and the Chroma index rebuild from an empty `storage/` (verified from the package tree). The test files, however, look for the Pack two directories above `tests/` and do not read `CAPSTONE_DATASETS`: in the packaged layout 6 tests fail, 3 error and 5 skip unless the Pack is placed at `<bundle>/capstone_guide/Capstone_Pack/05_Datasets`, and with it placed all 28 pass. Two tests also need the embedding model from the hub. Making the tests read `CAPSTONE_DATASETS` is a small follow-up that was not made here.
+11. **Clean checkout needs the reference datasets pack at a particular place for the tests.** The harness and the scripts accept injected paths, and the classifier and the Chroma index rebuild from an empty `storage/` (verified from the package tree). The test files, however, look for the Pack two directories above `tests/` and do not read `DATASETS_PATH`: in the packaged layout 6 tests fail, 3 error and 5 skip unless the Pack is placed at `<bundle>/your 05_Datasets directory`, and with it placed all 28 pass. Two tests also need the embedding model from the hub. Making the tests read `DATASETS_PATH` is a small follow-up that was not made here.
 
 ### 10.2 Effort, schedule and reflection
 
@@ -820,10 +820,10 @@ The following steps are listed in priority order, and each can be done without c
 2. **Run a small live generate-on sample** with the cache enabled and attach metrics with `fcr_claim_allowed=true`, so that customer-facing first-contact resolution, citation validity and latency with provider time are measured for the first time.
 3. **Tighten routing to respect `answerable_from_docs`** when the label exists, and strengthen label-free proxies, for example a stricter grounded-override floor, so that the 17 unsupported auto_respond decisions on validation are reduced without raising the escalation share above its limit.
 4. **Expand dual human review of live drafts** toward the Evaluation Framework sample size, with two reviewers and an agreement statistic, so that the human figures are no longer simulated.
-5. **Scope the decision export to a single run** and add a harness assertion that exported rows equal rows written for that run, and make the test files read `CAPSTONE_DATASETS` so that the suite runs in the packaged layout without a symlink.
+5. **Scope the decision export to a single run** and add a harness assertion that exported rows equal rows written for that run, and make the test files read `DATASETS_PATH` so that the suite runs in the packaged layout without a symlink.
 6. **Run the hidden set once the graders inject it**, and update the provenance of the results without any tuning afterwards.
 7. **Recalibrate classifier confidence** so that stated confidence tracks observed accuracy, and add a region segment to the fairness report.
-8. **Package the submission archive** as `FirstnameLastname_Capstone_Submission.zip` after the video exists; the package script assembles the folder tree and, with `PACKAGE_NO_ZIP=1`, stops before zipping.
+8. **Package the submission archive** as `FirstnameLastname_CloudServe_Release.zip` after the video exists; the package script assembles the folder tree and, with `PACKAGE_NO_ZIP=1`, stops before zipping.
 
 ---
 
@@ -876,7 +876,7 @@ Clarity (C), correctness (K), tone (T) and citation usefulness (U) are scored on
 
 ## Appendix D — Effort and workbooks
 
-Completed Stage 1 to Stage 5 workbooks and the Effort Log live under `docs/workbooks/`, as Markdown and as DOCX filled from the Capstone Pack templates by `scripts/fill_workbook_docx.py`. The human-evaluation appendix sits beside them. Total logged effort is approximately 102 hours; report and video hours are to be added when worked.
+Completed Stage 1 to Stage 5 workbooks and the Effort Log live under `docs/workbooks/`, as Markdown and as DOCX filled from the reference datasets pack templates by `scripts/fill_workbook_docx.py`. The human-evaluation appendix sits beside them. Total logged effort is approximately 102 hours; report and video hours are to be added when worked.
 
 ## Appendix E — Threshold freeze evidence
 
@@ -893,13 +893,13 @@ Twenty-eight tests pass on the build machine. They cover ingest of four channels
 
 ## Appendix G — Extended architecture narrative
 
-The Capstone Brief expects LangChain and LangGraph. An early implementation used a sequential `run_ticket` function that matched the pipeline semantics but not the prescribed orchestration API. Gap closure wrapped the same stage functions as LangGraph nodes with shared state. That change is behaviour-neutral for route-only evaluation, satisfies the stack expectation and makes the mid-flight kill-switch checks explicit between the route and generate stages.
+The product brief expects LangChain and LangGraph. An early implementation used a sequential `run_ticket` function that matched the pipeline semantics but not the prescribed orchestration API. Gap closure wrapped the same stage functions as LangGraph nodes with shared state. That change is behaviour-neutral for route-only evaluation, satisfies the stack expectation and makes the mid-flight kill-switch checks explicit between the route and generate stages.
 
 Cost control is a non-functional requirement under free-tier OpenRouter limits. The design confines model calls to auto_respond paths, caches generations by model and prompt key, uses `openrouter/auto` for provider-side routing to available models, and backs off on rate-limit responses with an optional retry-after hint. Classification never spends tokens. This is a deliberate departure from designs that use a language model at every step, and it matches the interview evidence that wrong answers are worse than silence.
 
 ## Appendix H — Clean-checkout expectations
 
-A grader machine will not contain `storage/chroma` or the trained classifier file. The README instructions are to copy `.env.example` to `.env`, install the requirements, point `CAPSTONE_DATASETS` at the Capstone Pack datasets (or inject paths), train the classifier, build the index, then run the tests and the harness. The step-by-step rehearsal checklist, with the steps verified on the build machine marked, is `docs/plan/clean-checkout-rehearsal.md`. It records what was rehearsed from the package tree (rebuild of classifier and index, full route-only validation run, API health and kill switch, package assembly without a zip) and what was not (fresh virtual environment, second machine, Python 3.11, live generation). It also records the test-location caveat described in section 10.1. Secrets never ship in the archive: the package script excludes `.env` and `storage/` and includes a curated metrics snapshot so that acceptance criterion A10 evidence exists without re-running generation.
+A grader machine will not contain `storage/chroma` or the trained classifier file. The README instructions are to copy `.env.example` to `.env`, install the requirements, point `DATASETS_PATH` at the reference datasets pack datasets (or inject paths), train the classifier, build the index, then run the tests and the harness. The step-by-step rehearsal checklist, with the steps verified on the build machine marked, is `docs/plan/clean-checkout-rehearsal.md`. It records what was rehearsed from the package tree (rebuild of classifier and index, full route-only validation run, API health and kill switch, package assembly without a zip) and what was not (fresh virtual environment, second machine, Python 3.11, live generation). It also records the test-location caveat described in section 10.1. Secrets never ship in the archive: the package script excludes `.env` and `storage/` and includes a curated metrics snapshot so that acceptance criterion A10 evidence exists without re-running generation.
 
 ## Appendix I — Acceptance walkthrough for the video
 
@@ -907,4 +907,4 @@ The planned demonstration shows a success path (a high-confidence, well-retrieve
 
 ## Appendix J — Related work stance
 
-Commercial chatbots tend to optimise engagement. CloudServe Assistant optimises triage: retrieve, route, cite, or escalate with context. That stance comes from the interviews and not from model fashion, and the Capstone Pack’s Evaluation and Governance Frameworks constrain claims further: do not invent satisfaction figures, log decisions, test fairness and be able to stop automation.
+Commercial chatbots tend to optimise engagement. CloudServe Assistant optimises triage: retrieve, route, cite, or escalate with context. That stance comes from the interviews and not from model fashion, and the reference datasets pack’s Evaluation and Governance Frameworks constrain claims further: do not invent satisfaction figures, log decisions, test fairness and be able to stop automation.

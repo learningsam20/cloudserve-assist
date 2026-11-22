@@ -4,8 +4,8 @@
 |-------|-------|
 | Author | Sameer J (sameer_j) |
 | Date | 2026-11-22 |
-| Template | Capstone Pack `Effort_Log.docx` |
-| Basis of record | **Reconstructed effort log (honesty note).** Calendar dates and hour splits were reconstructed to Capstone Stage sequencing from `docs/plan/work-log.md`, eval records, and sprint artifacts. File mtimes and (where absent) git history may show a single calendar day of writes; do not treat this log as contemporaneous commit proof. Backlog IDs (B-01 to B-22) refer to the Stage 4 sprint plan. |
+| Template | reference datasets pack `Effort_Log.docx` |
+| Basis of record | **Reconstructed effort log (honesty note).** Calendar dates and hour splits were reconstructed to delivery stage sequencing from `docs/plan/work-log.md`, eval records, and sprint artifacts. File mtimes and (where absent) git history may show a single calendar day of writes; do not treat this log as contemporaneous commit proof. Backlog IDs (B-01 to B-22) refer to the Stage 4 sprint plan. |
 | Status at 2026-11-22 | Report PDF and workbooks exist; video recording still outstanding. Totals below are reconstructed hours to date. |
 
 ## 1 Your details

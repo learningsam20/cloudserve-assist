@@ -15,7 +15,7 @@
 
 ## After you record
 
-1. Name file `FirstnameLastname_Capstone_Video.mp4` (1080p).  
+1. Name file `FirstnameLastname_CloudServe_Demo.mp4` (1080p).  
 2. Put it in this folder.  
 3. Change status above to **RECORDED**.  
 4. Continue root `instructions.md` packaging steps.

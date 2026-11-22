@@ -17,7 +17,7 @@ app = FastAPI(title="CloudServe Assistant", version=__version__)
 
 
 class TicketRequest(BaseModel):
-    ticket: dict[str, Any] = Field(..., description="Raw ticket object (Capstone schema)")
+    ticket: dict[str, Any] = Field(..., description="Raw ticket object (CloudServe schema)")
     allow_generate: bool = True
 
 

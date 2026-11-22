@@ -122,9 +122,9 @@ class Settings:
         self.gen_cache_dir = _path_from_env("GEN_CACHE_DIR")
         self.prompt_file = _path_from_env("PROMPT_FILE")
         self.prompt_version = _require("PROMPT_VERSION")
-        self.capstone_datasets = Path(_require("CAPSTONE_DATASETS"))
-        if not self.capstone_datasets.is_absolute():
-            self.capstone_datasets = (_ROOT / self.capstone_datasets).resolve()
+        self.datasets_path = Path(_require("DATASETS_PATH"))
+        if not self.datasets_path.is_absolute():
+            self.datasets_path = (_ROOT / self.datasets_path).resolve()
         self.target_fcr_pct = _float_require("TARGET_FCR_PCT")
         self.target_reply_mean_minutes = _float_require("TARGET_REPLY_MEAN_MINUTES")
         self.target_csat = _float_require("TARGET_CSAT")

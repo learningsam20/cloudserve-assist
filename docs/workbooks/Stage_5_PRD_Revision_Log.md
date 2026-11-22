@@ -18,7 +18,7 @@ Change identifiers `C-01` to `C-14` are used so other documents can refer to a r
 | New version number | 2.0 |
 | Date of revision | 2026-11-22 (changes made between 2026-11-10 and 2026-11-22 and written up in week three) |
 | Who carried out the revision | Sameer J (sameer_j) |
-| Who reviewed and agreed it | Sameer J; individual capstone, no second reviewer. Stack departures were raised and settled with the builder on 2026-11-22 (findings D5 and the settled-choices table). |
+| Who reviewed and agreed it | Sameer J; individual cloudserve, no second reviewer. Stack departures were raised and settled with the builder on 2026-11-22 (findings D5 and the settled-choices table). |
 | Number of requirements changed | 9 requirements (FR-02, FR-03, FR-04, FR-07, FR-08, FR-09, FR-10, FR-11, NFR-06) across 13 logged changes (C-01 to C-13) |
 | Number of requirements added | 3 (NFR-08 transparency, NFR-09 security, NFR-10 reproducibility), listed as C-14; they make explicit constraints that version 1.0 stated only in prose |
 | Number of requirements removed | 0 whole requirements. One clause was removed inside FR-02: zero-shot GLiNER labelling (C-01). |
@@ -64,7 +64,7 @@ Change identifiers `C-01` to `C-14` are used so other documents can refer to a r
 | Escalating about one ticket in six (17.5% on validation, after the fairness fix) looked like missed auto-responses. | Escalation is correct for policy-restricted tickets (14 in the validation file) and for tickets with no documentation answer (17.4% and 28.6% of development tickets, Stage 1 §2.8, §2.12). Counter-metric: do not answer ungroundable tickets to improve a number. | Answering more would raise hallucination risk and break Marcus's "silence over error". | If the live-generation review shows hallucination well under 5% on more automation. |
 | A single generation prompt with no examples. | Examples taken from easy cases teach the model that every case is easy; the prompt library check (Stage 3) found the format instruction, not the lack of examples, to be the gap. | Time to build and evaluate variants, which is also on the drop list. | After the output-format instruction is fixed and live generation can be measured. |
 | Regex-based private-data and injection checks rather than a model-based filter. | Deterministic, explainable and cheap; a model-based filter would use the free-tier quota. | A second model call per auto reply plus its own evaluation. | If review finds missed private data or injection phrasing. |
-| SQLite for the decision log instead of a server database. | Sufficient for a single-process evaluation; an export is shipped with the submission. | Migration, deployment and connection handling with no marked benefit in the capstone. | If more than one process writes decisions in a deployment. |
+| SQLite for the decision log instead of a server database. | Sufficient for a single-process evaluation; an export is shipped with the submission. | Migration, deployment and connection handling with no marked benefit in the cloudserve. | If more than one process writes decisions in a deployment. |
 | Embedding-only retrieval with no hybrid search or reranking. | Citation validity is enforced in code, and relevance is controlled by a measured floor; hybrid search is on the drop list. | About two hours plus an evaluation. | If citation accuracy in the live review falls below 95%. |
 
 ## 5 Section five: the reflection

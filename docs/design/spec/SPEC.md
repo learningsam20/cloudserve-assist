@@ -6,8 +6,8 @@ companions:
   - stack-and-env.md
   - submission-layout.md
 sources:
-  - ../../planning-artifacts/prds/prd-cloudserve_capstone-2026-11-22/prd.md
-  - ../../../capstone_guide/Capstone_Pack/01_Read_First/README.md
+  - ../../planning-artifacts/prds/prd-cloudserve_cloudserve-2026-11-22/prd.md
+  - ../../../reference 01_Read_First/README.md
 ---
 
 > **Canonical contract.** This SPEC and the files in `companions:` are the complete, preservation-validated contract for what to build, test, and validate. Source documents listed in frontmatter are for traceability — consult them only if you need narrative rationale this contract intentionally omits.
@@ -16,7 +16,7 @@ sources:
 
 ## Why
 
-**Mandate + pain.** Graded capstone requires a clean-checkout, unattended-eval support system (**CloudServe Assistant**) for fictional CloudServe Solutions. The client asked for a chatbot; interview evidence shows the failure is findability and safe first response: answers already live in a small KB, escalations lack context, and confident wrong replies are unacceptable. The system must triage and assist with retrieval, deterministic routing, citations, blocking guardrails, and a full decision audit — then prove it on a path-injected ticket file a grader has never shown you.
+**Mandate + pain.** Graded cloudserve requires a clean-checkout, unattended-eval support system (**CloudServe Assistant**) for fictional CloudServe Solutions. The client asked for a chatbot; interview evidence shows the failure is findability and safe first response: answers already live in a small KB, escalations lack context, and confident wrong replies are unacceptable. The system must triage and assist with retrieval, deterministic routing, citations, blocking guardrails, and a full decision audit — then prove it on a path-injected ticket file a grader has never shown you.
 
 ## Capabilities
 
@@ -25,7 +25,7 @@ sources:
   - **success:** One Ticket per channel processes without channel-specific failure; empty/malformed fields do not crash the pipeline (A2, A11).
 
 - **CAP-2**
-  - **intent:** System can assign Intent and Urgency to every Ticket with a Confidence in `[0, 1]` and record alternatives considered: apply **deterministic rules first**, then a **trained local classifier** (fit on development ticket labels via script; sklearn stack already in Capstone pins), so classification does not consume remote LLM quota.
+  - **intent:** System can assign Intent and Urgency to every Ticket with a Confidence in `[0, 1]` and record alternatives considered: apply **deterministic rules first**, then a **trained local classifier** (fit on development ticket labels via script; sklearn stack already in CloudServe pins), so classification does not consume remote LLM quota.
   - **success:** Output always includes Intent, Urgency, Confidence; rule hits short-circuit the model where applicable; low model confidence leads to escalate (not LLM-as-classifier); classification stage appears in the decision log; no OpenRouter call required for this stage (A3).
 
 - **CAP-3**
@@ -65,7 +65,7 @@ sources:
   - **success:** Induced failures yield escalate/log behaviour; harness completes (A11).
 
 - **CAP-12**
-  - **intent:** Developer can run one documented test command that exercises Capstone-required behaviour and passes.
+  - **intent:** Developer can run one documented test command that exercises CloudServe-required behaviour and passes.
   - **success:** Documented pytest (or equivalent) command passes; no tests beyond what acceptance needs (A12).
 
 ## Constraints
@@ -78,20 +78,20 @@ sources:
 - Classification: **rules first**, then a **trained local classifier**. Low confidence → escalate. Do **not** fall back to LLM for labelling. Routing is code over Confidence/Threshold/policy/kill switch.
 - Remote generation goes through the **LiteLLM** SDK with **OpenRouter** as the configured provider (swappable via env model/api_base without rewriting call sites). API and harness invoke the same graph.
 - **Kill switch (settled):** checked at **route** for every Ticket. If on: never `auto_respond`. A generate already in flight may finish compute, but the send path is forced to **escalate** (draft attached for humans, not sent as auto). Harness continues remaining tickets under escalate-only. Flip takes effect on the **next** route decision (no redeploy).
-- Ask before any stack departure from Capstone Brief + these local-model decisions.
+- Ask before any stack departure from product brief + these local-model decisions.
 - Threshold tunable until freeze; frozen before the recorded eval run.
 - Weak retrieval (best Passage below relevance threshold) escalates or abstains — do not draft.
 - Routing Threshold is measured from development data; pack `0.80` is illustrative.
 - Guardrails must be able to **block** in production path, not warn-only.
-- Stack starts from Capstone Brief (see `stack-and-env.md`); any departure needs a written reason in architecture notes.
-- Individual academic integrity rules in Capstone Project Instructions apply (no sharing submissions; declare AI use; do not invent discovery).
+- Stack starts from product brief (see `stack-and-env.md`); any departure needs a written reason in architecture notes.
+- Individual academic integrity rules in CloudServe Project Instructions apply (no sharing submissions; declare AI use; do not invent discovery).
 - Hidden evaluation set size may be 100 or 120 — design for arbitrary N, same schema.
 
 ## Non-goals
 
 - Building a consumer chatbot UI as the primary deliverable.
 - Tuning against or peeking at the hidden set.
-- Extra test suites, frameworks, or polish not required by A1–A12 / Capstone docs.
+- Extra test suites, frameworks, or polish not required by A1–A12 / CloudServe docs.
 - Auto-resolving security, billing disputes, or contractual commitments.
 - Paying for capacity to improve marks.
 

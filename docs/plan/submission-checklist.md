@@ -1,6 +1,6 @@
-# Capstone submission package checklist
+# CloudServe submission package checklist
 
-Archive name: `FirstnameLastname_Capstone_Submission.zip`
+Archive name: `FirstnameLastname_CloudServe_Release.zip`
 
 ## Zip top-level (exact names)
 
@@ -17,7 +17,7 @@ Archive name: `FirstnameLastname_Capstone_Submission.zip`
 cd submission
 python docs/report/build_pdf.py                 # regenerate the report PDF
 PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh   # assemble 01–04 folders, no zip
-# → ../_package/CloudServe_Capstone_Submission/
+# → ./_package/CloudServe_Assistant_Release/
 # Add the recorded video to 01_Video, then zip (omit PACKAGE_NO_ZIP to let the script zip).
 ```
 
@@ -34,8 +34,8 @@ The script copies: report PDF + Markdown → `02_Report`; Stage workbooks, Effor
 - [ ] Threshold freeze noted (`docs/plan/threshold-freeze.md`)
 - [ ] Fairness pass on validation (`docs/plan/eval-runs.md`)
 
-## Still student-owned
+## Still operator-owned
 
 - Record the video (`docs/video/video-script.md`) and place it in `docs/video/` — **not yet recorded**
-- Create the zip (the package script can skip it with `PACKAGE_NO_ZIP=1`) and rename it with the enrolment name
+- Create the zip (the package script can skip it with `PACKAGE_NO_ZIP=1`) and rename it with the release name
 - Optional: live generate-on sample and dual review of live drafts (see `docs/plan/gaps.md`)

@@ -1,15 +1,17 @@
 name: ci
 
-# For 04_Source_Code when this folder is the repository root.
-# Expect Capstone datasets at CAPSTONE_DATASETS (default: ../capstone_guide/Capstone_Pack/05_Datasets).
+# Same operator path as README "Key steps":
+#   setup_all.sh → run_tests.sh → run_eval.sh validation
+# Datasets ship in-tree at ./datasets (DATASETS_PATH).
 
 on:
   push:
   pull_request:
 
 jobs:
-  test:
+  test-and-eval:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
@@ -19,28 +21,47 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.txt
 
-      - name: Install dependencies
+      - name: Install dependencies (README)
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          cp .env.example .env
+          cp -n .env.example .env || cp .env.example .env
 
-      - name: Train classifier and build index
-        env:
-          CAPSTONE_DATASETS: ${{ vars.CAPSTONE_DATASETS || '../capstone_guide/Capstone_Pack/05_Datasets' }}
+      - name: Verify in-tree datasets
         run: |
-          if [ ! -f "$CAPSTONE_DATASETS/development_tickets.json" ]; then
-            echo "Datasets not found at $CAPSTONE_DATASETS — skipping train/index (tests that need pack will skip/fail)."
-            exit 0
+          set -euo pipefail
+          test -f datasets/development_tickets.json
+          test -f datasets/validation_tickets.json
+          test -f datasets/documentation.json
+          # Ensure .env points at the in-tree folder
+          if grep -q '^DATASETS_PATH=' .env; then
+            sed -i.bak 's|^DATASETS_PATH=.*|DATASETS_PATH=./datasets|' .env
+          else
+            echo 'DATASETS_PATH=./datasets' >> .env
           fi
-          python -m scripts.train_classifier \
-            --input "$CAPSTONE_DATASETS/development_tickets.json" \
-            --output storage/models/classifier
-          python -m scripts.build_index \
-            --input "$CAPSTONE_DATASETS/documentation.json"
+          echo "DATASETS_PATH=./datasets"
 
-      - name: Run tests (no API keys)
-        env:
-          KILL_SWITCH: "false"
-          CONFIDENCE_THRESHOLD: "0.35"
-        run: python -m pytest tests/ -v
+      - name: Setup (./scripts/setup_all.sh)
+        run: |
+          chmod +x scripts/*.sh
+          ./scripts/setup_all.sh
+
+      - name: Status (./scripts/status.sh)
+        run: ./scripts/status.sh
+
+      - name: Tests (./scripts/run_tests.sh)
+        run: ./scripts/run_tests.sh
+
+      - name: Eval validation (./scripts/run_eval.sh validation)
+        run: ./scripts/run_eval.sh validation
+
+      - name: Upload eval metrics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-eval-results
+          path: |
+            evaluation/results/**/metrics.json
+            evaluation/results/**/metrics.md
+            evaluation/results/**/run_summary.json
+          if-no-files-found: warn

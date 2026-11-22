@@ -1,4 +1,4 @@
-"""Ingest + route tests using Capstone development tickets (real channels)."""
+"""Ingest + route tests using CloudServe development tickets (real channels)."""
 
 from __future__ import annotations
 

@@ -3,17 +3,17 @@ status: draft
 stepsCompleted: [inventory, epics, stories]
 inputDocuments:
   - ../../specs/spec-cloudserve-support/SPEC.md
-  - ../prds/prd-cloudserve_capstone-2026-11-22/prd.md
-  - ../architecture/architecture-cloudserve_capstone-2026-11-22/ARCHITECTURE-SPINE.md
+  - ../prds/prd-cloudserve_cloudserve-2026-11-22/prd.md
+  - ../architecture/architecture-cloudserve_cloudserve-2026-11-22/ARCHITECTURE-SPINE.md
   - ../../../submission/docs/plan/findings.md
-  - ../../../capstone_guide/Capstone_Pack/01_Read_First/README.md
+  - ../../../reference 01_Read_First/README.md
 ---
 
-# cloudserve_capstone - Epic Breakdown
+# cloudserve_cloudserve - Epic Breakdown
 
 ## Overview
 
-Epics and stories for CloudServe Support Assist, traced to SPEC CAP-1..12, PRD FR-1..13, acceptance A1–A12, and Capstone Stage work (discovery → build → gate → package). Schedule assumes ~1–2h weekdays / ~4–5h weekend days over 2–3 weeks. Code lands in `submission/` when ready; planning artifacts stay under `_bmad-output/` until promote-before-dev (except `submission/docs/plan/findings.md`).
+Epics and stories for CloudServe Support Assist, traced to SPEC CAP-1..12, PRD FR-1..13, acceptance A1–A12, and delivery stage work (discovery → build → gate → package). Schedule assumes ~1–2h weekdays / ~4–5h weekend days over 2–3 weeks. Code lands in `submission/` when ready; planning artifacts stay under `_bmad-output/` until promote-before-dev (except `submission/docs/plan/findings.md`).
 
 ## Requirements Inventory
 
@@ -66,7 +66,7 @@ Stand up the submission skeleton and CAP-10 scripts so discovery numbers come fr
 ### Story 1.1: Submission scaffold and config
 
 As a builder,
-I want a Capstone-shaped `submission/` tree with pinned requirements, `.env.example`, and `.gitignore`,
+I want a CloudServe-shaped `submission/` tree with pinned requirements, `.env.example`, and `.gitignore`,
 So that a clean checkout can be configured without secrets in git.
 
 **Acceptance Criteria:**
@@ -119,7 +119,7 @@ So that we can freeze a measured threshold (findings D3) before recorded eval.
 
 ## Epic 2: Ingest, classify, retrieve
 
-Deliver Capstone week-two days 1–2 behaviours: four-channel normalise, local classification, retrieval with real `doc_id`s.
+Deliver CloudServe week-two days 1–2 behaviours: four-channel normalise, local classification, retrieval with real `doc_id`s.
 
 ### Story 2.1: Four-channel ingest
 
@@ -241,7 +241,7 @@ So that A7 is demonstrable (CAP-6, FR-6).
 
 As a builder,
 I want versioned prompts under `prompts/` traced to FRs,
-So that Capstone Stage 3 artefacts exist and injection boundaries are explicit.
+So that delivery stage 3 artefacts exist and injection boundaries are explicit.
 
 **Acceptance Criteria:**
 
@@ -371,7 +371,7 @@ So that findings D3 and eval discipline hold before packaging.
 
 ## Epic 6: Tests, CI, observability, submission readiness
 
-Close Capstone packaging and A12.
+Close CloudServe packaging and A12.
 
 ### Story 6.1: A1–A12 behaviour test suite
 
@@ -390,7 +390,7 @@ So that A12 passes without decorative padding (CAP-12, FR-12).
 
 As a builder,
 I want CI to run pytest on push/PR without secrets,
-So that Capstone Setup Guide automation requirement is met.
+So that CloudServe Setup Guide automation requirement is met.
 
 **Acceptance Criteria:**
 
@@ -416,7 +416,7 @@ So that NFR observability and demo dashboards are possible.
 
 As a builder,
 I want risk register, fairness method note, incident procedure stub, and decision-export verified,
-So that Capstone governance marks have real artefacts (not last-afternoon fiction).
+So that CloudServe governance marks have real artefacts (not last-afternoon fiction).
 
 **Acceptance Criteria:**
 
@@ -428,7 +428,7 @@ So that Capstone governance marks have real artefacts (not last-afternoon fictio
 ### Story 6.5: Submission package dry-run
 
 As a builder,
-I want a pre-submit checklist matching Capstone Submission Guide,
+I want a pre-submit checklist matching CloudServe Submission Guide,
 So that zip layout and gate rehearsal are not left to the final hour.
 
 **Acceptance Criteria:**

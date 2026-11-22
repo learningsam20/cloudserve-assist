@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| Owner | Sameer J (sameer_j), individual capstone |
+| Owner | Sameer J (sameer_j), individual cloudserve |
 | Date | 2026-11-22 |
 | Calendar | Week one Mon 2026-11-02 to Sun 2026-11-08; week two Mon 2026-11-09 to Sun 2026-11-15; week three Mon 2026-11-16 to Sun 2026-11-22 (submission window closes 2026-11-22; the cohort deadline is to be confirmed, the pack template shows 13 September) |
 | Plan written | Week two, day one (Monday 2026-11-09), after Stage 1 and Stage 2 were complete |

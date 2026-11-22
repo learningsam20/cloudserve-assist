@@ -1,6 +1,6 @@
 # Architecture design — CloudServe Support Assist
 
-Builder-facing map of functional and non-functional requirements onto packages. Framework stack stays Capstone Brief; classification is a **trained local sklearn model** (plus rules). Only approved additive package is **litellm**. Spine invariants: `ARCHITECTURE-SPINE.md`.
+Builder-facing map of functional and non-functional requirements onto packages. Framework stack stays product brief; classification is a **trained local sklearn model** (plus rules). Only approved additive package is **litellm**. Spine invariants: `ARCHITECTURE-SPINE.md`.
 
 ## 1. Runtime topology
 
@@ -135,7 +135,7 @@ sequenceDiagram
 
 | Risk | Mitigation |
 |------|------------|
-| Capstone pins conflict on modern Python | Resolve in clean 3.11 venv early; log pin changes |
+| CloudServe pins conflict on modern Python | Resolve in clean 3.11 venv early; log pin changes |
 | Class imbalance across ~22 intents | Stratify / class weights in train script; measure per-class precision before freeze |
 | Free-tier generate cap | Cache + escalate-before-generate; document provider choice |
 | Chunking quality | Two configs via script; record winner in findings/change-log |

@@ -1,6 +1,6 @@
 # Risk register — CloudServe Assistant
 
-Aligned to Capstone Governance Framework risk themes (R-01…R-08) with project IDs.
+Aligned to CloudServe Governance Framework risk themes (R-01…R-08) with project IDs.
 
 | ID | Framework theme | Risk | Likelihood | Impact | Mitigation | Owner |
 |----|-----------------|------|------------|--------|------------|-------|

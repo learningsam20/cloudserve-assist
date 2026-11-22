@@ -15,7 +15,7 @@
 ```bash
 cd submission
 source .venv/bin/activate
-# CAPSTONE_DATASETS = absolute path to Capstone_Pack/05_Datasets
+# DATASETS_PATH=./datasets (default in .env)
 ./scripts/setup_all.sh
 ./scripts/status.sh
 ./scripts/run_tests.sh          # 28 passed
@@ -28,9 +28,11 @@ source .venv/bin/activate
 python <<'PY'
 import json, os
 from pathlib import Path
-ds = Path(os.environ["CAPSTONE_DATASETS"] if os.getenv("CAPSTONE_DATASETS") else "../capstone_guide/Capstone_Pack/05_Datasets")
+root = Path(".")
+raw = os.getenv("DATASETS_PATH", "./datasets")
+ds = Path(raw) if Path(raw).is_absolute() else (root / raw)
 rows = {t["ticket_id"]: t for t in json.loads((ds / "validation_tickets.json").read_text())}
-out = Path("/tmp/cloudserve_demo"); out.mkdir(exist_ok=True)
+out = root / "storage" / "demo_tickets"; out.mkdir(parents=True, exist_ok=True)
 Path(out/"ticket_auto.json").write_text(json.dumps({"ticket": rows["VAL-0010"], "allow_generate": False}, indent=2))
 Path(out/"ticket_escalate.json").write_text(json.dumps({"ticket": rows["VAL-0002"], "allow_generate": False}, indent=2))
 Path(out/"ticket_auto_again.json").write_text(json.dumps({"ticket": rows["VAL-0010"], "allow_generate": False}, indent=2))
@@ -79,7 +81,7 @@ PY
 
 [ON CAMERA]
 
-Hello — I'm Sameer. This is **CloudServe Assistant**, my Capstone project.
+Hello — I'm Sameer. This is **CloudServe Assistant**, CloudServe Assistant.
 
 In the next **eighteen minutes** I will cover: the problem, discovery findings that changed the design, architecture and data flow **with diagrams on screen**, a **live demonstration of at least seven minutes**, a walkthrough of **evaluation runs and metrics**, governance, and what I would do next.
 
@@ -139,7 +141,7 @@ Aggregates from `discovery_stats` — not hand-mined ticket bodies. About **71%*
 
 [SCREEN: terminal. State Plan B or A.]
 
-Tickets from Capstone validation: **VAL-0010**, **VAL-0002**. I am using **[Plan B: allow_generate false + guardrail pytest / Plan A: live generate on VAL-0010]**.
+Tickets from the validation set: **VAL-0010**, **VAL-0002**. I am using **[Plan B: allow_generate false + guardrail pytest / Plan A: live generate on VAL-0010]**.
 
 #### 05:30–06:10 — Health (0:40)
 
@@ -203,7 +205,7 @@ Same VAL-0010 now escalates. D4 mid-flight policy.
 
 ```bash
 python -m evaluation.harness \
-  --input "$CAPSTONE_DATASETS/validation_tickets.json" \
+  --input "$DATASETS_PATH/validation_tickets.json" \
   --output /tmp/demo_harness_run \
   --no-generate \
   --limit 5
@@ -332,6 +334,6 @@ You do **not** need both. One successful path is enough. OpenAPI at `/docs` is a
 
 ## G. After recording
 
-1. Save `FirstnameLastname_Capstone_Video.mp4` (1080p) under `docs/video/`.  
+1. Save `FirstnameLastname_CloudServe_Demo.mp4` (1080p) under `docs/video/`.  
 2. Mark README status RECORDED.  
 3. Follow root `instructions.md` package → zip steps.

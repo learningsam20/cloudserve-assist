@@ -1,6 +1,6 @@
 # Optional Grafana + Prometheus (demo only)
 
-Not required for Capstone grading. Two primary demo boards plus two compact drill-downs.
+Optional ops dashboards for demos and production monitoring. Two primary boards plus two compact drill-downs.
 
 ## Start
 

@@ -1,6 +1,6 @@
 # Evaluation runs log
 
-Append-only. Prefer Capstone Pack paths via `./scripts/run_eval.sh`.
+Append-only. Prefer reference datasets pack paths via `./scripts/run_eval.sh`.
 
 **Honesty:** On `--no-generate` runs, treat **route auto-respond %** as automation rate, not customer FCR. Current harness sets `fcr_claim_allowed=false` and leaves `first_contact_resolution_pct` null for those runs. Older notes below that say “FCR” mean **route-auto proxy** as recorded at the time.
 

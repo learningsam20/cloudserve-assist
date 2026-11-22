@@ -144,15 +144,15 @@ flowchart TB
 | Name | Version / pin source |
 | --- | --- |
 | Python | ≥3.10 (CI 3.11) |
-| langchain / langgraph / langchain-* | Capstone `requirements.txt` pins |
-| chromadb | Capstone pin |
-| sentence-transformers (`all-MiniLM-L6-v2`) | Capstone pin |
-| fastapi / uvicorn / pydantic | Capstone pins |
-| sqlalchemy / sqlite | Capstone pin (`DATABASE_URL`) |
-| openai / openai-compatible OpenRouter client | Capstone pins |
-| prometheus-client | Capstone pin |
-| pytest / pytest-asyncio | Capstone pins |
-| pandas / numpy / scikit-learn | Capstone pins (discovery, metrics, **trained classifier**) |
+| langchain / langgraph / langchain-* | CloudServe `requirements.txt` pins |
+| chromadb | CloudServe pin |
+| sentence-transformers (`all-MiniLM-L6-v2`) | CloudServe pin |
+| fastapi / uvicorn / pydantic | CloudServe pins |
+| sqlalchemy / sqlite | CloudServe pin (`DATABASE_URL`) |
+| openai / openai-compatible OpenRouter client | CloudServe pins |
+| prometheus-client | CloudServe pin |
+| pytest / pytest-asyncio | CloudServe pins |
+| pandas / numpy / scikit-learn | CloudServe pins (discovery, metrics, **trained classifier**) |
 | litellm | **Additive** — OpenRouter generation; swap via `LITELLM_MODEL` |
 
 No framework swaps. Only approved additive beyond `06_Configuration`: `litellm`. Classifier uses pack sklearn.

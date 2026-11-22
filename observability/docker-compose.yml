@@ -1,5 +1,4 @@
-# Optional demo observability stack (Grafana + Prometheus).
-# Not required for Capstone grading — start only for live demos.
+# Optional observability stack (Grafana + Prometheus) for demos / local ops.
 #
 #   cd submission
 #   ./scripts/grafana_up.sh

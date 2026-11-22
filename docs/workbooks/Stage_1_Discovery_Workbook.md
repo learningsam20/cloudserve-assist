@@ -5,14 +5,14 @@
 | Author | Sameer J (sameer_j) |
 | Date | 2026-11-22 |
 | Client | CloudServe Solutions (fictional) |
-| Template | Capstone Pack `Stage_1_Discovery_Workbook.docx` (same section and table order) |
+| Template | reference datasets pack `Stage_1_Discovery_Workbook.docx` (same section and table order) |
 | Interview evidence | `Stakeholder_Interviews.docx` — five transcripts (Marcus, Sofia, Daniel, Ines, Ravi) |
 | Ticket evidence | `development_tickets.json` (500 tickets), aggregated only by `scripts/discovery_stats.py` |
 
 **How the ticket figures were produced.** Run from `submission/`:
 
 ```bash
-python -m scripts.discovery_stats --input ../capstone_guide/Capstone_Pack/05_Datasets/development_tickets.json
+python -m scripts.discovery_stats --input $DATASETS_PATH/development_tickets.json
 ```
 
 The script prints counts, rates and per-segment means from the `labels` and `history` fields. No ticket text was read to produce any figure in this workbook, and no figure below is estimated by hand. Where a figure is simple arithmetic on script output (for example a percentage of 500), the sum is shown. The full script output is reproduced in Appendix A.
@@ -146,7 +146,7 @@ Reconstructed from Sofia's interview. Only the durations she stated are recorded
 <!-- docx-table: 11 -->
 | Data source | What it contains | Quality and gaps | Access constraints | Private data present? |
 |-------------|------------------|------------------|--------------------|-----------------------|
-| Support tickets | `development_tickets.json` (500) and `validation_tickets.json` (80). Fields: channel, subject, body, received time, customer id, name, tier, region, language fluency, `labels` (intent, urgency, expected route, answerable from docs, expected doc ids, must-not-auto-respond) and `history` (first contact resolution, resolution minutes, CSAT, escalated, repeat contact). Four channels. | Labels cover 22 intents; the counts show no missing intent or urgency label. History reflects human handling and is a baseline, not a target to copy (Daniel: some current answers are wrong). No first-response timestamp. Ticket text was not read by hand, by project rule; text quality is judged through classifier and evaluation results. | Pack datasets are for this capstone only. A hidden grader set with the same schema is never used for tuning; the harness takes `--input` / `--output` paths and hardcodes none. | Yes: customer id, name, tier and region fields, and free text that can contain personal or account data. Outbound replies must contain none. |
+| Support tickets | `development_tickets.json` (500) and `validation_tickets.json` (80). Fields: channel, subject, body, received time, customer id, name, tier, region, language fluency, `labels` (intent, urgency, expected route, answerable from docs, expected doc ids, must-not-auto-respond) and `history` (first contact resolution, resolution minutes, CSAT, escalated, repeat contact). Four channels. | Labels cover 22 intents; the counts show no missing intent or urgency label. History reflects human handling and is a baseline, not a target to copy (Daniel: some current answers are wrong). No first-response timestamp. Ticket text was not read by hand, by project rule; text quality is judged through classifier and evaluation results. | Pack datasets are for this cloudserve only. A hidden grader set with the same schema is never used for tuning; the harness takes `--input` / `--output` paths and hardcodes none. | Yes: customer id, name, tier and region fields, and free text that can contain personal or account data. Outbound replies must contain none. |
 | Documentation | `documentation.json`: 29 reviewed support articles with `doc_id`, title, category, applies-to, content, related docs and last-reviewed age. | Ines reports accuracy within the review cycle. Gaps by design: feature requests, roadmap and timing, novel incidents. Search quality, not content, is the stated failure. The Setup Guide sample uses `id` where the data field is `doc_id` (findings D2). | Retrieval corpus only; replies must cite a `doc_id` from the retrieved set. | No customer data. |
 | Past resolutions | Agents' private snippet files (Sofia, Daniel); the pack's `ground_truth_responses.json` (200 reference responses with required and forbidden claims) | Private files: unreviewed, partly stale (Daniel), never provided to this project and never used as a source. Ground truth: reference answers for evaluation only. | Ground truth is used only for quality checks, never retrieved at runtime. | Private files: likely. Ground truth: not expected. |
 | Customer records | Customer id, name, tier, region and fluency attached to each ticket; no separate customer database. | Tier and fluency are the segments for the fairness check; region is available but not yet analysed (OQ-2). | Used for segmentation and routing context, not copied into replies. | Yes. Guardrails block outbound patterns resembling keys, card numbers and national identifiers; the evaluation reports a governance check. |
@@ -190,7 +190,7 @@ Reconstructed from Sofia's interview. Only the durations she stated are recorded
 
 ## Appendix A: script output (aggregates only)
 
-Command: `python -m scripts.discovery_stats --input ../capstone_guide/Capstone_Pack/05_Datasets/development_tickets.json` (run from `submission/`, 2026-11-22). The per-intent and per-segment lines are long; the key lines are shown and the full output is regenerated by re-running the command.
+Command: `python -m scripts.discovery_stats --input $DATASETS_PATH/development_tickets.json` (run from `submission/`, 2026-11-22). The per-intent and per-segment lines are long; the key lines are shown and the full output is regenerated by re-running the command.
 
 ```text
 total_tickets=500

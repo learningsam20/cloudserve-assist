@@ -3,7 +3,7 @@
 - **Version:** 0.1.0
 - **Run started:** 2026-11-22T03:00:06.108833+00:00
 - **Report generated:** 2026-11-22T03:00:10.533404+00:00
-- **Input:** `../capstone_guide/Capstone_Pack/05_Datasets/validation_tickets.json`
+- **Input:** `$DATASETS_PATH/validation_tickets.json`
 - **Targets source:** findings D1 success table + Evaluation Framework
 
 ## Volume

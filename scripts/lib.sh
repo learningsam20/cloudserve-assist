@@ -25,7 +25,7 @@ load_env() {
 
 load_env
 
-PACK_DATA="${CAPSTONE_DATASETS}"
+PACK_DATA="${DATASETS_PATH}"
 if [[ "$PACK_DATA" != /* ]]; then
   PACK_DATA="$ROOT/$PACK_DATA"
 fi
@@ -41,8 +41,8 @@ ensure_storage() {
 
 require_pack() {
   if [[ ! -f "$PACK_DATA/development_tickets.json" ]]; then
-    echo "error: Capstone datasets not found at $PACK_DATA" >&2
-    echo "set CAPSTONE_DATASETS in .env" >&2
+    echo "error: CloudServe datasets not found at $PACK_DATA" >&2
+    echo "set DATASETS_PATH in .env" >&2
     exit 2
   fi
 }

@@ -7,11 +7,11 @@ updated: 2026-11-22
 
 # PRD: CloudServe Assistant
 
-*Capstone Stage-2 workbook still needs a student-filled copy for submission.*
+*delivery stage-2 workbook still needs a student-filled copy for submission.*
 
 ## 0. Document Purpose
 
-This PRD defines what to build for the CloudServe Solutions capstone: a runnable support triage and assist system that meets acceptance criteria A1–A12, produces honest evaluation, and leaves an audit trail. It is for the builder (sameer_j), and for downstream architecture, prompt library, sprint plan, and the graded report. Discovery numbers that depend on ticket data are marked for script output — not invented here. Interview evidence is cited by role. Capstone Pack paths under `capstone_guide/Capstone_Pack/` are the authority when this draft and the pack disagree; resolve and log the change.
+This PRD defines what to build for the CloudServe Solutions product: a runnable support triage and assist system that meets acceptance criteria A1–A12, produces honest evaluation, and leaves an audit trail. It is for the builder (sameer_j), and for downstream architecture, prompt library, sprint plan, and the product report. Discovery numbers that depend on ticket data are marked for script output — not invented here. Interview evidence is cited by role. reference datasets pack paths under the reference datasets tree are the authority when this draft and the pack disagree; resolve and log the change.
 
 ## 1. Vision
 
@@ -182,7 +182,7 @@ System can validate every candidate response and block when a Guardrail fires. R
 
 #### FR-7: Persistent decision log
 
-System can write each automated decision to a persistent Decision log with the Capstone-required fields. Realizes UJ-4.
+System can write each automated decision to a persistent Decision log with the CloudServe-required fields. Realizes UJ-4.
 
 **Consequences (testable):**
 
@@ -267,7 +267,7 @@ Builder can run documented scripts that read ticket/corpus paths and emit Stage-
 - Tuning against the Hidden set or hardcoding its path.
 - Auto-sending billing commitments, security incident resolutions, or legal promises.
 - Replacing technical writers’ review process; system cites Corpus, it does not invent policy.
-- Extra tests, dashboards, or frameworks beyond Capstone requirements.
+- Extra tests, dashboards, or frameworks beyond CloudServe requirements.
 - Reading dataset contents during planning to pre-fill “insights” into docs.
 
 ## 6. MVP Scope
@@ -324,7 +324,7 @@ Settled 2026-11-22: name **CloudServe Assistant**; generation **LiteLLM → Open
 
 Settled from builder comments (2026-11-22):
 
-- Capstone Brief stack is the default. **Any conflict or departure: ask before changing** — do not silently diverge. Pack conflicts: `submission/docs/plan/findings.md` (D1–D5). Additive package approved: `litellm` only (classifier uses pack sklearn).
+- product brief stack is the default. **Any conflict or departure: ask before changing** — do not silently diverge. Pack conflicts: `submission/docs/plan/findings.md` (D1–D5). Additive package approved: `litellm` only (classifier uses pack sklearn).
 - **Business targets (success table):** FCR ≥60%, reply &lt;5 min, CSAT ≥4.0, escalation ≤30%. Client wish-list row (65% / 2h / 4.2) is report context only — see findings D1.
 - `CONFIDENCE_THRESHOLD` may be tuned on development data, then **frozen before the recorded eval run**; no further threshold edits after that freeze without a logged PRD revision — see findings D3. Env `0.80` is boot default only.
 - Corpus / citation IDs use **`doc_id`** (not Setup Guide `id`) — see findings D2.
@@ -354,7 +354,7 @@ Settled from builder comments (2026-11-22):
 | NFR-06 | Fairness: <5pp quality variation across tier / fluency / complexity segments |
 | NFR-07 | Free-tier cost only; backoff, queue, cache as needed |
 
-## 12. Traceability to Capstone acceptance
+## 12. Traceability to CloudServe acceptance
 
 | Acceptance | Primary FRs |
 |------------|-------------|

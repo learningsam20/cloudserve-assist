@@ -1,13 +1,13 @@
 # CloudServe Assistant
 
-Capstone **support triage / assist** system (not a free-form chatbot). Same LangGraph pipeline powers FastAPI and the evaluation harness.
+Production **support triage / assist** service for CloudServe Solutions — not a free-form chatbot. One LangGraph pipeline powers the FastAPI service and the offline evaluation harness.
 
 | | |
 |--|--|
 | **Product** | Classify → retrieve → route in code → optional generate → guardrails → decision log |
-| **Threshold** | `CONFIDENCE_THRESHOLD=0.35` (measured; pack 0.80 was illustrative — findings D3) |
-| **Repo root** | This folder (`submission/` / packaged `04_Source_Code/`) |
-| **Datasets** | Capstone Pack `05_Datasets/` via `CAPSTONE_DATASETS` (not vendored here) |
+| **Threshold** | `CONFIDENCE_THRESHOLD=0.35` (measured and frozen — findings D3) |
+| **Repo root** | This service tree (`submission/` when packaged as `04_Source_Code/`) |
+| **Datasets** | In-tree `./datasets` via `DATASETS_PATH=./datasets` (relative to this service root) |
 
 ---
 
@@ -20,9 +20,8 @@ python3.11 -m venv .venv && source .venv/bin/activate
 pip install -U pip && pip install -r requirements.txt
 
 cp -n .env.example .env
-# Edit .env:
-#   CAPSTONE_DATASETS=/absolute/path/to/Capstone_Pack/05_Datasets
-#   OPENROUTER_API_KEY=...   # only if you will GENERATE=1
+# Optional: OPENROUTER_API_KEY=... only if you will GENERATE=1
+# Datasets already ship at ./datasets (DATASETS_PATH=./datasets)
 
 ./scripts/setup_all.sh          # 1) train classifier  2) build Chroma + lexical index
 ./scripts/status.sh             # expect chroma count 59, classifier present
@@ -45,6 +44,14 @@ curl -s localhost:8000/health
 ```
 
 **Order matters:** `setup_all.sh` before pytest / eval / API, or index-backed paths skip/fail.
+
+### CI (GitHub Actions on push / PR)
+
+Workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) mirrors the same scripts:
+
+`setup_all.sh` → `status.sh` → `run_tests.sh` → `run_eval.sh validation`
+
+Uses in-tree `./datasets`. Eval metrics upload as a workflow artifact.
 
 ---
 
@@ -72,7 +79,7 @@ curl -s localhost:8000/health
 | `scripts/train_classifier.py` | Fit intent/urgency pipelines → `storage/models/` |
 | `scripts/build_index.py` | Chroma + `lexical_index.joblib` |
 | `prompts/generate_v1.md` | Generation prompt (`PROMPT_VERSION`) |
-| `tests/` | Capstone A1–A12 matrix only |
+| `tests/` | acceptance criteria A1–A12 matrix only |
 
 ---
 
@@ -166,7 +173,7 @@ python -m scripts.export_eval_metrics --results-dir evaluation/results/validatio
 | `./scripts/run_tests.sh` | `pytest tests/ -v` |
 | `./scripts/kill_on.sh` / `kill_off.sh` | Kill-switch file |
 | `./scripts/grafana_up.sh` / `down` / `load_dashboards.sh` | Optional Grafana |
-| `./scripts/package_submission.sh` | Assemble Capstone zip layout under `../_package/` |
+| `./scripts/package_submission.sh` | Assemble release zip layout under `./_package/` |
 | `./scripts/export_eval_metrics.py` | `metrics.json` → Prometheus textfile |
 
 ```bash
@@ -225,7 +232,7 @@ Postman (optional): `docs/postman/CloudServe_Assistant.postman_collection.json`
 | `docs/plan/` | Findings, gaps, eval-runs, verification, pin log, work-log, sprint/epics |
 | `docs/design/architecture/` | Spine, design, data-flow diagrams |
 | `docs/design/spec/` | SPEC, stack-and-env, acceptance |
-| `docs/report/` | Capstone report (PDF) |
+| `docs/report/` | CloudServe report (PDF) |
 | `docs/workbooks/` | Stage 1–5 + Effort Log |
 | `docs/video/` | ≤18 min shooting script |
 | `docs/governance/` | Risk, fairness, incident, kill-switch |
@@ -233,4 +240,4 @@ Postman (optional): `docs/postman/CloudServe_Assistant.postman_collection.json`
 
 Index: [`docs/README.md`](docs/README.md).
 
-Package: `PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh` → `../_package/CloudServe_Capstone_Submission/`.
+Package: `PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh` → `./_package/CloudServe_Assistant_Release/`.

@@ -1,10 +1,10 @@
 # Stack and environment
 
-**Config source of truth (pack):** `capstone_guide/Capstone_Pack/06_Configuration/`
-- `requirements.txt` — pinned Capstone deps (copy into `submission/requirements.txt`, then add approved packages only)
+**Config source of truth (pack):** `reference 06_Configuration/`
+- `requirements.txt` — pinned CloudServe deps (copy into `submission/requirements.txt`, then add approved packages only)
 - `.env.example` — suggested env keys (copy into `submission/.env.example`, then add approved keys only)
 
-Starting point from Capstone Brief / Setup Guide + that folder. Departures need a short written justification in architecture notes / findings.
+Starting point from product brief / Setup Guide + that folder. Departures need a short written justification in architecture notes / findings.
 
 ## Runtime
 
@@ -63,9 +63,9 @@ Optional demo only (not required at runtime): Docker Compose under `observabilit
 
 ## Dependencies
 
-1. Copy `capstone_guide/Capstone_Pack/06_Configuration/requirements.txt` → `submission/requirements.txt`.
+1. Copy `reference 06_Configuration/requirements.txt` → `submission/requirements.txt`.
 2. Append **only** approved additive: `litellm` (pin after clean venv resolve; log in change-log). Classifier uses pack-pinned `scikit-learn` (+ `joblib` via sklearn).
-3. Verify install on Python ≥3.10 (CI 3.11). Pin conflicts → ask before changing Capstone pins.
+3. Verify install on Python ≥3.10 (CI 3.11). Pin conflicts → ask before changing CloudServe pins.
 
 ## Project modules (Setup Guide shape)
 

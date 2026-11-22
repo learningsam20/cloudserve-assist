@@ -1,4 +1,4 @@
-"""Build Chroma index from Capstone documentation.json (real corpus)."""
+"""Build Chroma index from CloudServe documentation.json (real corpus)."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ def main() -> None:
     parser.add_argument(
         "--input",
         required=True,
-        help="Path to documentation.json from Capstone Pack 05_Datasets",
+        help="Path to documentation.json from datasets directory (05_Datasets)",
     )
     parser.add_argument(
         "--reset",

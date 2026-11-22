@@ -1,13 +1,13 @@
 # CloudServe Assistant — resolvable dependency set for Python 3.11 (grader target).
-# Base intent: Capstone Pack 06_Configuration + approved additive litellm.
+# Base intent: reference datasets pack 06_Configuration + approved additive litellm.
 # Pack pins (langchain==0.1.0, chromadb==0.3.21, openai==1.0.0, pydantic==2.0.0, …)
 # are mutually unsatisfiable and incompatible with this codebase (PersistentClient,
 # pydantic v2). See docs/plan/requirements-pin-log.md for the logged departure.
 #
 # Verified: `uv pip install -r requirements.txt` on CPython 3.11.14 (2026-11-22)
-# then `pytest tests/ -q` → 28 passed with CAPSTONE_DATASETS set and setup_all run.
+# then `pytest tests/ -q` → 28 passed with DATASETS_PATH set and setup_all run.
 
-# --- Orchestration (Capstone Brief stack) ---
+# --- Orchestration (product brief stack) ---
 langgraph>=0.2.0,<2
 langchain>=0.1.0,<1
 langchain-community>=0.0.10,<1

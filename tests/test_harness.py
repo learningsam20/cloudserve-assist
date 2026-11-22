@@ -1,4 +1,4 @@
-"""Harness dry-run and resilience (A9–A11) using Capstone Pack tickets."""
+"""Harness dry-run and resilience (A9–A11) using reference datasets pack tickets."""
 
 from __future__ import annotations
 

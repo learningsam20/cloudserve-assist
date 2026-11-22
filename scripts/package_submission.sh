@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Assemble Capstone zip layout (01_Video … 04_Source_Code) under ../_package/
+# Assemble release zip layout (01_Video … 04_Source_Code) under ./_package/
 # Does NOT include .env, storage/, or venv.
 #
 # Contents of each folder:
 #   01_Video         docs/video/README.md + video-script.md (+ any recorded .mp4/.mov/.webm/.m4v in docs/video/)
-#   02_Report        report PDF (docs/report/SameerJ_Capstone_Report.pdf) + Markdown source
+#   02_Report        report PDF (docs/report/SameerJ_CloudServe_Report.pdf) + Markdown source
 #   03_Workbooks     Stage 1–5 workbooks (.docx + .md), Effort_Log (.docx + .md), human_eval_appendix.md
 #   04_Source_Code   this tree (minus secrets, storage, caches) + curated A10 metrics snapshot
 #
@@ -15,13 +15,12 @@ set -euo pipefail
 # shellcheck disable=SC1091
 source "$(cd "$(dirname "$0")" && pwd)/lib.sh"
 
-REPO_ROOT="$(cd "$ROOT/.." && pwd)"
-OUT_ROOT="${PACKAGE_OUT:-$REPO_ROOT/_package}"
-BUNDLE="$OUT_ROOT/CloudServe_Capstone_Submission"
+OUT_ROOT="${PACKAGE_OUT:-$ROOT/_package}"
+BUNDLE="$OUT_ROOT/CloudServe_Assistant_Release"
 SRC="$BUNDLE/04_Source_Code"
 
-REPORT_PDF="$ROOT/docs/report/SameerJ_Capstone_Report.pdf"
-REPORT_MD="$ROOT/docs/report/CloudServe_Capstone_Report.md"
+REPORT_PDF="$ROOT/docs/report/SameerJ_CloudServe_Report.pdf"
+REPORT_MD="$ROOT/docs/report/CloudServe_Assistant_Report.md"
 WORKBOOKS_DIR="$ROOT/docs/workbooks"
 VIDEO_DIR="$ROOT/docs/video"
 
@@ -136,16 +135,16 @@ if [[ "${PACKAGE_NO_ZIP:-0}" == "1" ]]; then
   echo "PACKAGE_NO_ZIP=1: folder tree assembled; zip NOT created."
   echo "Packaged:"
   echo "  $BUNDLE"
-  echo "To zip later:  (cd \"$OUT_ROOT\" && zip -r CloudServe_Capstone_Submission.zip CloudServe_Capstone_Submission -x '*.DS_Store')"
+  echo "To zip later:  (cd \"$OUT_ROOT\" && zip -r CloudServe_Assistant_Release.zip CloudServe_Assistant_Release -x '*.DS_Store')"
 else
   (
     cd "$OUT_ROOT"
-    zip -r "CloudServe_Capstone_Submission.zip" "CloudServe_Capstone_Submission" \
+    zip -r "CloudServe_Assistant_Release.zip" "CloudServe_Assistant_Release" \
       -x "*.DS_Store" >/dev/null
   )
   echo "Packaged:"
   echo "  $BUNDLE"
-  echo "  $OUT_ROOT/CloudServe_Capstone_Submission.zip"
-  echo "Rename zip to FirstnameLastname_Capstone_Submission.zip before submit."
+  echo "  $OUT_ROOT/CloudServe_Assistant_Release.zip"
+  echo "Optional: rename zip for your release naming convention."
 fi
-echo "Before final hand-in: add the recorded video to 01_Video (script and README are already included)."
+echo "Optional: add a recorded demo video under 01_Video (script + README are included)."

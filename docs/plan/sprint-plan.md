@@ -1,6 +1,6 @@
 # Sprint plan — CloudServe Assistant
 
-Aligned with Capstone Stage 4 and SPEC epics. Cadence: **2–3 weeks**. Owner: sameer_j (individual).
+Aligned with delivery stage 4 and SPEC epics. Cadence: **2–3 weeks**. Owner: sameer_j (individual).
 
 Story catalogue with Given/When/Then: `docs/plan/epics.md` (and Stage 4 workbook). This file is the **execution plan** plus a compact acceptance matrix.
 
@@ -16,7 +16,7 @@ Keep **Epic 5 (harness gate)** before report/video polish.
 
 ## Epic order and exit criteria
 
-| Order | Epic | Capstone mapping | Exit criteria (must be demoable) |
+| Order | Epic | delivery mapping | Exit criteria (must be demoable) |
 |-------|------|------------------|----------------------------------|
 | 1 | Foundation + discovery | Stage 1 | `discovery_stats` runs; scaffold + env |
 | 2 | Ingest / classify / retrieve | Week2 | A2–A4; Chroma `doc_id`; classifier artifact |
