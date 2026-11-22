@@ -1,0 +1,73 @@
+# Secrets / local env (never commit)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.deepeval/
+
+# Runtime / rebuilt locally (setup_all / build_index / train)
+storage/
+*.joblib
+
+# Harness: ignore ad-hoc runs; keep curated evidence snapshots (metrics + results)
+evaluation/results/**
+!evaluation/results/.gitkeep
+!evaluation/results/validation_fairness_fix/
+!evaluation/results/validation_fairness_fix/**
+!evaluation/results/validation_hybrid_20261122T101209Z/
+!evaluation/results/validation_hybrid_20261122T101209Z/**
+# Decision dumps can get large / accumulate across DB history — keep metrics+results
+evaluation/results/**/decisions_export.jsonl
+
+# Grafana scrape textfiles are regenerated; keep seeded comparison gauges
+!observability/prometheus/textfile/
+observability/prometheus/textfile/*
+!observability/prometheus/textfile/.gitkeep
+!observability/prometheus/textfile/validation_fairness_fix.prom
+!observability/prometheus/textfile/validation_hybrid_20261122T101209Z.prom
+
+# Logs / PIDs / OS
+*.log
+*.pid
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Editors / IDE
+.idea/
+.vscode/
+*.code-workspace
+
+# Video recordings (script stays; binary stays local until zip)
+docs/video/*.mp4
+docs/video/*.mov
+docs/video/*.webm
+docs/video/*.m4v
+docs/video/*.mkv
+
+# Accidental package dumps inside submission
+_package/
+*.zip
+!docs/**/*.zip

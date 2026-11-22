@@ -1,0 +1,12 @@
+{
+  "tickets": 80,
+  "silent_drops": 0,
+  "metrics_json": "evaluation/results/validation_fairness_fix/metrics.json",
+  "metrics_md": "evaluation/results/validation_fairness_fix/metrics.md",
+  "results_jsonl": "evaluation/results/validation_fairness_fix/results.jsonl",
+  "decisions_exported": 850,
+  "action_counts": {
+    "auto_respond": 66,
+    "escalate": 14
+  }
+}

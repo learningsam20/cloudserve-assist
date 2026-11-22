@@ -1,0 +1,84 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "id": 1,
+      "type": "text",
+      "title": "",
+      "gridPos": { "h": 3, "w": 24, "x": 0, "y": 0 },
+      "options": {
+        "mode": "markdown",
+        "content": "`RETRIEVAL_MODE=auto` uses **dense first**. Hybrid runs only when top dense score < `HYBRID_DENSE_SCORE_FLOOR` (label `auto_fallback_hybrid`)."
+      }
+    },
+    {
+      "id": 2,
+      "title": "Retrieval calls by mode",
+      "type": "piechart",
+      "gridPos": { "h": 10, "w": 12, "x": 0, "y": 3 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (mode) (cloudserve_retrieval_requests_total)",
+          "instant": true,
+          "legendFormat": "{{mode}}",
+          "datasource": { "type": "prometheus", "uid": "prometheus" }
+        }
+      ],
+      "options": {
+        "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
+        "pieType": "donut",
+        "reduceOptions": { "calcs": ["lastNotNull"] }
+      }
+    },
+    {
+      "id": 3,
+      "title": "Mean top score / passages",
+      "type": "stat",
+      "gridPos": { "h": 10, "w": 12, "x": 12, "y": 3 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "cloudserve_retrieval_top_score_sum / clamp_min(cloudserve_retrieval_top_score_count, 1)",
+          "instant": true,
+          "legendFormat": "mean top score",
+          "datasource": { "type": "prometheus", "uid": "prometheus" }
+        },
+        {
+          "refId": "B",
+          "expr": "cloudserve_retrieval_passages_sum / clamp_min(cloudserve_retrieval_passages_count, 1)",
+          "instant": true,
+          "legendFormat": "mean passages",
+          "datasource": { "type": "prometheus", "uid": "prometheus" }
+        }
+      ],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "value_and_name",
+        "orientation": "horizontal"
+      },
+      "fieldConfig": {
+        "defaults": { "decimals": 3 },
+        "overrides": []
+      }
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 39,
+  "tags": ["cloudserve", "demo", "retrieval"],
+  "templating": { "list": [] },
+  "time": { "from": "now-6h", "to": "now" },
+  "timezone": "browser",
+  "title": "CloudServe — Retrieval (compact)",
+  "uid": "cloudserve-retrieval",
+  "version": 2
+}

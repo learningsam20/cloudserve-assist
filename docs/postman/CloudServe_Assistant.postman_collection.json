@@ -1,0 +1,52 @@
+{
+  "info": {
+    "name": "CloudServe Assistant",
+    "description": "Optional Postman collection for the Capstone API demo. Prefer curl from the video script if Postman is unavailable. Start API with ./scripts/start_api.sh first.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:8000" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "Metrics (Prometheus)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/metrics"
+      }
+    },
+    {
+      "name": "Process ticket (route-only)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"ticket\": {\n    \"ticket_id\": \"VAL-0010\",\n    \"channel\": \"docs_comment\",\n    \"subject\": \"Invoice higher than expected\",\n    \"body\": \"Paste full body from Pack validation_tickets.json for VAL-0010 before sending.\"\n  },\n  \"allow_generate\": false\n}"
+        },
+        "url": "{{baseUrl}}/tickets/process"
+      }
+    },
+    {
+      "name": "Process ticket (allow generate)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"ticket\": {\n    \"ticket_id\": \"VAL-0010\",\n    \"channel\": \"docs_comment\",\n    \"subject\": \"Invoice higher than expected\",\n    \"body\": \"Paste full body from Pack validation_tickets.json for VAL-0010 before sending.\"\n  },\n  \"allow_generate\": true\n}"
+        },
+        "url": "{{baseUrl}}/tickets/process"
+      }
+    }
+  ]
+}

@@ -1,0 +1,269 @@
+{
+  "meta": {
+    "service": "CloudServe Assistant",
+    "version": "0.1.0",
+    "run_started_at": "2026-11-22T10:12:12.529386+00:00",
+    "report_generated_at": "2026-11-22T10:12:14.615295+00:00",
+    "input_path": "/Users/sameer_j/Documents/coding/fde/IIT_Capstone/submission/../capstone_guide/Capstone_Pack/05_Datasets/validation_tickets.json",
+    "targets_source": "findings D1 success table + Evaluation Framework",
+    "retrieval_mode": "hybrid"
+  },
+  "volume": {
+    "tickets_input": 80,
+    "tickets_processed": 80,
+    "silent_drops": 0,
+    "action_counts": {
+      "auto_respond": 66,
+      "escalate": 14
+    },
+    "tickets_with_errors": 0,
+    "allow_generate": false,
+    "escalate_reason_counts": {
+      "policy_must_not": 14
+    },
+    "policy_must_not_count": 14
+  },
+  "business": {
+    "targets": {
+      "fcr_pct": 60.0,
+      "reply_mean_minutes": 5.0,
+      "csat": 4.0,
+      "escalation_pct": 30.0
+    },
+    "route_auto_respond_pct": 82.5,
+    "first_contact_resolution_pct": null,
+    "fcr_definition": "N/A for --no-generate runs; use route_auto_respond_pct only",
+    "fcr_claim_allowed": false,
+    "escalation_rate_pct": 17.5,
+    "escalation_definition": "(escalate + block) / total",
+    "time_to_first_reply_minutes": {
+      "mean": 0.0004,
+      "median": 0.0002,
+      "p95": 0.0004,
+      "note": "Harness wall-clock latency used as reply-time proxy for batch eval"
+    },
+    "csat_proxy": {
+      "value": null,
+      "n": 0,
+      "method": "human_rubric_sample_pending",
+      "note": "Requires human rubric sample; not invented by harness (Evaluation Framework)"
+    },
+    "meets_fcr_target": false,
+    "meets_route_auto_target": true,
+    "meets_escalation_target": true,
+    "meets_reply_target": true,
+    "escalation_excluding_policy_pct": 0.0,
+    "note_policy": "must_not_auto_respond tickets are forced escalate by policy and inflate raw escalation rate; see volume.escalate_reason_counts. Do not report --no-generate route_auto_respond_pct as customer FCR."
+  },
+  "technical": {
+    "targets": {
+      "classification_precision": 0.85,
+      "latency_p95_seconds": 3.0
+    },
+    "classification": {
+      "labeled_n": 80,
+      "overall_accuracy": 0.9875,
+      "per_class_recall": {
+        "api_key_issue": {
+          "n": 6,
+          "recall": 1.0
+        },
+        "unclear_request": {
+          "n": 6,
+          "recall": 1.0
+        },
+        "authentication_failure": {
+          "n": 3,
+          "recall": 1.0
+        },
+        "api_usage_question": {
+          "n": 4,
+          "recall": 1.0
+        },
+        "account_access": {
+          "n": 4,
+          "recall": 1.0
+        },
+        "compliance_request": {
+          "n": 1,
+          "recall": 1.0
+        },
+        "billing_query": {
+          "n": 10,
+          "recall": 1.0
+        },
+        "rollback_request": {
+          "n": 6,
+          "recall": 1.0
+        },
+        "performance_degradation": {
+          "n": 3,
+          "recall": 1.0
+        },
+        "feature_request": {
+          "n": 3,
+          "recall": 1.0
+        },
+        "onboarding": {
+          "n": 4,
+          "recall": 1.0
+        },
+        "deployment_failure": {
+          "n": 5,
+          "recall": 1.0
+        },
+        "data_residency": {
+          "n": 6,
+          "recall": 1.0
+        },
+        "quota_or_overage": {
+          "n": 2,
+          "recall": 0.5
+        },
+        "webhook_issue": {
+          "n": 3,
+          "recall": 1.0
+        },
+        "configuration_help": {
+          "n": 3,
+          "recall": 1.0
+        },
+        "security_incident": {
+          "n": 4,
+          "recall": 1.0
+        },
+        "data_export": {
+          "n": 1,
+          "recall": 1.0
+        },
+        "rate_limit": {
+          "n": 1,
+          "recall": 1.0
+        },
+        "integration_help": {
+          "n": 3,
+          "recall": 1.0
+        },
+        "sso_configuration": {
+          "n": 1,
+          "recall": 1.0
+        },
+        "database_issue": {
+          "n": 1,
+          "recall": 1.0
+        }
+      },
+      "note": "Overall accuracy on tickets that include labels.intent; full confusion matrix in report appendix when labeled"
+    },
+    "latency_seconds": {
+      "mean": 0.0258,
+      "p95": 0.0267,
+      "n": 80
+    },
+    "citation_id_validity": {
+      "valid_generations": 0,
+      "generations_with_citations": 0,
+      "rate": null,
+      "note": "Automated proxy: citation doc_ids ⊆ retrieved set"
+    },
+    "hallucination_rate": {
+      "value": null,
+      "note": "Requires dual human review of ≥50 responses (Evaluation Framework); not auto-scored"
+    },
+    "availability_note": "Provider failures escalate per-ticket without aborting the batch (A11)"
+  },
+  "governance": {
+    "private_data_in_outbound": {
+      "occurrences": 0,
+      "requirement": "zero",
+      "pass": true
+    },
+    "decision_log_coverage": {
+      "tickets_processed": 80,
+      "decision_rows_written": 160,
+      "note": "Multiple decision rows per ticket (classify/route/generate/validate); coverage = every ticket logged when persist=true",
+      "tickets_missing_decision_row": [],
+      "reconcile_ok": true
+    },
+    "quality_across_segments": {
+      "customer_tier": {
+        "metric": "resolution_quality_on_expected_auto",
+        "quality_rate": {
+          "business": 1.0,
+          "standard": 1.0,
+          "enterprise": 1.0
+        },
+        "quality_n": {
+          "business": 21,
+          "standard": 21,
+          "enterprise": 6
+        },
+        "eligible_auto_rate": {
+          "business": 1.0,
+          "standard": 1.0,
+          "enterprise": 1.0
+        },
+        "raw_auto_respond_rate": {
+          "business": 0.9333,
+          "standard": 0.7381,
+          "enterprise": 0.875
+        },
+        "max_gap_pp": 0.0,
+        "requirement_pp": 5.0,
+        "pass": true
+      },
+      "language_fluency": {
+        "metric": "resolution_quality_on_expected_auto",
+        "quality_rate": {
+          "fluent": 1.0,
+          "non_fluent": 1.0
+        },
+        "quality_n": {
+          "fluent": 40,
+          "non_fluent": 8
+        },
+        "eligible_auto_rate": {
+          "fluent": 1.0,
+          "non_fluent": 1.0
+        },
+        "raw_auto_respond_rate": {
+          "fluent": 0.8197,
+          "non_fluent": 0.8421
+        },
+        "max_gap_pp": 0.0,
+        "requirement_pp": 5.0,
+        "pass": true
+      }
+    },
+    "confidence_calibration": [
+      {
+        "band": "0.2-0.4",
+        "n": 7,
+        "mean_stated": 0.3175,
+        "observed_accuracy": 1.0,
+        "gap": -0.6825
+      },
+      {
+        "band": "0.4-0.6",
+        "n": 11,
+        "mean_stated": 0.5065,
+        "observed_accuracy": 1.0,
+        "gap": -0.4935
+      },
+      {
+        "band": "0.6-0.8",
+        "n": 46,
+        "mean_stated": 0.6913,
+        "observed_accuracy": 1.0,
+        "gap": -0.3087
+      },
+      {
+        "band": "0.8-1.0",
+        "n": 16,
+        "mean_stated": 0.9649,
+        "observed_accuracy": 0.9375,
+        "gap": 0.0274
+      }
+    ]
+  }
+}

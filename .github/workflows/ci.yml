@@ -1,0 +1,46 @@
+name: ci
+
+# For 04_Source_Code when this folder is the repository root.
+# Expect Capstone datasets at CAPSTONE_DATASETS (default: ../capstone_guide/Capstone_Pack/05_Datasets).
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          cp .env.example .env
+
+      - name: Train classifier and build index
+        env:
+          CAPSTONE_DATASETS: ${{ vars.CAPSTONE_DATASETS || '../capstone_guide/Capstone_Pack/05_Datasets' }}
+        run: |
+          if [ ! -f "$CAPSTONE_DATASETS/development_tickets.json" ]; then
+            echo "Datasets not found at $CAPSTONE_DATASETS — skipping train/index (tests that need pack will skip/fail)."
+            exit 0
+          fi
+          python -m scripts.train_classifier \
+            --input "$CAPSTONE_DATASETS/development_tickets.json" \
+            --output storage/models/classifier
+          python -m scripts.build_index \
+            --input "$CAPSTONE_DATASETS/documentation.json"
+
+      - name: Run tests (no API keys)
+        env:
+          KILL_SWITCH: "false"
+          CONFIDENCE_THRESHOLD: "0.35"
+        run: python -m pytest tests/ -v

@@ -1,0 +1,56 @@
+# Optional demo observability stack (Grafana + Prometheus).
+# Not required for Capstone grading — start only for live demos.
+#
+#   cd submission
+#   ./scripts/grafana_up.sh
+#   ./scripts/grafana_load_dashboards.sh   # re-copy + reload provisioning
+#   open http://127.0.0.1:3000  (admin / cloudserve)
+#
+# Scrape targets:
+#   - CloudServe API /metrics on host (start_api.sh)
+#   - eval-exporter serving harness metrics.prom (scripts/export_eval_metrics.py)
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: cloudserve-prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/textfile:/textfile:ro
+    ports:
+      - "9090:9090"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=7d
+    depends_on:
+      - eval-exporter
+
+  eval-exporter:
+    image: python:3.11-slim
+    container_name: cloudserve-eval-exporter
+    working_dir: /app
+    volumes:
+      - ./prometheus/textfile:/textfile:ro
+      - ./eval_exporter_server.py:/app/server.py:ro
+    command: ["python", "/app/server.py", "--dir", "/textfile", "--port", "9101"]
+    ports:
+      - "9101:9101"
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    container_name: cloudserve-grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: cloudserve
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
