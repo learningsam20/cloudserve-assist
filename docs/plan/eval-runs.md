@@ -108,6 +108,47 @@ Publish both labelled and label-free rates when discussing API / hidden-set beha
 
 ---
 
+## 2026-11-22 — validation generate-on (full, openrouter/free)
+
+- **Output:** `evaluation/results/validation_20261122T112431Z/`
+- **Mode:** `GENERATE=1` (LLM generate + validate); `fcr_claim_allowed=true`
+- **Model:** `LITELLM_MODEL=openrouter/openrouter/free` (API `openrouter/free`), `LITELLM_API_BASE=https://openrouter.ai/api/v1`
+- **Tickets (N):** 80
+- **auto_respond:** 56
+- **escalate:** 24 (14 policy `must_not`; 10 rate-limit generate failures → escalate)
+- **FCR / route auto %:** 70.0% (meets ≥60%)
+- **Escalation %:** 30.0% (meets ≤30%; excluding policy: 12.5%)
+- **Reply mean (min):** ~0.09 (meets &lt;5)
+- **Classification accuracy (labels):** 0.9875
+- **Citation ID validity:** 55/55 generations (1.0)
+- **Private data outbound:** pass
+- **Fairness (tier quality gap):** fail — ~19pp gap (board ≤5pp)
+- **Note:** First full generate-on batch with real key; rate limits caused 10 escalations but FCR/esc/reply bars still met.
+
+---
+
+## 2026-11-22 — validation generate-on (throttled re-run)
+
+- **Output:** `evaluation/results/validation_20261122T130045Z/`
+- **Mode:** `GENERATE=1`; `LLM_MIN_INTERVAL_SECONDS=4`, `LLM_BACKOFF_SECONDS=5`, `LLM_MAX_RETRIES=6`
+- **Tickets (N):** 80 — **56 auto / 24 escalate** (same shape as prior generate-on)
+- **FCR:** 70%; escalation 30%; fairness still **fail** (expected-auto misses = daily free-router 429s, not per-minute)
+- **Code:** `src/llm.py` now spaces live calls, ignores absolute epoch “Retry-After”, and fails fast on `free-models-per-day`
+- **Unblock fairness:** wait for OpenRouter daily reset, or add ≥$10 credits for higher free-model daily quota, then re-run (cache keeps prior successes)
+
+---
+
+## 2026-11-22 — validation generate-on (Groq)
+
+- **Output:** `evaluation/results/validation_20261122T131433Z/`
+- **Mode:** `GENERATE=1`; provider Groq (`LITELLM_MODEL=groq/qwen/qwen3.8-27b`, `LITELLM_API_BASE=https://api.groq.com/openai/v1`)
+- **Note:** This Groq key’s available chat models did not include `llama-3.1-8b-*`; used account-listed `qwen/qwen3.8-27b`.
+- **Tickets (N):** 80 — **66 auto / 14 escalate** (all 14 policy must-not; 0 generate errors)
+- **FCR:** 82.5% (`fcr_claim_allowed=true`); escalation 17.5%; fairness quality gap **0pp** (tier + fluency)
+- **Citation ID validity:** see `metrics.json`; private-data outbound pass
+
+---
+
 ## How to re-run (grader / demo)
 
 ```bash
@@ -120,4 +161,7 @@ USE_EVAL_LABELS=false ./scripts/run_eval.sh validation
 
 # hybrid comparison + Grafana export
 ./scripts/run_hybrid_eval.sh validation
+
+# generate-on FCR (needs OpenRouter key; see .env.example)
+GENERATE=1 ./scripts/run_eval.sh validation
 ```

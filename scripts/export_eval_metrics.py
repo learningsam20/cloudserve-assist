@@ -77,17 +77,31 @@ def export_one(metrics_path: Path, *, retrieval_mode: str | None = None) -> list
     if sidecar.exists():
         mode = sidecar.read_text(encoding="utf-8").strip() or mode
 
-    labels = {"run_id": run_id, "retrieval_mode": mode}
     volume = data.get("volume") or {}
     business = data.get("business") or {}
     technical = data.get("technical") or {}
+    governance = data.get("governance") or {}
     clf = technical.get("classification") or {}
     latency = technical.get("latency_seconds") or {}
+    cite = technical.get("citation_id_validity") or {}
     derived = _from_results(metrics_path.parent / "results.jsonl")
+    allow_gen = bool(volume.get("allow_generate", business.get("fcr_claim_allowed")))
+
+    labels = {
+        "run_id": run_id,
+        "retrieval_mode": mode,
+        "allow_generate": "true" if allow_gen else "false",
+    }
+    actions = volume.get("action_counts") or {}
+    tier = (governance.get("quality_across_segments") or {}).get("customer_tier") or {}
+    lang = (governance.get("quality_across_segments") or {}).get("language_fluency") or {}
 
     auto_pct = business.get("route_auto_respond_pct")
-    if auto_pct is None:
+    # Older route-only snapshots stored automation % under first_contact_resolution_pct.
+    if auto_pct is None and not allow_gen:
         auto_pct = business.get("first_contact_resolution_pct")
+    # Customer FCR only when the harness allowed generation.
+    fcr_pct = business.get("first_contact_resolution_pct") if allow_gen else None
 
     lines = [
         "# HELP cloudserve_eval_tickets Harness tickets processed",
@@ -95,7 +109,15 @@ def export_one(metrics_path: Path, *, retrieval_mode: str | None = None) -> list
     ]
     for item in [
         _gauge("cloudserve_eval_tickets", volume.get("tickets_processed"), labels),
+        _gauge("cloudserve_eval_auto_respond", actions.get("auto_respond"), labels),
+        _gauge("cloudserve_eval_escalate", actions.get("escalate"), labels),
         _gauge("cloudserve_eval_route_auto_pct", auto_pct, labels),
+        _gauge("cloudserve_eval_fcr_pct", fcr_pct, labels),
+        _gauge(
+            "cloudserve_eval_fcr_claim_allowed",
+            1.0 if business.get("fcr_claim_allowed") else 0.0,
+            labels,
+        ),
         _gauge(
             "cloudserve_eval_escalation_pct",
             business.get("escalation_rate_pct"),
@@ -124,6 +146,26 @@ def export_one(metrics_path: Path, *, retrieval_mode: str | None = None) -> list
         _gauge(
             "cloudserve_eval_mean_top_score",
             derived["mean_top_score"],
+            labels,
+        ),
+        _gauge(
+            "cloudserve_eval_citation_validity_rate",
+            cite.get("rate"),
+            labels,
+        ),
+        _gauge(
+            "cloudserve_eval_fairness_tier_gap_pp",
+            tier.get("max_gap_pp"),
+            labels,
+        ),
+        _gauge(
+            "cloudserve_eval_fairness_fluency_gap_pp",
+            lang.get("max_gap_pp"),
+            labels,
+        ),
+        _gauge(
+            "cloudserve_eval_tickets_with_errors",
+            volume.get("tickets_with_errors"),
             labels,
         ),
     ]:

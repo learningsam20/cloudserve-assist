@@ -1,0 +1,13 @@
+# HELP cloudserve_eval_tickets Harness tickets processed
+# TYPE cloudserve_eval_tickets gauge
+cloudserve_eval_tickets{run_id="validation_hybrid_20261122T101209Z",retrieval_mode="hybrid",allow_generate="false"} 80.0
+cloudserve_eval_auto_respond{run_id="validation_hybrid_20261122T101209Z",retrieval_mode="hybrid",allow_generate="false"} 66.0
+cloudserve_eval_escalate{run_id="validation_hybrid_20261122T101209Z",retrieval_mode="hybrid",allow_generate="false"} 14.0
+cloudserve_eval_route_auto_pct{run_id="validation_hybrid_20261122T101209Z",retrieval_mode="hybrid",allow_generate="false"} 82.5
+cloudserve_eval_fcr_claim_allowed{run_id="validation_hybrid_20261122T101209Z",retrieval_mode="hybrid",allow_generate="false"} 0.0
+cloudserve_eval_escalation_pct{run_id="validation_hybrid_20261122T101209Z",retrieval_mode="hybrid",allow_generate="false"} 17.5
+cloudserve_eval_classification_accuracy{run_id="validation_hybrid_20261122T101209Z",retrieval_mode="hybrid",allow_generate="false"} 0.9875
+cloudserve_eval_latency_p95_seconds{run_id="validation_hybrid_20261122T101209Z",retrieval_mode="hybrid",allow_generate="false"} 0.0267
+cloudserve_eval_fairness_tier_gap_pp{run_id="validation_hybrid_20261122T101209Z",retrieval_mode="hybrid",allow_generate="false"} 0.0
+cloudserve_eval_fairness_fluency_gap_pp{run_id="validation_hybrid_20261122T101209Z",retrieval_mode="hybrid",allow_generate="false"} 0.0
+cloudserve_eval_tickets_with_errors{run_id="validation_hybrid_20261122T101209Z",retrieval_mode="hybrid",allow_generate="false"} 0.0

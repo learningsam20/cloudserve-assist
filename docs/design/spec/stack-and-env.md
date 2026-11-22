@@ -28,7 +28,7 @@ Starting point from product brief / Setup Guide + that folder. Departures need a
 
 ```
 OPENROUTER_API_KEY=your_key_here
-MODEL_NAME=openrouter/auto
+MODEL_NAME=openrouter/free
 EMBEDDING_MODEL=all-MiniLM-L6-v2
 CHROMA_PATH=./storage/chroma
 DATABASE_URL=sqlite:///./storage/decisions.db
@@ -40,9 +40,11 @@ RETRIEVAL_TOP_K=5
 **Approved additions** (submission `.env.example` only):
 
 ```
-LITELLM_MODEL=openrouter/auto
-# If unset, use MODEL_NAME when it already starts with openrouter/, else openrouter/{MODEL_NAME}
-# LITELLM_API_BASE=https://openrouter.ai/api/v1
+# LiteLLM provider prefix + OpenRouter model id (API sees openrouter/free)
+LITELLM_MODEL=openrouter/openrouter/free
+LITELLM_API_BASE=https://openrouter.ai/api/v1
+# Optional Groq: set GROQ_API_KEY and LITELLM_MODEL=groq/<model>
+GROQ_API_KEY=your_key_here
 CLASSIFIER_DIR=./storage/models/classifier
 KILL_SWITCH=false
 KILL_SWITCH_FILE=./storage/KILL_SWITCH
@@ -50,6 +52,7 @@ RETRIEVAL_MODE=auto
 HYBRID_DENSE_SCORE_FLOOR=0.35
 HYBRID_DENSE_ALPHA=0.6
 LEXICAL_INDEX_PATH=./storage/lexical_index.joblib
+LLM_MIN_INTERVAL_SECONDS=4.0
 ```
 
 Optional demo only (not required at runtime): Docker Compose under `observability/` (Grafana + Prometheus + eval textfile exporter).
@@ -57,7 +60,7 @@ Optional demo only (not required at runtime): Docker Compose under `observabilit
 - Copy pack template → `submission/.env.example` → local `.env`; never commit `.env`.
 - `CONFIDENCE_THRESHOLD` is a starting value; measure then freeze (findings D3).
 - Fail loud if API key missing when generate path is used.
-- Generation via LiteLLM; default **`openrouter/auto`** so OpenRouter can route to an available (often free) model. Prefer `LITELLM_MODEL`; else use `MODEL_NAME` if it already has the `openrouter/` prefix.
+- Generation via LiteLLM. **OpenRouter:** `MODEL_NAME=openrouter/free`, `LITELLM_MODEL=openrouter/openrouter/free`, `LITELLM_API_BASE=https://openrouter.ai/api/v1`, key in `OPENROUTER_API_KEY`. **Groq:** `LITELLM_MODEL=groq/llama-3.1-8b-instant` (or another Groq id), `LITELLM_API_BASE=https://api.groq.com/openai/v1`, key in `GROQ_API_KEY`. Provider is inferred from the `LITELLM_MODEL` prefix.
 - Kill switch: `KILL_SWITCH=true` **or** kill file present; checked at route (findings D4).
 - Train classifier with `scripts/train_classifier.py`; artifact under `CLASSIFIER_DIR` (gitignored under `storage/`).
 
@@ -76,14 +79,14 @@ src/ingest.py
 src/classify.py          # rules then trained classifier
 src/retrieve.py
 src/route.py             # threshold + kill switch
-src/generate.py          # LiteLLM → OpenRouter
+src/generate.py          # LiteLLM → OpenRouter or Groq
 src/guardrails.py
 src/logging_store.py
 src/cache.py
-src/llm.py               # LiteLLM wrapper
+src/llm.py               # LiteLLM wrapper (provider from model prefix)
 src/graph.py
 src/api.py
-src/metrics.py
+src/observability.py     # Prometheus counters / histograms
 evaluation/harness.py
 scripts/discovery_stats.py
 scripts/train_classifier.py

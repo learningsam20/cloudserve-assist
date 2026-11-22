@@ -13,7 +13,7 @@
       "gridPos": { "h": 3, "w": 24, "x": 0, "y": 0 },
       "options": {
         "mode": "markdown",
-        "content": "**Validation harness comparison** (n=80, `--no-generate`). Left = dense baseline (`validation_fairness_fix`). Right = forced hybrid (`validation_hybrid_*`). Route-auto % is automation rate — not customer FCR."
+        "content": "**Route-only comparison** (n=80, `--no-generate`). Left = dense (`validation_fairness_fix`). Right = hybrid (`validation_hybrid_*`). Route-auto % ≠ customer FCR. For generate-on FCR / fairness / citations open **Generate-on FCR (demo)** after `./scripts/grafana_load_dashboards.sh`."
       }
     },
     {
@@ -25,7 +25,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "cloudserve_eval_route_auto_pct{retrieval_mode=\"dense\"}",
+          "expr": "max(cloudserve_eval_route_auto_pct{retrieval_mode=\"dense\"}) or vector(0)",
           "instant": true,
           "legendFormat": "dense",
           "datasource": { "type": "prometheus", "uid": "prometheus" }
@@ -62,7 +62,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "cloudserve_eval_route_auto_pct{retrieval_mode=\"hybrid\"}",
+          "expr": "max(cloudserve_eval_route_auto_pct{retrieval_mode=\"hybrid\"}) or vector(0)",
           "instant": true,
           "legendFormat": "hybrid",
           "datasource": { "type": "prometheus", "uid": "prometheus" }
@@ -99,7 +99,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "cloudserve_eval_escalation_pct{retrieval_mode=\"dense\"}",
+          "expr": "max(cloudserve_eval_escalation_pct{retrieval_mode=\"dense\"}) or vector(0)",
           "instant": true,
           "legendFormat": "dense",
           "datasource": { "type": "prometheus", "uid": "prometheus" }
@@ -135,7 +135,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "cloudserve_eval_escalation_pct{retrieval_mode=\"hybrid\"}",
+          "expr": "max(cloudserve_eval_escalation_pct{retrieval_mode=\"hybrid\"}) or vector(0)",
           "instant": true,
           "legendFormat": "hybrid",
           "datasource": { "type": "prometheus", "uid": "prometheus" }
@@ -171,7 +171,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "cloudserve_eval_classification_accuracy",
+          "expr": "max(cloudserve_eval_classification_accuracy) or vector(0)",
           "instant": true,
           "legendFormat": "{{retrieval_mode}}",
           "datasource": { "type": "prometheus", "uid": "prometheus" }
@@ -210,7 +210,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "cloudserve_eval_route_agreement",
+          "expr": "max(cloudserve_eval_route_agreement) or vector(0)",
           "instant": true,
           "legendFormat": "{{retrieval_mode}}",
           "datasource": { "type": "prometheus", "uid": "prometheus" }
@@ -250,7 +250,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "cloudserve_eval_mean_passages",
+          "expr": "max(cloudserve_eval_mean_passages) or vector(0)",
           "instant": true,
           "legendFormat": "{{retrieval_mode}}",
           "datasource": { "type": "prometheus", "uid": "prometheus" }
@@ -286,7 +286,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "cloudserve_eval_mean_top_score",
+          "expr": "max(cloudserve_eval_mean_top_score) or vector(0)",
           "instant": true,
           "legendFormat": "{{retrieval_mode}}",
           "datasource": { "type": "prometheus", "uid": "prometheus" }
@@ -322,14 +322,14 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "cloudserve_eval_tickets",
+          "expr": "max(cloudserve_eval_tickets) or vector(0)",
           "instant": true,
           "legendFormat": "N {{retrieval_mode}}",
           "datasource": { "type": "prometheus", "uid": "prometheus" }
         },
         {
           "refId": "B",
-          "expr": "cloudserve_eval_latency_p95_seconds",
+          "expr": "max(cloudserve_eval_latency_p95_seconds) or vector(0)",
           "instant": true,
           "legendFormat": "p95s {{retrieval_mode}}",
           "datasource": { "type": "prometheus", "uid": "prometheus" }
@@ -356,7 +356,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "cloudserve_eval_route_auto_pct",
+          "expr": "cloudserve_eval_route_auto_pct or vector(0)",
           "instant": true,
           "legendFormat": "{{retrieval_mode}}",
           "datasource": { "type": "prometheus", "uid": "prometheus" }

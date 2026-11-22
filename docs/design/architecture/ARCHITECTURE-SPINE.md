@@ -78,13 +78,13 @@ flowchart TB
 
 - **Binds:** CAP-2, CAP-4, CAP-5
 - **Prevents:** LLM non-determinism in routing; free-tier burn on classify
-- **Rule:** Apply deterministic classification rules first; then a sklearn classifier trained on development labels (joblib artifact). Low confidence → escalate (never LLM-as-classifier). Route is a pure function of scores + frozen threshold + policy flags + kill switch. Remote generation only via LiteLLM → OpenRouter when route is auto_respond.
+- **Rule:** Apply deterministic classification rules first; then a sklearn classifier trained on development labels (joblib artifact). Low confidence → escalate (never LLM-as-classifier). Route is a pure function of scores + frozen threshold + policy flags + kill switch. Remote generation only via LiteLLM (OpenRouter or Groq, selected by `LITELLM_MODEL` prefix) when route is auto_respond.
 
 ### AD-10 — LiteLLM provider seam [ADOPTED]
 
 - **Binds:** CAP-5, CAP-11
 - **Prevents:** hard-wiring OpenAI client calls across modules
-- **Rule:** All remote chat completions go through `src/llm.py` (LiteLLM). Default model `openrouter/...` via `LITELLM_MODEL`; swap providers by env only.
+- **Rule:** All remote chat completions go through `src/llm.py` (LiteLLM). Provider inferred from `LITELLM_MODEL` (`openrouter/…` or `groq/…`); keys `OPENROUTER_API_KEY` / `GROQ_API_KEY`; optional `LITELLM_API_BASE`.
 
 ### AD-11 — Kill switch semantics [ADOPTED]
 
@@ -136,7 +136,7 @@ flowchart TB
 | IDs | Ticket: `ticket_id` str; corpus: `doc_id` str; decisions: UUID `decision_id` |
 | Time | ISO-8601 UTC in logs; latency seconds float in metrics |
 | Errors | Stages return structured failure → escalate/log; never bare raise out of harness loop |
-| Config | `python-dotenv` + fail-loud missing `OPENROUTER_API_KEY` when generate path used |
+| Config | `python-dotenv` + fail-loud missing provider key when generate path used (`OPENROUTER_API_KEY` or `GROQ_API_KEY`) |
 | Channels | Enum: `email` \| `chat` \| `docs_comment` \| `forum` |
 
 ## Stack
@@ -149,11 +149,11 @@ flowchart TB
 | sentence-transformers (`all-MiniLM-L6-v2`) | CloudServe pin |
 | fastapi / uvicorn / pydantic | CloudServe pins |
 | sqlalchemy / sqlite | CloudServe pin (`DATABASE_URL`) |
-| openai / openai-compatible OpenRouter client | CloudServe pins |
 | prometheus-client | CloudServe pin |
 | pytest / pytest-asyncio | CloudServe pins |
 | pandas / numpy / scikit-learn | CloudServe pins (discovery, metrics, **trained classifier**) |
-| litellm | **Additive** — OpenRouter generation; swap via `LITELLM_MODEL` |
+| litellm | **Additive** — generation via OpenRouter or Groq; swap via `LITELLM_MODEL` |
+| Grafana / Prometheus | **Optional demo** — `observability/` Docker Compose |
 
 No framework swaps. Only approved additive beyond `06_Configuration`: `litellm`. Classifier uses pack sklearn.
 

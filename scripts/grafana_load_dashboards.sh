@@ -14,7 +14,7 @@ fi
 echo "==> dashboards on disk:"
 ls -1 "$DASH_SRC"/*.json
 
-# Export any existing eval metrics so Eval dashboard has data
+# Export curated + latest generate-on metrics so Eval / FCR dashboards have data
 if [[ -d "$ROOT/evaluation/results" ]]; then
   echo "==> exporting eval metrics to prometheus textfile"
   PY="${PYTHON:-python3}"
@@ -27,6 +27,26 @@ if [[ -d "$ROOT/evaluation/results" ]]; then
       (cd "$ROOT" && "$PY" -m scripts.export_eval_metrics \
         --results-dir "$HYBRID_LATEST" --retrieval-mode hybrid) || true
     fi
+    # Prefer latest generate-on validation run (fcr_claim_allowed)
+    GEN_LATEST="$(
+      "$PY" - <<'PY'
+from pathlib import Path
+import json
+root = Path("evaluation/results")
+best = None
+for p in sorted(root.glob("validation_*/metrics.json")):
+    try:
+        m = json.loads(p.read_text())
+    except Exception:
+        continue
+    if (m.get("volume") or {}).get("allow_generate") or (m.get("business") or {}).get("fcr_claim_allowed"):
+        best = p.parent
+print(best or "")
+PY
+    )"
+    if [[ -n "${GEN_LATEST:-}" ]]; then
+      (cd "$ROOT" && "$PY" -m scripts.export_eval_metrics --results-dir "$GEN_LATEST") || true
+    fi
   else
     echo "warn: python3 not found — skip eval metrics export" >&2
   fi
@@ -36,6 +56,10 @@ fi
 if docker ps --format '{{.Names}}' | grep -qx cloudserve-grafana; then
   echo "==> restarting grafana to pick up dashboards"
   docker restart cloudserve-grafana >/dev/null
+  # nudge prometheus to re-scrape sooner
+  if docker ps --format '{{.Names}}' | grep -qx cloudserve-prometheus; then
+    docker kill -s HUP cloudserve-prometheus >/dev/null 2>&1 || true
+  fi
   sleep 5
 else
   echo "Grafana not running — start with ./scripts/grafana_up.sh"
@@ -53,3 +77,4 @@ if command -v curl >/dev/null 2>&1; then
 fi
 
 echo "Done. Open http://127.0.0.1:3000 (folder: CloudServe)"
+echo "For Live ops panels: ./scripts/grafana_seed_live.sh"

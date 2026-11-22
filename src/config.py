@@ -82,6 +82,8 @@ class Settings:
     def __init__(self) -> None:
         self.root = _ROOT
         self.openrouter_api_key = _require("OPENROUTER_API_KEY")
+        # Optional until generate uses a groq/… model; placeholder is fine for OpenRouter-only.
+        self.groq_api_key = _optional("GROQ_API_KEY") or "your_key_here"
         self.model_name = _require("MODEL_NAME")
         self.litellm_model = _require("LITELLM_MODEL")
         self.litellm_api_base = _optional("LITELLM_API_BASE")
@@ -143,10 +145,22 @@ class Settings:
         self.llm_timeout_seconds = _float_require("LLM_TIMEOUT_SECONDS")
         self.llm_max_retries = _int_require("LLM_MAX_RETRIES")
         self.llm_backoff_seconds = _float_require("LLM_BACKOFF_SECONDS")
+        # Floor between OpenRouter calls (0 = off). Use ~4s to stay under free-router RPM.
+        self.llm_min_interval_seconds = _float_require("LLM_MIN_INTERVAL_SECONDS")
 
     def kill_switch_active(self) -> bool:
         """True if live env flag or kill file exists (findings D4; re-reads env)."""
         return _env_truthy("KILL_SWITCH") or self.kill_switch_file.exists()
+
+    def llm_provider(self) -> str:
+        """LiteLLM provider inferred from LITELLM_MODEL prefix."""
+        model = self.litellm_model.lower()
+        if model.startswith("groq/"):
+            return "groq"
+        if model.startswith("openrouter/"):
+            return "openrouter"
+        # Bare model ids default to OpenRouter (historical pack behaviour).
+        return "openrouter"
 
     def require_openrouter_key(self) -> str:
         if self.openrouter_api_key == "your_key_here":
@@ -154,6 +168,19 @@ class Settings:
                 "OPENROUTER_API_KEY is still the placeholder. Set a real key in .env."
             )
         return self.openrouter_api_key
+
+    def require_llm_api_key(self) -> tuple[str, str]:
+        """Return (env_var_name, api_key) for the active LiteLLM provider."""
+        provider = self.llm_provider()
+        if provider == "groq":
+            key = (self.groq_api_key or "").strip()
+            if not key or key == "your_key_here":
+                raise RuntimeError(
+                    "GROQ_API_KEY is still the placeholder. Set a real key in .env "
+                    "(https://console.groq.com/keys)."
+                )
+            return "GROQ_API_KEY", key
+        return "OPENROUTER_API_KEY", self.require_openrouter_key()
 
     def classifier_path(self) -> Path:
         return self.classifier_dir / self.classifier_filename

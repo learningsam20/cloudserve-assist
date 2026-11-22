@@ -219,6 +219,7 @@ def test_llm_backoff_on_rate_limit(monkeypatch, isolated_env):
     monkeypatch.setenv("LLM_MAX_RETRIES", "3")
     monkeypatch.setenv("LLM_BACKOFF_SECONDS", "0.01")
     monkeypatch.setenv("LLM_TIMEOUT_SECONDS", "5")
+    monkeypatch.setenv("LLM_MIN_INTERVAL_SECONDS", "0")
     monkeypatch.setenv("OPENROUTER_API_KEY", "sk-test-not-placeholder")
     get_settings.cache_clear()
 

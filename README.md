@@ -20,7 +20,8 @@ python3.11 -m venv .venv && source .venv/bin/activate
 pip install -U pip && pip install -r requirements.txt
 
 cp -n .env.example .env
-# Optional: OPENROUTER_API_KEY=... only if you will GENERATE=1
+# Optional for GENERATE=1: OPENROUTER_API_KEY=... and/or GROQ_API_KEY=...
+# Switch provider via LITELLM_MODEL prefix (openrouter/… or groq/…) — see .env.example
 # Datasets already ship at ./datasets (DATASETS_PATH=./datasets)
 
 ./scripts/setup_all.sh          # 1) train classifier  2) build Chroma + lexical index
@@ -65,7 +66,7 @@ Uses in-tree `./datasets`. Eval metrics upload as a workflow artifact.
 | `classify.py` | **Rules first**, then trained sklearn (no LLM labelling) |
 | `retrieve.py` | Chroma dense + optional hybrid TF-IDF RRF; `auto` fallback |
 | `route.py` | Threshold, grounded override, must_not, kill switch |
-| `generate.py` | LiteLLM → OpenRouter **only** on `auto_respond` |
+| `generate.py` | LiteLLM → OpenRouter/Groq **only** on `auto_respond` |
 | `guardrails.py` | Blocking checks (citation / PII / …) |
 | `graph.py` | LangGraph: ingest→classify→retrieve→route→(generate)→validate→log |
 | `logging_store.py` | SQLite decision audit |
@@ -91,7 +92,7 @@ Uses in-tree `./datasets`. Eval metrics upload as a workflow artifact.
 | Orchestration | **LangGraph** `StateGraph` |
 | Classify | rules + **scikit-learn** / joblib |
 | Retrieve | **sentence-transformers** + **Chroma** (`cloudserve_docs`, 59 chunks); hybrid optional |
-| Generate | **LiteLLM** → OpenRouter |
+| Generate | **LiteLLM** → OpenRouter or Groq (`LITELLM_MODEL` prefix) |
 | API | **FastAPI** / uvicorn / pydantic v2 |
 | Audit | **SQLAlchemy** → SQLite |
 | Metrics | **prometheus-client** `/metrics` + harness JSON; optional Grafana |
@@ -133,7 +134,8 @@ More diagrams: [`docs/design/architecture/data-flow.md`](docs/design/architectur
 
 | Directory | What it proves |
 |-----------|----------------|
-| `evaluation/results/validation_fairness_fix/` | Dense baseline validation (route-auto **82.5%**, fairness 0pp) |
+| `evaluation/results/validation_fairness_fix/` | Dense baseline route-only (route-auto **82.5%**, fairness 0pp) |
+| `evaluation/results/validation_20261122T131433Z/` | Generate-on (Groq) — **FCR 82.5%**, fairness 0pp, citations 1.0 |
 | `evaluation/results/validation_hybrid_20261122T101209Z/` | Forced hybrid comparison (same route rates; more passages) |
 
 New runs: `./scripts/run_eval.sh validation` writes a fresh `evaluation/results/validation_<UTC>/`. Keep curated folders; prune one-off smoke dirs before commit if huge.
@@ -178,7 +180,7 @@ python -m scripts.export_eval_metrics --results-dir evaluation/results/validatio
 
 ```bash
 ./scripts/run_eval.sh validation
-GENERATE=1 ./scripts/run_eval.sh validation      # needs OpenRouter key
+GENERATE=1 ./scripts/run_eval.sh validation      # needs GROQ_API_KEY or OPENROUTER_API_KEY
 LIMIT=50 ./scripts/run_eval.sh development
 USE_EVAL_LABELS=false ./scripts/run_eval.sh validation
 ./scripts/run_hybrid_eval.sh validation
@@ -197,7 +199,9 @@ USE_EVAL_LABELS=false ./scripts/run_eval.sh validation
 ```bash
 ./scripts/start_api.sh
 ./scripts/grafana_up.sh && ./scripts/grafana_load_dashboards.sh
-# Live ops + Eval dense vs hybrid dashboards under folder CloudServe
+./scripts/grafana_seed_live.sh    # required for Live ops pies / timeseries
+# Dashboards: Live ops · Eval dense vs hybrid · Generate-on FCR
+# http://127.0.0.1:3000  admin / cloudserve
 ```
 
 Details: [`observability/README.md`](observability/README.md).

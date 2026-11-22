@@ -155,12 +155,14 @@ Ordered in the sequence the work was done. **Est. phrs** = estimated person-hour
 | 2026-11-22 | Prometheus retrieval + classification metrics | `src/observability.py` |
 | 2026-11-22 | Optional Grafana+Prometheus compose + 4 dashboards + load/export scripts | `observability/`, `scripts/grafana_*.sh`, `scripts/export_eval_metrics.py` |
 | 2026-11-22 | Hybrid validation eval (66/14, 82.5% route-auto; matches dense) | `evaluation/results/validation_hybrid_20261122T101209Z/`, `eval-runs.md` |
+| 2026-11-22 | Groq provider seam + generate-on full validation (66/14, **FCR 82.5%**, fairness 0pp) | `src/llm.py`, `src/config.py`, `validation_20261122T131433Z/`, `eval-runs.md` |
+| 2026-11-22 | Grafana: Generate-on FCR board, richer Live ops timeseries, seed + export scripts | `05_generate_on_fcr.json`, `grafana_seed_live.sh` |
 
 ---
 
 ## Next up
 
-1. Record video from `docs/video/video-script.md` (~4 phrs estimated) — include Grafana folder if Docker is up  
-2. `PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh`, add video, zip, rename to release name (~0.5 phrs)  
-3. Optional: live generate-on sample + dual review of live drafts  
-4. Rotate any OpenRouter key that lived in local `.env` if the workspace was shared  
+1. Record video from `docs/video/video-script.md` — include generate-on FCR + Grafana if Docker is up  
+2. `PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh`, add video, zip, rename to release name  
+3. Optional: dual human review of a sample of **live** Groq drafts  
+4. Rotate API keys that lived in local `.env` if the workspace was shared  
