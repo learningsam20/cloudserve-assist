@@ -43,8 +43,8 @@ Status legend: **Closed** · **Partial** (evidence incomplete) · **Pending** (n
 
 ---
 
-## Still for marks (student hand-in)
+## Still for marks (outside product backlog)
 
-1. Re-assemble package (`PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh`); confirm `01_Video/` includes [demo.mp4](../video/demo.mp4); zip under enrolment name.
-2. Rotate any API keys that lived in shared `.env` / chat logs.
-3. Optional: dual review of live generate-on drafts (A6).
+1. Rotate any API keys that lived in shared `.env` / chat logs; ensure none appear in git history.
+2. Optional: dual review of live generate-on drafts (A6).
+3. Hidden set: run once when injected; record date + count in the report.

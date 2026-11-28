@@ -28,7 +28,7 @@ CloudServe Assistant is a support triage and assist service for the CloudServe S
 | Human review (28 drafts) | Satisfaction proxy 4.68; 119 of 119 claims supported | at least 4.0; at most 5% hallucination |
 | Test suite / index | 28 pytest tests pass; 59 Chroma chunks | A12 / A4 |
 
-Route-only validation (`validation_fairness_fix`) gives the same 66 auto_respond / 14 escalate split without a customer-resolution claim. Pending: hidden-set runs and the recorded demonstration video.
+Route-only validation (`validation_fairness_fix`) gives the same 66 auto_respond / 14 escalate split without a customer-resolution claim. Hidden-set runs completed: **zero** (not available to the builder; graders inject once near the end). Demonstration: [demo.mp4](../video/demo.mp4) (packaged as `SameerJ_Capstone_Video.mp4`).
 
 ---
 
@@ -758,7 +758,7 @@ Three governance properties follow from stakeholder evidence. First, transparenc
 
 ### 10.2 Effort, schedule and reflection
 
-Table 28 and Figure 9 compare planned and actual hours by stage ([Effort_Log.md](../workbooks/Effort_Log.md)). Planned effort was 84 hours across a three-week plan; actual effort was about 62.5 hours, 21.5 hours under plan. The build and revision stage (stage 5) took 26.0 hours against 48.0 planned, an underrun of 22.0 hours: the pipeline stages, harness and scripted discovery were assembled quickly with AI-assisted coding, and a reusable `setup_all` / `run_eval` script set removed repeated manual steps. Stages 1 to 4 each ran slightly over plan, and stage 6 is below plan because video capture is pending.
+Table 28 and Figure 9 compare planned and actual hours by stage ([Effort_Log.md](../workbooks/Effort_Log.md)). Planned effort was 84 hours across a three-week plan; actual effort was about 62.5 hours, 21.5 hours under plan. The build and revision stage (stage 5) took 26.0 hours against 48.0 planned, an underrun of 22.0 hours: the pipeline stages, harness and scripted discovery were assembled quickly with AI-assisted coding, and a reusable `setup_all` / `run_eval` script set removed repeated manual steps. Stages 1 to 4 each ran slightly over plan; stage 6 covers the report, demonstration and packaging.
 
 **Table 28.** Planned versus actual effort by stage (hours).
 
@@ -769,7 +769,7 @@ Table 28 and Figure 9 compare planned and actual hours by stage ([Effort_Log.md]
 | 3. Prompt library | 4.0 | 5.0 | +1.0 | Mapping each requirement to tests; injection-defence notes |
 | 4. Sprint plan | 2.0 | 2.5 | +0.5 | Capacity table redone after totalling the backlog |
 | 5. Build and revision | 48.0 | 26.0 | -22.0 | Underrun vs plan: AI-assisted implementation and scripted harness; included first gate run, classifier and threshold rework, fairness fix, LangGraph and backoff work, human evaluation |
-| 6. Report, video, packaging | 12.0 | 8.5 | -3.5 | Report drafted; video pending camera capture |
+| 6. Report, video, packaging | 12.0 | 10.5 | -1.5 | Report, demonstration and packaging; final zip rename on hand-in |
 | Total | 84.0 | 62.5 | -21.5 | Build underrun dominates; stages 1–4 slightly over plan |
 
 ```mermaid
@@ -778,7 +778,7 @@ xychart-beta
     x-axis ["1 Discovery", "2 Requirements", "3 Prompts", "4 Sprint plan", "5 Build", "6 Report/video"]
     y-axis "Hours" 0 --> 60
     bar [10, 8, 4, 2, 48, 12]
-    line [11.5, 9, 5, 2.5, 26, 8.5]
+    line [11.5, 9, 5, 2.5, 26, 10.5]
 ```
 
 **Figure 9.** Planned (bars) and actual (line) effort by stage, values from Table 28. Stage 5 actual is 26.0 hours against 48.0 planned.
@@ -793,13 +793,11 @@ The recorded history contains four failure modes likely to recur in any deployme
 
 Steps are listed in priority order; each can be done without changing the stack.
 
-1. **Package the demonstration video** ([demo.mp4](../video/demo.mp4)) into `01_Video/` (rename to the enrolment demo filename if the Submission Guide requires it).
-2. **Tighten routing to respect `answerable_from_docs`** when the label exists, and strengthen label-free proxies (for example a stricter grounded-override floor), so the 17 unsupported auto_respond decisions on validation are reduced without raising the escalation share above its limit.
-3. **Extend human review to live generate-on drafts** from `validation_20261122T131433Z` with two reviewers and an agreement statistic.
-4. **Scope the decision export to a single run** and add a harness assertion that exported rows equal rows written for that run; make the test files read `DATASETS_PATH`.
-5. **Run the hidden set once graders inject it**, and update the provenance of the results without further tuning.
-6. **Recalibrate classifier confidence** and add a region segment to the fairness report.
-7. **Package the submission archive** as `FirstnameLastname_CloudServe_Release.zip` after the video exists; the package script assembles the folder tree and, with `PACKAGE_NO_ZIP=1`, stops before zipping.
+1. **Tighten routing to respect `answerable_from_docs`** when the label exists, and strengthen label-free proxies (for example a stricter grounded-override floor), so the 17 unsupported auto_respond decisions on validation are reduced without raising the escalation share above its limit.
+2. **Extend human review to live generate-on drafts** from `validation_20261122T131433Z` with two reviewers and an agreement statistic.
+3. **Scope the decision export to a single run** and add a harness assertion that exported rows equal rows written for that run; make the test files read `DATASETS_PATH`.
+4. **Run the hidden set once** when graders inject it (zero runs to date — state the date and run count in this report after that single run; do not tune against it).
+5. **Recalibrate classifier confidence** and add a region segment to the fairness report.
 
 ---
 
@@ -903,7 +901,7 @@ A grader machine will not contain `storage/chroma` or the trained classifier fil
 
 ## Appendix I — Acceptance walkthrough for the video
 
-The demonstration ([demo.mp4](../video/demo.mp4)) shows a success path (a high-confidence, well-retrieved ticket with generation cached or live via LiteLLM → Groq), an escalation on a policy must-not ticket and on the kill switch, a guardrail block on an engineered citation failure, an unattended harness run on a short slice, the `/health` endpoint showing 59 chunks in the index, decision-log rows, and the recorded generate-on FCR of 82.5% with citation ID validity 1.0. The close notes remaining package work and the next engineering priorities in section 10.4.
+The demonstration ([demo.mp4](../video/demo.mp4)) shows a success path (a high-confidence, well-retrieved ticket with generation cached or live via LiteLLM → Groq), an escalation on a policy must-not ticket and on the kill switch, a guardrail block on an engineered citation failure, an unattended harness run on a short slice, the `/health` endpoint showing 59 chunks in the index, decision-log rows, and the recorded generate-on FCR of 82.5% with citation ID validity 1.0. The close summarises the next engineering priorities in section 10.4.
 
 ## Appendix J — Related work stance
 

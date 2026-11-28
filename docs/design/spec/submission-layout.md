@@ -1,48 +1,47 @@
 # Submission and repo layout
 
-## Graded zip (CloudServe Submission Guide)
+## Graded zip (Capstone Submission Guide)
 
-Top-level folders only (names exact):
+Top-level folders only (names exact; at **zip root**):
 
-1. `01_Video`
-2. `02_Report`
-3. `03_Workbooks`
-4. `04_Source_Code`
+1. `01_Video` — `FirstnameLastname_Capstone_Video.mp4` (1080p+)
+2. `02_Report` — one PDF, 20–30 pages excluding appendices
+3. `03_Workbooks` — five stage workbooks + effort log (PDF or DOCX)
+4. `04_Source_Code` — complete repository **including history**, tests, working README
 
-Archive name: `FirstnameLastname_CloudServe_Release.zip` (release name).
+Archive name: `FirstnameLastname_Capstone_Submission.zip`  
+(Default in this tree: `SameerJ_Capstone_Submission.zip`.)
 
-## This repository’s working split
+## This workspace’s working split
 
 | Path | Role |
 |------|------|
-| `submission/` | **Only** submit-ready source and docs that will ship as `04_Source_Code` (and optionally staged copies of other zip parts later) |
-| `_bmad-output/` | Agent drafts, PRD/SPEC workspaces, memlogs, change log — not in the zip |
-| `cloudserve_guide/` | Untouched reference datasets pack |
-| `docs/` (repo root) | Optional non-submission working notes / pointers |
+| `submission/` | Submit-ready source (ships as `04_Source_Code`, with `.git`) |
+| `_package/` | Assembled hand-in (outside git) |
+| `_bmad-output/` / `capstone_guide/` | Builder tooling / Pack — not in the zip |
 
-`submission/` contains grader-ready artefacts only. Exploratory tests, draft prompts, and agent working notes remain outside this tree until promoted.
-
-## Required shape inside `04_Source_Code` / `submission/` when ready
+## Required shape inside `04_Source_Code`
 
 ```
+.git/                     # history required
 README.md
-requirements.txt          # pinned
-.env.example
-.gitignore                # includes .env, storage/
+requirements.txt
+.env.example              # never ship .env
+.gitignore
 src/
 prompts/
 tests/
-evaluation/               # harness + results dir
-docs/                     # architecture notes for the product
-  plan/                   # discovery/sprint artifacts promoted when ready
-  design/                 # PRD, prompts overview, diagrams
-  governance/             # risk, incident, fairness method
-data/                     # small samples only — not full 500-ticket dumps if oversized
+evaluation/
+docs/
+datasets/
 .github/workflows/ci.yml
 ```
 
-Datasets ship in-tree at `datasets/` (`DATASETS_PATH=./datasets`). Harness also accepts an explicit `--input` path.
+Datasets ship in-tree at `datasets/` (`DATASETS_PATH=./datasets`).
 
-## Promote rule
+## Rules that catch people out
 
-Draft → review → copy/promote into `submission/`. Change log entry when something is promoted.
+- Clean-checkout: follow the README on a machine that is not yours before packaging.
+- No API key, token or password in code **or git history**.
+- Hidden evaluation set: run once when injected; state date and run count in the report.
+- Attribute anything not written by you, including AI-assisted code (see report declaration).

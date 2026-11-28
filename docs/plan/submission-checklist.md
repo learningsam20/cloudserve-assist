@@ -1,46 +1,45 @@
-# CloudServe submission package checklist
+# CloudServe Capstone submission checklist
 
-Archive name: `FirstnameLastname_CloudServe_Release.zip`
+Archive name (exact): `SameerJ_Capstone_Submission.zip`  
+(`STUDENT_SLUG=SameerJ` — change if enrolment name differs.)
 
-## Zip top-level (exact names)
+## Zip top-level (exact folder names; four folders at zip root)
 
-| Folder | Contents |
-|--------|----------|
-| `01_Video` | Demo video (mp4 or link note) |
-| `02_Report` | Graded report PDF/MD |
-| `03_Workbooks` | Stage workbooks |
-| `04_Source_Code` | This `submission/` tree (no `.env`, no secrets) |
+| Folder | Contents | Format |
+|--------|----------|--------|
+| `01_Video` | Recorded presentation | MP4 1080p+: `SameerJ_Capstone_Video.mp4` (or a text file with a shareable link if too large) |
+| `02_Report` | Project report | One PDF, 20–30 pages excluding appendices (`SameerJ_Capstone_Report.pdf`) |
+| `03_Workbooks` | Five stage workbooks + effort log | PDF or DOCX (+ md companions shipped) |
+| `04_Source_Code` | Complete repository **including git history**, tests, working README | Must run from a clean checkout |
 
 ## Assemble
 
 ```bash
 cd submission
-python docs/report/build_pdf.py                 # regenerate the report PDF
-PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh   # assemble 01–04 folders, no zip
-# → ./_package/CloudServe_Assistant_Release/
-# Add the recorded video to 01_Video, then zip (omit PACKAGE_NO_ZIP to let the script zip).
+python docs/report/build_pdf.py
+# After video revision: replace docs/video/demo.mp4, then:
+PACKAGE_OUT=../_package STUDENT_SLUG=SameerJ ./scripts/package_submission.sh
+# → ../_package/SameerJ_Capstone_Submission/   (01–04)
+# → ../_package/SameerJ_Capstone_Submission.zip
 ```
 
-The script copies: report PDF + Markdown → `02_Report`; Stage workbooks, Effort Log (docx + md) and `human_eval_appendix.md` → `03_Workbooks`; `docs/video/README.md` and [demo.mp4](../video/demo.mp4) → `01_Video`.
+The script renames the recording to `SameerJ_Capstone_Video.mp4`, copies the report PDF under the Capstone name, includes `.git` in `04_Source_Code`, and zips the **four folders at the archive root**.
 
 ## Source code gate (before zip)
 
 - [ ] `.env` **not** in tree (gitignored); only `.env.example`
+- [ ] No API keys/tokens in working tree **or git history** (submissions are scanned)
 - [ ] `storage/` not needed in zip (regenerate via `setup_all`)
+- [ ] Clone / clean checkout: follow README end-to-end on another machine
 - [ ] `python -m pytest tests/ -v` passes
-- [ ] `python -m evaluation.harness --input <validation> --output <dir> --no-generate` completes
 - [ ] README clean-checkout path works
-- [ ] Kill switch docs present under `docs/governance/`
-- [ ] Threshold freeze noted (`docs/plan/threshold-freeze.md`)
-- [ ] Fairness pass on validation (`docs/plan/eval-runs.md`)
+- [ ] Hidden set: **0 runs** stated in the report (run once only when graders inject; record date + count)
 
 ## Video
 
-- [x] Demonstration recorded — [docs/video/demo.mp4](../video/demo.mp4)
+- [x] Current recording — [docs/video/demo.mp4](../video/demo.mp4) (repackage after revision)
+- [ ] Packaged name `SameerJ_Capstone_Video.mp4` after `package_submission.sh`
 
-## Still operator-owned
+## Operator hand-in (not product next steps)
 
-- [ ] Create the zip (the package script can skip it with `PACKAGE_NO_ZIP=1`) and rename it with the release name (`FirstnameLastname_CloudServe_Release.zip`)
-- [ ] In `01_Video/`, rename `demo.mp4` to `FirstnameLastname_CloudServe_Demo.mp4` if the Submission Guide requires that exact filename
-- [ ] Confirm Effort Log PDF if the Guide requires `..._Effort_Log.pdf` (currently `.md` / `.docx` under `docs/workbooks/`)
-- Optional: dual review of live generate-on drafts (see `docs/plan/gaps.md`)
+Use `PACKAGE_OUT=../_package STUDENT_SLUG=SameerJ ./scripts/package_submission.sh` after the video file is final, then upload `SameerJ_Capstone_Submission.zip`. Optional: Effort Log PDF; dual review of live drafts.

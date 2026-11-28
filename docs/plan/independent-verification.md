@@ -71,10 +71,10 @@ Checked against `Submission_Guide.docx` and the packaged tree `_package/CloudSer
 
 | Item | Required | Found | Status |
 |------|----------|-------|--------|
-| Archive name | `FirstnameLastname_CloudServe_Release.zip` | `CloudServe_Assistant_Release.zip` (rename pending) | ⬜ |
-| Zip is current | contains 01–04 | **Stale zip (Nov 22 08:31)**: `02_Report`, `03_Workbooks` hold only a placeholder README each; `04_Source_Code` lacks `conftest.py`, `test_gaps_closure.py`, `.env.example` updates, rehearsal/gap docs; includes an empty `.deepeval/` | ❌ |
-| **01_Video** | MP4, 1080p, ~20 min, `FirstnameLastname_CloudServe_Demo.mp4`, on-camera, ≥7 min live demo | [demo.mp4](../video/demo.mp4) recorded (~21 min); rename to enrolment demo filename on package | ✅ (rename on hand-in) |
-| **02_Report** | single PDF, 20–30 pp excl. appendices, prescribed section order, `FirstnameLastname_CloudServe_Report.pdf`, AI-use declaration | `SameerJ_CloudServe_Report.pdf` (33 pp incl. appendices; ~28 body). Section order differs from the guide (no standalone Implementation or Requirements-revision sections; revision sits in §3.5). **No declaration of AI tool use found** (searched for declaration / AI / Cursor / Claude / BMad). Filename may not match release name format | ⚠️ |
+| Archive name | `FirstnameLastname_Capstone_Submission.zip` | Packaged as `SameerJ_Capstone_Submission.zip` (four folders at zip root) | ✅ after package script |
+| Zip is current | contains 01–04 | Re-run `package_submission.sh` after each doc/video change | ⬜ operator |
+| **01_Video** | MP4, 1080p+, `FirstnameLastname_Capstone_Video.mp4` | Script renames [demo.mp4](../video/demo.mp4) → `SameerJ_Capstone_Video.mp4` | ✅ (repackage after video revision) |
+| **02_Report** | single PDF, 20–30 pp excl. appendices; AI-use declaration | `SameerJ_Capstone_Report.pdf`; AI declaration present at top of report | ✅ |
 | **03_Workbooks** | 5 stage workbooks + effort log; log named `..._Effort_Log.pdf` | Five workbooks and Effort Log as `.docx` + `.md`, plus `human_eval_appendix.md`. **Effort log is not a PDF.** Effort log content vs file evidence: see B7 | ⚠️ |
 | **04_Source_Code** | README, pinned `requirements.txt`, `.env.example`, `src/`, `prompts/`, `tests/`, `evaluation/`, `docs/`, `data/`, `.github/workflows/` | All present. `requirements.txt` is pinned but unresolvable (B1). `data/` is empty (acceptable: Pack datasets are external). `evaluation/results/` ships one curated snapshot | ⚠️ |
 | Hidden set used once and date reported | required | 0 runs; report says so | ⚠️ honest |

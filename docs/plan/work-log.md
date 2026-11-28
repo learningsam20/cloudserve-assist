@@ -163,7 +163,6 @@ Ordered in the sequence the work was done. **Est. phrs** = estimated person-hour
 
 ## Next up
 
-1. `PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh`, confirm `01_Video/` has [demo.mp4](../video/demo.mp4), zip, rename to release name  
-2. Rotate API keys that appeared in shared `.env` / chat logs if still active
-3. Optional: dual human review of a sample of **live** Groq drafts  
-4. Rotate API keys that lived in local `.env` if the workspace was shared  
+1. Rotate API keys that appeared in shared `.env` / chat logs if still active; confirm none in git history  
+2. Optional: dual human review of a sample of **live** Groq drafts  
+3. After graders inject the hidden set: run **once**, record date + count in the report (do not tune)

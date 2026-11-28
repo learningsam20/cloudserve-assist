@@ -269,5 +269,7 @@ Postman (optional): `docs/postman/CloudServe_Assistant.postman_collection.json`
 
 Index: [`docs/README.md`](docs/README.md).
 
-Package (writes outside this tree by default if you set `PACKAGE_OUT`):  
-`PACKAGE_OUT=../_package ./scripts/package_submission.sh` → `../_package/CloudServe_Assistant_Release/` (+ zip).
+Package (Submission Guide names; set `PACKAGE_OUT` outside this tree):  
+`PACKAGE_OUT=../_package STUDENT_SLUG=SameerJ ./scripts/package_submission.sh`  
+→ `../_package/SameerJ_Capstone_Submission/` (four folders) + `SameerJ_Capstone_Submission.zip`  
+(Video packaged as `SameerJ_Capstone_Video.mp4`; `04_Source_Code` includes `.git`.)
