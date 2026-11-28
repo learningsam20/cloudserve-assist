@@ -85,7 +85,7 @@ The locked success bar is first-contact resolution at least 60%, reply under fiv
 **[SHOW]** [findings.md](../plan/findings.md) — scroll **Discovery anchors**, then **D1–D5**; optional [threshold-freeze.md](../plan/threshold-freeze.md)  
 
 **[SAY]**  
-Discovery figures come from scripts on the ticket JSON — not from reading ticket bodies by hand. On the development sample of five hundred tickets: 71.4% are answerable from documentation; 17.4% are policy must-not and must never be auto-answered. Historical first-contact resolution was 43.8%.
+Discovery figures come from scripts on the ticket JSON — not from reading ticket bodies by hand. On the development sample (n=500): 71.4% are answerable from documentation; 17.4% carry policy must-not and must never be auto-answered. Historical first-contact resolution was 43.8%.
 
 Five pack findings shaped the build: use `doc_id` for citations; freeze confidence at 0.35 because the pack’s 0.80 is illustrative and would automate almost nothing; define kill-switch behaviour for in-flight work; and keep the language model for drafting only. Classification is rules first, then a trained scikit-learn model.
 
@@ -202,7 +202,7 @@ Path in, path out, five tickets, no silent drops. The full eighty-ticket metrics
 **[SAY]**  
 First recorded run: retrieval broken — eighty escalations, zero percent auto. Empty passages after a silent embedding fallback; escalating was correct.
 
-After the fix: about 65% auto, with a fairness tier gap of roughly 35 points.
+After the fix: 65.0% auto-respond, with a fairness tier gap of approximately 35 percentage points.
 
 Fairness-fix snapshot: 66 auto, 14 escalate, 82.5% route-auto, 17.5% escalation, classification 98.75%, fairness gap zero. Generate was off on that run, so the metrics withhold a customer FCR claim.
 

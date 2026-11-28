@@ -19,19 +19,17 @@ Decisions taken where the reference datasets pack documents disagree or mislead.
 
 ## Discovery anchors (development sample, n=500)
 
-These figures are **not** pack deviations. They come from `python -m scripts.discovery_stats` on `development_tickets.json` (labels/history aggregates only — no ticket-body inspection). The Stage 1 workbook and the product report cite the same numbers. Kept here so the demonstration can show one file for both discovery scale and D1–D5.
+These figures are not pack deviations. They are produced by `python -m scripts.discovery_stats` on `development_tickets.json` (labels and history aggregates only; no ticket-body inspection). The Stage 1 workbook and the product report use the same values.
 
 | Measure | Figure | Implication for the product |
 |---------|--------|------------------------------|
 | Answerable from documentation | **71.4%** (357 of 500) | Automation opportunity is findability, not rewriting the KB |
 | Not answerable from documentation | **28.6%** (143 of 500) | Always escalate; hand over context, do not invent answers |
 | Policy `must_not_auto_respond` | **17.4%** (87 of 500) | Never auto-answer; ceiling on automation |
-| Historical first-contact resolution | **43.8%** (219 of 500) | Baseline before the system (Marcus quotes ~42%) |
-| Historical escalation rate | **56.2%** (281 of 500) | Of which ~49% were still answerable from docs |
+| Historical first-contact resolution | **43.8%** (219 of 500) | Baseline before the system (Marcus quotes 42%) |
+| Historical escalation rate | **56.2%** (281 of 500) | Of which 49.1% of escalations were still answerable from docs |
 | Mean historical satisfaction | **2.97** | Human-handled baseline vs target ≥4.0 |
 | Documentation corpus | **29** articles (`doc_id`) | Closed reviewed corpus only |
-
-**Demo shorthand:** “about 71% answerable from docs; about 17% must not auto-respond.” Exact values are 71.4% and 17.4%.
 
 ---
 
