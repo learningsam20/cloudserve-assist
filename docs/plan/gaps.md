@@ -19,7 +19,7 @@ Status legend: **Closed** · **Partial** (evidence incomplete) · **Pending** (n
 | A7 | Closed | Engineered bad generation blocks; BLOCK wired through `run_ticket`. |
 | A8 | Closed | Decision log + harness reconcile; run-scoped export. |
 | A9 | Closed | Harness path-parameterised; route-only and **generate-on** batches recorded (`validation_fairness_fix`, `validation_20261122T131433Z`). |
-| A10 | Closed | Metrics auto-written; FCR honesty (`fcr_claim_allowed`); generate-on FCR **82.5%**; human CSAT/citation notes with simulation caveat. |
+| A10 | Closed | Metrics auto-written; `fcr_claim_allowed` gates customer FCR; generate-on FCR **82.5%**; human CSAT/citation notes in `human-eval-notes.md`. |
 | A11 | Closed | Timeout + 429 backoff; throttle; daily-quota fail-fast; mock rate-limit test. |
 | A12 | Closed | `pytest tests/ -v` — 28 tests. |
 

@@ -140,7 +140,7 @@ More diagrams: [`docs/design/architecture/data-flow.md`](docs/design/architectur
 
 New runs: `./scripts/run_eval.sh validation` writes a fresh `evaluation/results/validation_<UTC>/`. Keep curated folders; prune one-off smoke dirs before commit if huge.
 
-**Honesty:** `--no-generate` → use `route_auto_respond_pct` (automation rate). Do **not** call it customer FCR (`fcr_claim_allowed=false`).
+**Metrics note:** On `--no-generate` runs, use `route_auto_respond_pct` (automation rate). Customer FCR is claimed only when `fcr_claim_allowed=true` (generate-on).
 
 ### Headline metrics (labelled validation, n=80, `--no-generate`)
 

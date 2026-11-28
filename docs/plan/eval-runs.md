@@ -2,7 +2,7 @@
 
 Append-only. Prefer reference datasets pack paths via `./scripts/run_eval.sh`.
 
-**Honesty:** On `--no-generate` runs, treat **route auto-respond %** as automation rate, not customer FCR. Current harness sets `fcr_claim_allowed=false` and leaves `first_contact_resolution_pct` null for those runs. Older notes below that say “FCR” mean **route-auto proxy** as recorded at the time.
+**Note on metrics:** On `--no-generate` (route-only) runs, **route auto-respond %** is the automation rate. The harness sets `fcr_claim_allowed=false` and leaves `first_contact_resolution_pct` null. Customer FCR is reported only on generate-on runs (`fcr_claim_allowed=true`). Older entries below that say “FCR” on route-only runs mean the route-auto proxy as recorded at the time.
 
 ---
 

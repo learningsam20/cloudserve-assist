@@ -4,7 +4,7 @@ Part of the submission package. Updated as each delivery stage or build slice la
 
 **How to use:** append under the matching stage when work completes. Keep evidence paths concrete.
 
-**Effort note:** Hours below are **estimated person-hours (phrs)** for planning and submission honesty — reconstructed from the build sequence on 2026-11-22 (and Stage sequencing), not from contemporaneous time tracking. See also `docs/workbooks/Effort_Log.md`.
+**Effort note:** Hours below are **estimated person-hours (phrs)** for planning — reconstructed from the build sequence on 2026-11-22 (and Stage sequencing), not from contemporaneous time tracking. See also `docs/workbooks/Effort_Log.md`.
 
 ---
 
@@ -28,7 +28,7 @@ Part of the submission package. Updated as each delivery stage or build slice la
 | 2 Ingest / classify / retrieve | Done | Embedder hardened; Chroma 59 chunks |
 | 3 Route / generate / guards | Done | LangGraph; kill mid-flight; USE_EVAL_LABELS |
 | 4 Persistence / API / kill / README | Done | `/health` chroma; `/metrics`; grader README |
-| 5 Harness / metrics / resilience | Done | FCR honesty; A8 reconcile; scoped export |
+| 5 Harness / metrics / resilience | Done | `fcr_claim_allowed`; A8 reconcile; scoped export |
 | 6 Tests / CI / governance / package | Done | 28 pytest; report/workbooks; video TBD |
 
 ---
@@ -60,7 +60,7 @@ Ordered in the sequence the work was done. **Est. phrs** = estimated person-hour
 | 19 | Gaps | LangGraph `StateGraph`; LLM timeout + 429 backoff | 3.0 | `src/graph.py`, `src/llm.py` |
 | 20 | Gaps | Kill mid-flight + live env re-read (D4); grounded×confidence_floor | 1.5 | `config.py`, `graph.py`, `guardrails.py` |
 | 21 | Gaps | Label-free / intent must_not; escalation summary; A8 reconcile | 2.0 | `route.py`, `harness.py`, `logging_store.py` |
-| 22 | Gaps | Metrics honesty (`fcr_claim_allowed`); Chroma `index_stats` + health | 1.5 | `metrics_report.py`, `retrieve.py`, `api.py` |
+| 22 | Gaps | Metrics claim flags (`fcr_claim_allowed`); Chroma `index_stats` + health | 1.5 | `metrics_report.py`, `retrieve.py`, `api.py` |
 | 23 | Gaps | Gap-closure tests (A5/A8/A11/kill/grounded/generate/chroma) → **28 pytest** | 3.0 | `tests/test_gaps_closure.py` |
 | 24 | Gaps | Risk IDs R-01…R-08; curated package metrics snapshot | 1.0 | `risk-register.md`, `package_submission.sh` |
 | 25 | Human eval | Independent second-pass CSAT/citation simulation (n=28) | 3.5 | `docs/plan/human-eval-notes.md`, `human_eval_appendix.md` |
@@ -130,7 +130,7 @@ Ordered in the sequence the work was done. **Est. phrs** = estimated person-hour
 
 | Date | Item | Evidence |
 |------|------|----------|
-| 2026-11-22 | Harness + metrics (A9–A11); FCR honesty; scoped export | `evaluation/` |
+| 2026-11-22 | Harness + metrics (A9–A11); `fcr_claim_allowed`; scoped export | `evaluation/` |
 | 2026-11-22 | Broken val → fix → fairness 0pp snapshot | `docs/plan/eval-runs.md`, `validation_fairness_fix/` |
 | 2026-11-22 | Regression | `pytest tests/` — **28 passed** (incl. gap suite) |
 

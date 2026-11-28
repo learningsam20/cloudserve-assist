@@ -104,7 +104,7 @@ Completed from the start of week two (the plan was written on Monday 2026-11-09)
 | Sun 2026-11-15 | Threshold frozen; gap diagnosed as partly structural. | Fairness response: word and character n-grams in the classifier, grounded override, quality-based fairness metric. | Nothing. |
 | Mon 2026-11-16 | Fairness fix; validation re-run (FCR 82.5%, gap 0.0 points). | Test suite for the A1–A12 matrix. | Nothing. |
 | Tue 2026-11-17 | Test suite. | LangGraph wrap of the pipeline; provider timeout and backoff. | Nothing. |
-| Wed 2026-11-18 | LangGraph wrap and backoff. | Gap closure (kill switch mid-flight, label-free policy rules, metrics honesty); Stage 5 revision log and PRD version 2.0. | Nothing. |
+| Wed 2026-11-18 | LangGraph wrap and backoff. | Gap closure (kill switch mid-flight, label-free policy rules, `fcr_claim_allowed`); Stage 5 revision log and PRD version 2.0. | Nothing. |
 | Thu 2026-11-19 | Gap closure; revision log. | Governance documents. | Nothing. |
 | Fri 2026-11-20 | Governance documents. | CI workflow and Prometheus metrics endpoint. | Fresh-clone rehearsal not yet done. |
 | Sat 2026-11-21 | CI workflow and metrics endpoint. | Human evaluation second pass on 28 auto replies; README, ops scripts and package script. | Live generation batch rate-limited; replies written from the retrieved passages instead. |

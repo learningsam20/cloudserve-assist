@@ -38,7 +38,7 @@ sources:
 
 - **CAP-5**
   - **intent:** System can generate a structured answer grounded in retrieved Passages with citations tied to those Passages, or state that it does not know, without treating Ticket text as instructions.
-  - **success:** Every cited ID appears in the retrieved set (code check, not model honesty); no retrieval or weak retrieval ⇒ no fake citations — escalate/abstain (A6).
+  - **success:** Every cited ID appears in the retrieved set (membership check in code); no retrieval or weak retrieval ⇒ no fake citations — escalate/abstain (A6).
 
 - **CAP-6**
   - **intent:** System can run blocking Guardrails on every candidate response (private data, grounding, instruction integrity, tone/scope, confidence floor, fabricated citation IDs).

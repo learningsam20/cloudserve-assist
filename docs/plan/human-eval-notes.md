@@ -1,4 +1,4 @@
-# Human evaluation notes (A6 / A10 honesty)
+# Human evaluation notes (A6 / A10)
 
 **Reviewer:** Independent reviewer (second pass), 2026-11-22
 **Status:** Completed as a **passage-grounded simulation**. This is not a record of live LLM output.
