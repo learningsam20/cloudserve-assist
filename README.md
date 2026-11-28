@@ -4,25 +4,33 @@ Production **support triage / assist** service for CloudServe Solutions — not 
 
 | | |
 |--|--|
+| **Source** | https://github.com/learningsam20/cloudserve-assist/ |
 | **Product** | Classify → retrieve → route in code → optional generate → guardrails → decision log |
 | **Threshold** | `CONFIDENCE_THRESHOLD=0.35` (measured and frozen — findings D3) |
-| **Repo root** | This service tree (`submission/` when packaged as `04_Source_Code/`) |
+| **Repo root** | This tree is the service root (GitHub clone, or `04_Source_Code/` from the release zip) |
 | **Datasets** | In-tree `./datasets` via `DATASETS_PATH=./datasets` (relative to this service root) |
 
 ---
 
 ## Key steps (clean machine → demo)
 
-```bash
-cd submission   # or: cd 04_Source_Code after unzip
+**From GitHub:**
 
+```bash
+git clone https://github.com/learningsam20/cloudserve-assist.git
+cd cloudserve-assist
+```
+
+**Or from the Capstone release zip:** `cd 04_Source_Code` (same layout as this repo root).
+
+```bash
 python3.11 -m venv .venv && source .venv/bin/activate
 pip install -U pip && pip install -r requirements.txt
 
 cp -n .env.example .env
-# Optional for GENERATE=1: OPENROUTER_API_KEY=... and/or GROQ_API_KEY=...
-# Switch provider via LITELLM_MODEL prefix (openrouter/… or groq/…) — see .env.example
-# Datasets already ship at ./datasets (DATASETS_PATH=./datasets)
+# Edit .env — see Configuration below (and full key list in .env.example)
+# Route-only / tests: leave keys as your_key_here
+# Generate-on: set GROQ_API_KEY or OPENROUTER_API_KEY and matching LITELLM_MODEL
 
 ./scripts/setup_all.sh          # 1) train classifier  2) build Chroma + lexical index
 ./scripts/status.sh             # expect chroma count 59, classifier present
@@ -45,6 +53,23 @@ curl -s localhost:8000/health
 ```
 
 **Order matters:** `setup_all.sh` before pytest / eval / API, or index-backed paths skip/fail.
+
+### Configuration (`.env`)
+
+Copy [`.env.example`](.env.example) → `.env`. All product knobs are env-only (`src/config.py`); there are no silent code defaults.
+
+| Knob | Shipped value | Notes |
+|------|---------------|--------|
+| `DATASETS_PATH` | `./datasets` | Vendored Pack tickets/docs (relative to this tree) |
+| `CONFIDENCE_THRESHOLD` | `0.35` | Frozen (findings D3); Pack `0.80` was illustrative |
+| `RETRIEVAL_MODE` | `auto` | `dense` / `hybrid` / `auto` (dense first, hybrid if weak) |
+| `KILL_SWITCH` | `false` | Or use `./scripts/kill_on.sh` (file + env; findings D4) |
+| `USE_EVAL_LABELS` | `true` | Honour `must_not_auto_respond` labels when present |
+| `OPENROUTER_API_KEY` / `MODEL_NAME` / `LITELLM_MODEL` / `LITELLM_API_BASE` | OpenRouter free-router defaults | Needed only for live generate |
+| `GROQ_API_KEY` (+ switch model lines) | placeholder | Recorded FCR used Groq — uncomment/switch block in `.env.example` |
+| `LLM_*` | temp 0.1, timeout 30, retries 6, min interval 4s | A11 resilience / rate limit |
+
+Full list (Chroma, classifier paths, hybrid floors, eval targets, train/tune bounds): [`.env.example`](.env.example). Spec notes: [`docs/design/spec/stack-and-env.md`](docs/design/spec/stack-and-env.md).
 
 ### CI (GitHub Actions on push / PR)
 
@@ -244,4 +269,5 @@ Postman (optional): `docs/postman/CloudServe_Assistant.postman_collection.json`
 
 Index: [`docs/README.md`](docs/README.md).
 
-Package: `PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh` → `./_package/CloudServe_Assistant_Release/`.
+Package (writes outside this tree by default if you set `PACKAGE_OUT`):  
+`PACKAGE_OUT=../_package ./scripts/package_submission.sh` → `../_package/CloudServe_Assistant_Release/` (+ zip).
