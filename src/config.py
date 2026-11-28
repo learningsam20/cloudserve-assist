@@ -81,8 +81,9 @@ class Settings:
 
     def __init__(self) -> None:
         self.root = _ROOT
-        self.openrouter_api_key = _require("OPENROUTER_API_KEY")
-        # Optional until generate uses a groq/… model; placeholder is fine for OpenRouter-only.
+        # Provider keys are optional at load time (placeholder OK). The active
+        # provider key is enforced only when generation runs (require_llm_api_key).
+        self.openrouter_api_key = _optional("OPENROUTER_API_KEY") or "your_key_here"
         self.groq_api_key = _optional("GROQ_API_KEY") or "your_key_here"
         self.model_name = _require("MODEL_NAME")
         self.litellm_model = _require("LITELLM_MODEL")

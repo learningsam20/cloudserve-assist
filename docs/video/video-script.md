@@ -82,12 +82,12 @@ The locked success bar is first-contact resolution at least 60%, reply under fiv
 
 ### 2:45–4:15 · Discovery and findings
 
-**[SHOW]** [findings.md](../plan/findings.md) and/or [threshold-freeze.md](../plan/threshold-freeze.md)  
+**[SHOW]** [findings.md](../plan/findings.md) — scroll **Discovery anchors**, then **D1–D5**; optional [threshold-freeze.md](../plan/threshold-freeze.md)  
 
 **[SAY]**  
-Discovery figures come from scripts on the ticket JSON — not from reading ticket bodies by hand. About 71% of tickets are answerable from documentation; about 17% must not be auto-answered.
+Discovery figures come from scripts on the ticket JSON — not from reading ticket bodies by hand. On the development sample of five hundred tickets: 71.4% are answerable from documentation; 17.4% are policy must-not and must never be auto-answered. Historical first-contact resolution was 43.8%.
 
-Five findings shaped the build: use `doc_id` for citations; freeze confidence at 0.35 because the pack’s 0.80 is illustrative and would automate almost nothing; define kill-switch behaviour for in-flight work; and keep the language model for drafting only. Classification is rules first, then a trained scikit-learn model.
+Five pack findings shaped the build: use `doc_id` for citations; freeze confidence at 0.35 because the pack’s 0.80 is illustrative and would automate almost nothing; define kill-switch behaviour for in-flight work; and keep the language model for drafting only. Classification is rules first, then a trained scikit-learn model.
 
 ---
 

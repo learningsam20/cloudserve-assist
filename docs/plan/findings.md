@@ -11,9 +11,27 @@ Decisions taken where the reference datasets pack documents disagree or mislead.
 | Product name | **CloudServe Assistant** | 2026-11-22 |
 | Business success targets | **Success table:** FCR ≥60%, reply &lt;5 min, CSAT ≥4.0, escalation ≤30% | 2026-11-22 |
 | Classification | Deterministic **rules first**, then **trained local sklearn classifier**; low conf → escalate (no LLM labelling) | 2026-11-22 |
-| Generation | **LiteLLM** → **OpenRouter** (swappable via env) | 2026-11-22 |
+| Generation | **LiteLLM** → **OpenRouter or Groq** (provider from `LITELLM_MODEL` prefix; recorded generate-on used Groq) | 2026-11-22 |
 | Routing | Deterministic code over Confidence + frozen Threshold + kill switch | 2026-11-22 |
 | Kill switch in-flight | See **D4** | 2026-11-22 |
+
+---
+
+## Discovery anchors (development sample, n=500)
+
+These figures are **not** pack deviations. They come from `python -m scripts.discovery_stats` on `development_tickets.json` (labels/history aggregates only — no ticket-body inspection). The Stage 1 workbook and the product report cite the same numbers. Kept here so the demonstration can show one file for both discovery scale and D1–D5.
+
+| Measure | Figure | Implication for the product |
+|---------|--------|------------------------------|
+| Answerable from documentation | **71.4%** (357 of 500) | Automation opportunity is findability, not rewriting the KB |
+| Not answerable from documentation | **28.6%** (143 of 500) | Always escalate; hand over context, do not invent answers |
+| Policy `must_not_auto_respond` | **17.4%** (87 of 500) | Never auto-answer; ceiling on automation |
+| Historical first-contact resolution | **43.8%** (219 of 500) | Baseline before the system (Marcus quotes ~42%) |
+| Historical escalation rate | **56.2%** (281 of 500) | Of which ~49% were still answerable from docs |
+| Mean historical satisfaction | **2.97** | Human-handled baseline vs target ≥4.0 |
+| Documentation corpus | **29** articles (`doc_id`) | Closed reviewed corpus only |
+
+**Demo shorthand:** “about 71% answerable from docs; about 17% must not auto-respond.” Exact values are 71.4% and 17.4%.
 
 ---
 
@@ -113,7 +131,7 @@ Concrete cases:
 
 **Adopted:** rules + **supervised local classifier** trained on development ticket labels (`scripts/train_classifier.py`, sklearn already in `06_Configuration/requirements.txt`). Persist with joblib under `CLASSIFIER_DIR`.
 
-**LLM role:** generate cited answers only when route is `auto_respond`. If the classifier cannot meet the frozen confidence threshold → **escalate**, do not ask OpenRouter to classify.
+**LLM role:** generate cited answers only when route is `auto_respond` (LiteLLM → OpenRouter or Groq). If the classifier cannot meet the frozen confidence threshold → **escalate**, do not ask the LLM to classify.
 
 ---
 
