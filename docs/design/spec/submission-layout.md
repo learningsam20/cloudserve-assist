@@ -10,7 +10,7 @@
 
 ## Graded hand-in archive (assembled outside git)
 
-Archive: `SameerJoshi_Capstone_Report.zip` — four folders at zip root:
+Archive: `FirstnameLastname_Capstone_Submission.zip` — four folders at zip root:
 
 1. `01_Video` — `SameerJoshi_Capstone_Video.mp4`
 2. `02_Report` — `SameerJoshi_Capstone_Report.pdf` (+ Markdown)

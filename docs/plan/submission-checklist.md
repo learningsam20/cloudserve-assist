@@ -9,7 +9,7 @@ Hand-in names (assembled **outside** this repo; enrolment slug from packager def
 
 | Artifact | Name |
 |----------|------|
-| Archive | `FirstnameLastname_Capstone_Report.zip` |
+| Archive | `FirstnameLastname_Capstone_Submission.zip` |
 | Video inside `01_Video/` | `FirstnameLastname_Capstone_Video.mp4` |
 | Report inside `02_Report/` | `FirstnameLastname_Capstone_Report.pdf` |
 
