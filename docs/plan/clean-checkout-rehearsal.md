@@ -92,10 +92,10 @@ Note on decision-export scope: `decisions_export.jsonl` dumps the whole decision
 | # | Step | Command | Status |
 |---|------|---------|--------|
 | 6.1 | Build the report PDF | `python docs/report/build_pdf.py` | ✅ 33 pages (28 in sections 1 to 10) |
-| 6.2 | Assemble without zipping | `PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh` | ✅ folders `01_Video` (README + script), `02_Report` (PDF + Markdown), `03_Workbooks` (5 stage workbooks and Effort Log as docx + md, human evaluation appendix), `04_Source_Code`; no zip created |
+| 6.2 | Assemble without zipping | `PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh` | ✅ folders `01_Video` (README + [demo.mp4](../video/demo.mp4)), `02_Report` (PDF + Markdown), `03_Workbooks` (5 stage workbooks and Effort Log as docx + md, human evaluation appendix), `04_Source_Code`; no zip created |
 | 6.3 | No `.env`, no `storage/` in `04_Source_Code` | `ls -a 04_Source_Code` | ✅ script aborts if either appears |
 | 6.4 | Pattern scan for OpenRouter-style keys in the bundle | `grep -rIl "sk-or-" <bundle>` | ✅ none found |
-| 6.5 | Add the recorded video to `01_Video`, then zip | `(cd _package && zip -r CloudServe_Assistant_Release.zip CloudServe_Assistant_Release -x '*.DS_Store')` and rename to `FirstnameLastname_CloudServe_Release.zip` | ⬜ (video not yet recorded; zip is created by the user) |
+| 6.5 | Confirm recording in `01_Video`, then zip | Script includes [demo.mp4](../video/demo.mp4); rename to enrolment demo/zip names | ⬜ (operator: final rename + zip) |
 
 ### 7. Not rehearsed
 

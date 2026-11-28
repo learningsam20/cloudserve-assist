@@ -37,8 +37,13 @@ evaluation/results/**
 !evaluation/results/validation_fairness_fix/**
 !evaluation/results/validation_hybrid_20261122T101209Z/
 !evaluation/results/validation_hybrid_20261122T101209Z/**
-# Decision dumps can get large / accumulate across DB history — keep metrics+results
+!evaluation/results/validation_20261122T131433Z/
+!evaluation/results/validation_20261122T131433Z/metrics.json
+!evaluation/results/validation_20261122T131433Z/metrics.md
+!evaluation/results/validation_20261122T131433Z/run_summary.json
+# Decision dumps / full result dumps can get large — keep curated metrics only for generate-on
 evaluation/results/**/decisions_export.jsonl
+evaluation/results/**/results.jsonl
 
 # Grafana scrape textfiles are regenerated; keep seeded comparison gauges
 !observability/prometheus/textfile/

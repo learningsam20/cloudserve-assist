@@ -8,7 +8,7 @@
 
 **Declaration of AI tool use.** Planning, drafting, coding assistance and workbook and report drafting were supported by AI coding assistants (including Cursor agents). The builder is responsible for configuration choices, the threshold freeze, the recorded evaluation commands and the correspondence between a clean checkout, this report and the [README](../../README.md). Ticket and knowledge-base *content* from the reference datasets pack was not used for planning insight; development-ticket figures come from aggregate scripts and interview transcripts, as the Pack requires.
 
-**About this report.** This report describes CloudServe Assistant in the third person, as a product that a reviewer can assess without having watched the build. Every figure is taken from a recorded artefact of the repository: discovery script output, [threshold-freeze.md](../plan/threshold-freeze.md), [eval-runs.md](../plan/eval-runs.md), the recorded metrics files, [human_eval_appendix.md](../workbooks/human_eval_appendix.md), the governance documents, or the workbooks (including [Effort_Log.md](../workbooks/Effort_Log.md)). Pending items — hidden-set runs and the demonstration video ([video-script.md](../video/video-script.md)) — are listed in section 10.
+**About this report.** This report describes CloudServe Assistant in the third person, as a product that a reviewer can assess without having watched the build. Every figure is taken from a recorded artefact of the repository: discovery script output, [threshold-freeze.md](../plan/threshold-freeze.md), [eval-runs.md](../plan/eval-runs.md), the recorded metrics files, [human_eval_appendix.md](../workbooks/human_eval_appendix.md), the governance documents, or the workbooks (including [Effort_Log.md](../workbooks/Effort_Log.md)). The demonstration is [demo.mp4](../video/demo.mp4). Remaining package items are listed in section 10.
 
 ---
 
@@ -750,7 +750,7 @@ Three governance properties follow from stakeholder evidence. First, transparenc
 1. **Routing precision.** In the validation snapshot, 17 of the 66 auto_respond decisions (about 26%) were on tickets labelled not answerable from documentation. The router uses classifier confidence and retrieval strength and does not consult the answerable label, which a grader’s set may not carry. Tightening label-free proxies and respecting `answerable_from_docs` when present is the first engineering priority.
 2. **Urgency model.** Urgency prediction is weaker than intent prediction. It is predicted and logged but does not gate the route. Because high-urgency tickets are 29.2% of historical volume and fare worse, this leaves Ravi’s need only partly served.
 3. **Hidden set pending.** Hidden-set runs completed: zero. Validation figures were used while iterating on the classifier, override and fairness metric, so the hidden set is the independent generalisation test.
-4. **Demonstration video pending.** The script ([video-script.md](../video/video-script.md)) and outline are complete; recording awaits camera capture.
+4. **Demonstration video recorded.** See [demo.mp4](../video/demo.mp4) (~21 min live API walkthrough and evaluation).
 5. **Calibration.** The classifier is under-confident in three of four confidence bands (Table 22). This is safe for the gate but makes the confidence value a poor probability; recalibration is planned.
 6. **Guardrails check form.** Citation membership and pattern absence are enforced automatically; claim-level support is assessed by human review (Table 24), and a larger live-draft review would extend that evidence.
 7. **Embedding dependency.** The dimension check turns a silent fallback into a loud failure, but a clean checkout needs network access to the model hub at least once.
@@ -793,7 +793,7 @@ The recorded history contains four failure modes likely to recur in any deployme
 
 Steps are listed in priority order; each can be done without changing the stack.
 
-1. **Record the demonstration video** from [video-script.md](../video/video-script.md) and place it in the video folder of the package.
+1. **Package the demonstration video** ([demo.mp4](../video/demo.mp4)) into `01_Video/` (rename to the enrolment demo filename if the Submission Guide requires it).
 2. **Tighten routing to respect `answerable_from_docs`** when the label exists, and strengthen label-free proxies (for example a stricter grounded-override floor), so the 17 unsupported auto_respond decisions on validation are reduced without raising the escalation share above its limit.
 3. **Extend human review to live generate-on drafts** from `validation_20261122T131433Z` with two reviewers and an agreement statistic.
 4. **Scope the decision export to a single run** and add a harness assertion that exported rows equal rows written for that run; make the test files read `DATASETS_PATH`.
@@ -903,7 +903,7 @@ A grader machine will not contain `storage/chroma` or the trained classifier fil
 
 ## Appendix I — Acceptance walkthrough for the video
 
-The demonstration shows a success path (a high-confidence, well-retrieved ticket with generation cached or live via LiteLLM → Groq), an escalation on a policy must-not ticket and on the kill switch, a guardrail block on an engineered citation failure, an unattended harness run on a short slice, the `/health` endpoint showing 59 chunks in the index, decision-log rows, and the recorded generate-on FCR of 82.5% with citation ID validity 1.0. The close summarises remaining work: the hidden-set run and the next engineering priorities in section 10.4. The script is [video-script.md](../video/video-script.md); recording is pending.
+The demonstration ([demo.mp4](../video/demo.mp4)) shows a success path (a high-confidence, well-retrieved ticket with generation cached or live via LiteLLM → Groq), an escalation on a policy must-not ticket and on the kill switch, a guardrail block on an engineered citation failure, an unattended harness run on a short slice, the `/health` endpoint showing 59 chunks in the index, decision-log rows, and the recorded generate-on FCR of 82.5% with citation ID validity 1.0. The close notes remaining package work and the next engineering priorities in section 10.4.
 
 ## Appendix J — Related work stance
 

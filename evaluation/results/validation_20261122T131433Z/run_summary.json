@@ -1,0 +1,12 @@
+{
+  "tickets": 80,
+  "silent_drops": 0,
+  "metrics_json": "/Users/sameer_j/Documents/coding/fde/IIT_Capstone/submission/evaluation/results/validation_20261122T131433Z/metrics.json",
+  "metrics_md": "/Users/sameer_j/Documents/coding/fde/IIT_Capstone/submission/evaluation/results/validation_20261122T131433Z/metrics.md",
+  "results_jsonl": "/Users/sameer_j/Documents/coding/fde/IIT_Capstone/submission/evaluation/results/validation_20261122T131433Z/results.jsonl",
+  "decisions_exported": 2434,
+  "action_counts": {
+    "auto_respond": 66,
+    "escalate": 14
+  }
+}

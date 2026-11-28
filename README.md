@@ -238,7 +238,7 @@ Postman (optional): `docs/postman/CloudServe_Assistant.postman_collection.json`
 | `docs/design/spec/` | SPEC, stack-and-env, acceptance |
 | `docs/report/` | CloudServe report (PDF) |
 | `docs/workbooks/` | Stage 1–5 + Effort Log |
-| `docs/video/` | ≤18 min shooting script |
+| `docs/video/` | Demonstration recording ([demo.mp4](docs/video/demo.mp4)) |
 | `docs/governance/` | Risk, fairness, incident, kill-switch |
 | `docs/postman/` | Optional API collection |
 

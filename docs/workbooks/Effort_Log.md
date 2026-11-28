@@ -96,7 +96,7 @@ Week three is Monday 2026-11-16 to Sunday 2026-11-22. Hours worked: approximatel
 | B-03, B-04 Chunking, vector store and retrieval | 6.0 | 2.0 | Small corpus; `doc_id` used from the start. |
 | B-05 Evaluation harness | 4.0 | 2.5 | Path-parameterised harness with metrics auto-write. |
 | Stage 5 total (build and revision) | 48.0 | 26.0 | AI-assisted coding and scripted setup/eval loops. |
-| B-15 Report, video and submission package | 12.0 | 8.5 (to date) | Report and packaging done; video pending. |
+| B-15 Report, video and submission package | 12.0 | 10.5 (to date) | Report and [demo.mp4](../video/demo.mp4) done; final zip/rename pending. |
 
 ## 7 Where the time went unexpectedly
 

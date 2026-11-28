@@ -14,7 +14,7 @@ Start with the root [`../README.md`](../README.md) for **key steps**, **key modu
 | `design/architecture/` | Spine, package design, **`data-flow.md` diagrams** |
 | `report/` | Product report ([CloudServe_Assistant_Report.md](report/CloudServe_Assistant_Report.md)) |
 | `workbooks/` | Stage 1–5 + [Effort Log](workbooks/Effort_Log.md) (total 62.5 h; build 26.0 h) |
-| `video/` | ≤18 min shooting script ([video-script.md](video/video-script.md)) |
+| `video/` | Demonstration recording ([demo.mp4](video/demo.mp4)) |
 | `postman/` | Optional API collection |
 | `governance/` | Risk, fairness, incident, kill-switch |
 

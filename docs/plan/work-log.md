@@ -18,7 +18,7 @@ Part of the submission package. Updated as each delivery stage or build slice la
 | 3 — Prompt library | Versioned prompts + generate contract wiring | **Done** |
 | 4 — Sprint / build | Epics 1–6 implementation | **Done** |
 | 5 — Eval / PRD revision | Harness, metrics, fairness, recorded runs | **Done** |
-| 6 — Submission package | Report, workbooks, video script, package tree | **Mostly done** (video recording + final zip pending) |
+| 6 — Submission package | Report, workbooks, video, package tree | **Mostly done** (final release zip pending) |
 
 ### Build slice (Epic) snapshot
 
@@ -29,7 +29,7 @@ Part of the submission package. Updated as each delivery stage or build slice la
 | 3 Route / generate / guards | Done | LangGraph; kill mid-flight; USE_EVAL_LABELS |
 | 4 Persistence / API / kill / README | Done | `/health` chroma; `/metrics`; grader README |
 | 5 Harness / metrics / resilience | Done | `fcr_claim_allowed`; A8 reconcile; scoped export |
-| 6 Tests / CI / governance / package | Done | 28 pytest; report/workbooks; video TBD |
+| 6 Tests / CI / governance / package | Done | 28 pytest; report/workbooks; video [demo.mp4](../video/demo.mp4) |
 
 ---
 
@@ -67,7 +67,7 @@ Ordered in the sequence the work was done. **Est. phrs** = estimated person-hour
 | 26 | Workbooks | Stage 1–5 + Effort Log (md); `fill_workbook_docx.py` → docx | 5.0 | `docs/workbooks/`, `scripts/fill_workbook_docx.py` |
 | 27 | Workbooks | Extend `discovery_stats` for Stage 1 segment/effort tables | 1.0 | `scripts/discovery_stats.py` |
 | 28 | Report | Expand CloudServe report + `build_pdf.py` → 33-page PDF | 6.0 | `docs/report/SameerJ_CloudServe_Report.pdf` |
-| 29 | Video | Video outline/script + README (recording not made) | 2.0 | `docs/video/video-script.md` |
+| 29 | Video | Demonstration recorded ([demo.mp4](../video/demo.mp4)); shooting script removed | 2.0 | `docs/video/demo.mp4` |
 | 30 | Rehearsal | Clean-checkout rehearsal; package copies 01–03; `PACKAGE_NO_ZIP` | 2.5 | `clean-checkout-rehearsal.md`, `package_submission.sh` |
 | 31 | Fix | Wire JSON output contract into generate messages | 0.5 | `src/generate.py` |
 | 32 | Fix | Tests resolve datasets via `DATASETS_PATH` (`conftest.py`) | 0.5 | `tests/conftest.py` |
@@ -77,7 +77,7 @@ Ordered in the sequence the work was done. **Est. phrs** = estimated person-hour
 | 36 | Fix | README grader path; free-tier model; `USE_EVAL_LABELS`; AI declaration | 1.5 | `README.md`, `.env.example`, report § declaration |
 | 37 | Verify | Re-verify install + **28 pytest** on CPython 3.11.14 | 1.0 | pin log; independent-verification §12 |
 | | | **Subtotal (recorded slices above)** | **~81.5** | |
-| — | Pending | Record demo video (~20 min + prep/edit) | ~4.0 | `docs/video/` |
+| 31 | Video | Demonstration recorded | 4.0 | `docs/video/demo.mp4` |
 | — | Pending | Final package re-assemble + release-named zip | ~0.5 | `package_submission.sh` |
 | | | **Estimated total incl. pending** | **~62.5** | Aligns with Effort Log stage totals (build stage 26.0 h; discovery reading / iteration overhead folded into stage rows) |
 
@@ -142,8 +142,9 @@ Ordered in the sequence the work was done. **Est. phrs** = estimated person-hour
 | 2026-11-22 | Gap closure G2–G11 | `docs/plan/gaps.md` |
 | 2026-11-22 | Human eval (independent second pass) | `docs/plan/human-eval-notes.md` |
 | 2026-11-22 | Workbooks Stage 1–5 + Effort Log | `docs/workbooks/` |
-| 2026-11-22 | Report PDF 33 pp; video script; clean-checkout rehearsal | `docs/report/`, `docs/video/`, `clean-checkout-rehearsal.md` |
+| 2026-11-22 | Report PDF; clean-checkout rehearsal | `docs/report/`, `clean-checkout-rehearsal.md` |
 | 2026-11-22 | Independent verification NOT READY → dep/README remediation | `independent-verification.md` §12 |
+| 2026-11-28 | Demo recorded; shooting script removed; PDF regenerated (31 pp) | `docs/video/demo.mp4`, `SameerJ_CloudServe_Report.pdf` |
 
 ---
 
@@ -162,7 +163,7 @@ Ordered in the sequence the work was done. **Est. phrs** = estimated person-hour
 
 ## Next up
 
-1. Record video from `docs/video/video-script.md` — include generate-on FCR + Grafana if Docker is up  
-2. `PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh`, add video, zip, rename to release name  
+1. `PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh`, confirm `01_Video/` has [demo.mp4](../video/demo.mp4), zip, rename to release name  
+2. Rotate API keys that appeared in shared `.env` / chat logs if still active
 3. Optional: dual human review of a sample of **live** Groq drafts  
 4. Rotate API keys that lived in local `.env` if the workspace was shared  

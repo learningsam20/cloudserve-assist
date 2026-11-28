@@ -29,7 +29,7 @@ Status legend: **Closed** · **Partial** (evidence incomplete) · **Pending** (n
 
 | # | Item | Status |
 |---|------|--------|
-| 1 | Submission artifacts (report/workbooks/video) | **Report/workbooks: Closed**. **Video: Pending camera capture** — script updated for generate-on + Grafana (`docs/video/video-script.md`). |
+| 1 | Submission artifacts (report/workbooks/video) | **Closed**. Report/workbooks present; video recorded at [`docs/video/demo.mp4`](../video/demo.mp4). |
 | 2–12 | Gap-closure items | **Closed** (see prior revision + `independent-verification.md`) |
 
 ---
@@ -45,6 +45,6 @@ Status legend: **Closed** · **Partial** (evidence incomplete) · **Pending** (n
 
 ## Still for marks (student hand-in)
 
-1. **Record the video** from `docs/video/video-script.md` (mention generate-on FCR 82.5% and Grafana boards).
-2. Re-assemble package (`PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh`), add video, zip under enrolment name.
-3. Rotate any API keys that lived in shared `.env` / chat logs.
+1. Re-assemble package (`PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh`); confirm `01_Video/` includes [demo.mp4](../video/demo.mp4); zip under enrolment name.
+2. Rotate any API keys that lived in shared `.env` / chat logs.
+3. Optional: dual review of live generate-on drafts (A6).

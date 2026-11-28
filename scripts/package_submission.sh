@@ -3,7 +3,7 @@
 # Does NOT include .env, storage/, or venv.
 #
 # Contents of each folder:
-#   01_Video         docs/video/README.md + video-script.md (+ any recorded .mp4/.mov/.webm/.m4v in docs/video/)
+#   01_Video         docs/video/README.md + recorded .mp4/.mov/.webm/.m4v (demo.mp4)
 #   02_Report        report PDF (docs/report/SameerJ_CloudServe_Report.pdf) + Markdown source
 #   03_Workbooks     Stage 1–5 workbooks (.docx + .md), Effort_Log (.docx + .md), human_eval_appendix.md
 #   04_Source_Code   this tree (minus secrets, storage, caches) + curated A10 metrics snapshot
@@ -44,25 +44,20 @@ shopt -u nullglob
 [[ ${#stage_docx[@]} -ge 5 ]] || die "expected 5 Stage_*.docx workbooks in $WORKBOOKS_DIR (found ${#stage_docx[@]})"
 [[ ${#stage_md[@]} -ge 5 ]] || die "expected 5 Stage_*.md workbooks in $WORKBOOKS_DIR (found ${#stage_md[@]})"
 
-for f in README.md video-script.md; do
-  [[ -f "$VIDEO_DIR/$f" ]] || die "video artifact missing: $VIDEO_DIR/$f"
-done
+[[ -f "$VIDEO_DIR/README.md" ]] || die "video artifact missing: $VIDEO_DIR/README.md"
+shopt -s nullglob nocaseglob
+recordings=("$VIDEO_DIR"/*.mp4 "$VIDEO_DIR"/*.mov "$VIDEO_DIR"/*.webm "$VIDEO_DIR"/*.m4v)
+shopt -u nullglob nocaseglob
+[[ ${#recordings[@]} -gt 0 ]] || die "no recording in $VIDEO_DIR (expected demo.mp4 or similar)"
 
 # ---- assemble ---------------------------------------------------------------
 rm -rf "$BUNDLE"
 mkdir -p "$BUNDLE/01_Video" "$BUNDLE/02_Report" "$BUNDLE/03_Workbooks" "$SRC"
 
-# 01_Video: README + script always; recording only if one exists (it is not recorded yet).
-cp "$VIDEO_DIR/README.md" "$VIDEO_DIR/video-script.md" "$BUNDLE/01_Video/"
-shopt -s nullglob nocaseglob
-recordings=("$VIDEO_DIR"/*.mp4 "$VIDEO_DIR"/*.mov "$VIDEO_DIR"/*.webm "$VIDEO_DIR"/*.m4v)
-shopt -u nullglob nocaseglob
-if [[ ${#recordings[@]} -gt 0 ]]; then
-  cp "${recordings[@]}" "$BUNDLE/01_Video/"
-  echo "01_Video: included ${#recordings[@]} recording file(s)."
-else
-  echo "01_Video: NO recording found in docs/video/ — README + script only (record before final hand-in)."
-fi
+# 01_Video: README + recording(s).
+cp "$VIDEO_DIR/README.md" "$BUNDLE/01_Video/"
+cp "${recordings[@]}" "$BUNDLE/01_Video/"
+echo "01_Video: included ${#recordings[@]} recording file(s)."
 
 # 02_Report: PDF + Markdown source.
 cp "$REPORT_PDF" "$REPORT_MD" "$BUNDLE/02_Report/"
@@ -73,6 +68,7 @@ cp "$WORKBOOKS_DIR/Effort_Log.docx" "$WORKBOOKS_DIR/Effort_Log.md" "$WORKBOOKS_D
 
 # 04_Source_Code
 rsync -a \
+  --exclude '.git' \
   --exclude '.env' \
   --exclude '.venv' \
   --exclude 'venv' \
@@ -80,6 +76,7 @@ rsync -a \
   --exclude '.pytest_cache' \
   --exclude '.deepeval' \
   --exclude 'storage/' \
+  --exclude '_package/' \
   --exclude 'evaluation/results/*' \
   --exclude 'docs/video/*.mp4' \
   --exclude 'docs/video/*.mov' \
@@ -115,6 +112,11 @@ HYBRID_LATEST="$(ls -1d "$ROOT"/evaluation/results/validation_hybrid_* 2>/dev/nu
 if [[ -n "${HYBRID_LATEST:-}" ]]; then
   package_curated_metrics "$HYBRID_LATEST"
 fi
+# Generate-on validation (customer FCR evidence)
+GEN_ON="$(ls -1d "$ROOT"/evaluation/results/validation_20261122T131433Z 2>/dev/null | head -1 || true)"
+if [[ -n "${GEN_ON:-}" ]]; then
+  package_curated_metrics "$GEN_ON"
+fi
 
 # ---- safety checks ----------------------------------------------------------
 if [[ ! -f "$SRC/.env.example" ]]; then
@@ -147,4 +149,4 @@ else
   echo "  $OUT_ROOT/CloudServe_Assistant_Release.zip"
   echo "Optional: rename zip for your release naming convention."
 fi
-echo "Optional: add a recorded demo video under 01_Video (script + README are included)."
+echo "01_Video includes README + recording(s); rename the demo file to the enrolment name if required."
