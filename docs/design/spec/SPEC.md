@@ -70,7 +70,7 @@ sources:
 
 ## Constraints
 
-- Only submit-ready artifacts enter `submission/`; drafts, memlogs, and agent scratch stay under `_bmad-output/` (or non-submission repo paths).
+- Only submit-ready artifacts enter this repository; drafts, memlogs, and agent scratch stay outside it.
 - Dataset JSON **content** is not used as planning intelligence; schema/guide only. Figures and insights come from CAP-10 scripts and interview transcripts.
 - Harness must not hardcode dataset filenames; input/output are CLI paths.
 - No secrets in the tree or git history; `.env` gitignored; `.env.example` placeholders only.

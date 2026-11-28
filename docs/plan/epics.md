@@ -13,7 +13,7 @@ inputDocuments:
 
 ## Overview
 
-Epics and stories for CloudServe Support Assist, traced to SPEC CAP-1..12, PRD FR-1..13, acceptance A1–A12, and delivery stage work (discovery → build → gate → package). Schedule assumes ~1–2h weekdays / ~4–5h weekend days over 2–3 weeks. Code lands in `submission/` when ready; planning artifacts stay under `_bmad-output/` until promote-before-dev (except `submission/docs/plan/findings.md`).
+Epics and stories for CloudServe Support Assist, traced to SPEC CAP-1..12, PRD FR-1..13, acceptance A1–A12, and delivery stage work (discovery → build → gate → package). Schedule assumes ~1–2h weekdays / ~4–5h weekend days over 2–3 weeks. Only submit-ready artifacts live in this repository; agent drafts and scratch stay outside it.
 
 ## Requirements Inventory
 

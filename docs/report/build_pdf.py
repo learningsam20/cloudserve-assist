@@ -5,7 +5,7 @@ Usage (from ``submission/``):
 
     python docs/report/build_pdf.py
     python docs/report/build_pdf.py --input docs/report/CloudServe_Assistant_Report.md \
-                                    --output docs/report/SameerJ_Capstone_Report.pdf
+                                    --output docs/report/CloudServe_Assistant_Report.pdf
 
 Dependency: ``pip install reportlab`` (documentation tooling only; it is not imported by
 the runtime and is not part of ``requirements.txt``).
@@ -74,7 +74,7 @@ except ImportError as exc:  # pragma: no cover
 
 HERE = Path(__file__).resolve().parent
 DEFAULT_INPUT = HERE / "CloudServe_Assistant_Report.md"
-DEFAULT_OUTPUT = HERE / "SameerJ_Capstone_Report.pdf"
+DEFAULT_OUTPUT = HERE / "CloudServe_Assistant_Report.pdf"
 
 PAGE_W, PAGE_H = A4
 MARGIN_X = 2.1 * cm

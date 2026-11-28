@@ -8,7 +8,7 @@
 
 **Declaration of AI tool use.** Planning, drafting, coding assistance and workbook and report drafting were supported by AI coding assistants (including Cursor agents). The builder is responsible for configuration choices, the threshold freeze, the recorded evaluation commands and the correspondence between a clean checkout, this report and the [README](../../README.md). Ticket and knowledge-base *content* from the reference datasets pack was not used for planning insight; development-ticket figures come from aggregate scripts and interview transcripts, as the Pack requires.
 
-**About this report.** This report describes CloudServe Assistant in the third person, as a product that a reviewer can assess without having watched the build. Every figure is taken from a recorded artefact of the repository: discovery script output, [threshold-freeze.md](../plan/threshold-freeze.md), [eval-runs.md](../plan/eval-runs.md), the recorded metrics files, [human_eval_appendix.md](../workbooks/human_eval_appendix.md), the governance documents, or the workbooks (including [Effort_Log.md](../workbooks/Effort_Log.md)). The demonstration is [demo.mp4](../video/demo.mp4). Remaining package items are listed in section 10.
+**About this report.** This report describes CloudServe Assistant in the third person, as a product that a reviewer can assess without having watched the build. Every figure is taken from a recorded artefact of the repository: discovery script output, [threshold-freeze.md](../plan/threshold-freeze.md), [eval-runs.md](../plan/eval-runs.md), the recorded metrics files, [human_eval_appendix.md](../workbooks/human_eval_appendix.md), the governance documents, or the workbooks (including [Effort_Log.md](../workbooks/Effort_Log.md)). Remaining known limitations are listed in section 10.
 
 ---
 
@@ -28,7 +28,7 @@ CloudServe Assistant is a support triage and assist service for the CloudServe S
 | Human review (28 drafts) | Satisfaction proxy 4.68; 119 of 119 claims supported | at least 4.0; at most 5% hallucination |
 | Test suite / index | 28 pytest tests pass; 59 Chroma chunks | A12 / A4 |
 
-Route-only validation (`validation_fairness_fix`) gives the same 66 auto_respond / 14 escalate split without a customer-resolution claim. Hidden-set runs completed: **zero** (not available to the builder; graders inject once near the end). Demonstration: [demo.mp4](../video/demo.mp4) (packaged as `SameerJ_Capstone_Video.mp4`).
+Route-only validation (`validation_fairness_fix`) gives the same 66 auto_respond / 14 escalate split without a customer-resolution claim. **Hidden evaluation set:** runs = **0**; date = **not applicable** — the assessor-held file is not in the Capstone Pack and has not been issued to the builder (section 8.7).
 
 ---
 
@@ -357,7 +357,7 @@ The stack follows the reference datasets pack configuration. The only additive d
 
 ### 4.4 Configuration and reproducibility
 
-Every runtime setting is read from `.env`, with no fallback defaults in code. A missing or malformed numeric key raises a `ConfigError`, and a test covers that behaviour. Routing is only deterministic across runs (acceptance criterion A5) if the threshold and the grounded-override parameters cannot differ silently between invocations. The `.env.example` file ships with the frozen threshold, retrieval and chunking parameters, classifier training parameters, targets, kill-switch keys, resilience keys and both provider options (OpenRouter default; Groq optional). The `.env` file itself is git-ignored and excluded from the package.
+Every runtime setting is read from `.env`, with no fallback defaults in code. A missing or malformed numeric key raises a `ConfigError`, and a test covers that behaviour. Routing is only deterministic across runs (acceptance criterion A5) if the threshold and the grounded-override parameters cannot differ silently between invocations. The `.env.example` file ships with the frozen threshold, retrieval and chunking parameters, classifier training parameters, targets, kill-switch keys, resilience keys and both provider options (OpenRouter default; Groq optional). The `.env` file itself is git-ignored and never committed.
 
 ---
 
@@ -534,7 +534,7 @@ xychart-beta
 
 **Figure 5.** Route auto_respond rate in the four route-only runs of Table 20. The generate-on row reports customer FCR at the same 82.5% count and is not plotted.
 
-The threshold was tuned on development data only; classifier retraining, the grounded override and the fairness metric were refined with reference to validation-run figures, so the hidden set remains the independent test (section 10.1). A reproduction run from the assembled package tree — no `.env`, no `storage/` — retrained the classifier, rebuilt the index (59 chunks) and re-ran the route-only harness on the full validation file. It reproduced the recorded counts exactly: 66 auto_respond and 14 escalate, classification accuracy 0.9875, tier and fluency quality gaps of 0.0 points, and 160 decision rows for 80 tickets with none missing.
+The threshold was tuned on development data only; classifier retraining, the grounded override and the fairness metric were refined with reference to validation-run figures, so the hidden set remains the independent test (section 10.1). A clean-checkout reproduction — no `.env`, no `storage/` — retrained the classifier, rebuilt the index (59 chunks) and re-ran the route-only harness on the full validation file. It reproduced the recorded counts exactly: 66 auto_respond and 14 escalate, classification accuracy 0.9875, tier and fluency quality gaps of 0.0 points, and 160 decision rows for 80 tickets with none missing.
 
 ### 8.3 Recorded validation results
 
@@ -657,18 +657,28 @@ The two lowest-scoring drafts were a database ticket and a deployment ticket who
 
 ### 8.7 The hidden set
 
-Hidden-set runs completed: zero (pending grader injection). The harness is path-parameterised so that no dataset name is built in, and label-free policy rules ensure a set without gold labels cannot bypass must-not handling. Results will be recorded in [eval-runs.md](../plan/eval-runs.md) when the set is run, without further tuning.
+The Capstone Pack does not include the hidden evaluation file; it is held by the assessor and injected near the end. The Submission Guide requires that file to be used **once**, and that the report state the date and the number of runs.
+
+| Provenance field | Value |
+|------------------|-------|
+| Times the hidden set was run | **0** |
+| Date of run | **Not applicable** (file not issued to the builder as of 2026-11-28) |
+| Intended use when issued | Exactly **one** unattended harness run; no threshold or classifier retuning afterward |
+| How the system accepts it | `python -m evaluation.harness --input <hidden.json> --output <dir>` (no hard-coded path) |
+
+Label-free policy rules ensure a set without gold `must_not_auto_respond` labels cannot bypass must-not handling. When the assessor provides the file, the single run will be recorded in [eval-runs.md](../plan/eval-runs.md) and this table will be updated with the date and count **1**.
 
 ### 8.8 Reproduction and prerequisites
 
-A clean checkout needs Python 3.11, the dependencies in `requirements.txt`, and the reference datasets pack at the location described in the [README](../../README.md). Generate-on runs additionally need a provider key (`OPENROUTER_API_KEY` and/or `GROQ_API_KEY`); route-only runs need no key.
+A clean checkout needs Python 3.11, the dependencies in `requirements.txt`, and the in-tree `./datasets` (or `DATASETS_PATH`) as described in the [README](../../README.md). Generate-on runs need a provider key (`OPENROUTER_API_KEY` and/or `GROQ_API_KEY`); route-only runs need no key. The public repository root is the service root (clone of [cloudserve-assist](https://github.com/learningsam20/cloudserve-assist/), or `04_Source_Code/` from the hand-in zip).
 
 ```bash
-cd submission
+git clone https://github.com/learningsam20/cloudserve-assist.git
+cd cloudserve-assist
 python3.11 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp -n .env.example .env
-# OPENROUTER_API_KEY and/or GROQ_API_KEY for generate-on
+# OPENROUTER_API_KEY and/or GROQ_API_KEY for generate-on only
 ./scripts/setup_all.sh
 ./scripts/run_tests.sh
 ./scripts/run_eval.sh validation
@@ -710,7 +720,7 @@ Every automated decision is written to a SQLite decision log through SQLAlchemy.
 | generation | Only when generation runs | Model, prompt version, cited `doc_id` values, whether the result was cached or live |
 | validation | Only when generation runs | Guardrail results per check with detail; final action (auto_respond, escalate or block) |
 
-The harness reconciles the log against the tickets it processed and reports the number of tickets lacking a decision row, which is expected to be zero. In the route-only snapshot, the metrics report states 160 decision rows written for 80 tickets (classification and routing rows). The decision database is shared across runs, so the packaged `decisions_export.jsonl` reflects accumulated rows; per-run export scoping is a listed next step.
+The harness reconciles the log against the tickets it processed and reports the number of tickets lacking a decision row, which is expected to be zero. In the route-only snapshot, the metrics report states 160 decision rows written for 80 tickets (classification and routing rows). The decision database is shared across runs, so an exported `decisions_export.jsonl` may reflect accumulated rows; per-run export scoping is a listed next step.
 
 ### 9.2 Risk register
 
@@ -749,16 +759,15 @@ Three governance properties follow from stakeholder evidence. First, transparenc
 
 1. **Routing precision.** In the validation snapshot, 17 of the 66 auto_respond decisions (about 26%) were on tickets labelled not answerable from documentation. The router uses classifier confidence and retrieval strength and does not consult the answerable label, which a grader’s set may not carry. Tightening label-free proxies and respecting `answerable_from_docs` when present is the first engineering priority.
 2. **Urgency model.** Urgency prediction is weaker than intent prediction. It is predicted and logged but does not gate the route. Because high-urgency tickets are 29.2% of historical volume and fare worse, this leaves Ravi’s need only partly served.
-3. **Hidden set pending.** Hidden-set runs completed: zero. Validation figures were used while iterating on the classifier, override and fairness metric, so the hidden set is the independent generalisation test.
-4. **Demonstration video recorded.** See [demo.mp4](../video/demo.mp4) (~21 min live API walkthrough and evaluation).
-5. **Calibration.** The classifier is under-confident in three of four confidence bands (Table 22). This is safe for the gate but makes the confidence value a poor probability; recalibration is planned.
-6. **Guardrails check form.** Citation membership and pattern absence are enforced automatically; claim-level support is assessed by human review (Table 24), and a larger live-draft review would extend that evidence.
-7. **Embedding dependency.** The dimension check turns a silent fallback into a loud failure, but a clean checkout needs network access to the model hub at least once.
-8. **Packaging details.** The shipped decision export contains accumulated rows (section 9.1), and data-backed tests expect the reference datasets pack at a fixed relative location rather than reading `DATASETS_PATH`.
+3. **Hidden set not yet available.** Times run: **0**; date: not applicable (assessor file not issued as of 2026-11-28). Validation figures were used while iterating on the classifier, override and fairness metric, so the hidden set remains the independent generalisation test when provided.
+4. **Calibration.** The classifier is under-confident in three of four confidence bands (Table 22). This is safe for the gate but makes the confidence value a poor probability; recalibration is planned.
+5. **Guardrails check form.** Citation membership and pattern absence are enforced automatically; claim-level support is assessed by human review (Table 24), and a larger live-draft review would extend that evidence.
+6. **Embedding dependency.** The dimension check turns a silent fallback into a loud failure, but a clean checkout needs network access to the model hub at least once.
+7. **Decision-export scope.** The decision database is shared across runs, so an export may contain accumulated rows (section 9.1); scoping exports to a single run is a next step. Data-backed tests should read `DATASETS_PATH` rather than assuming a fixed relative location.
 
 ### 10.2 Effort, schedule and reflection
 
-Table 28 and Figure 9 compare planned and actual hours by stage ([Effort_Log.md](../workbooks/Effort_Log.md)). Planned effort was 84 hours across a three-week plan; actual effort was about 62.5 hours, 21.5 hours under plan. The build and revision stage (stage 5) took 26.0 hours against 48.0 planned, an underrun of 22.0 hours: the pipeline stages, harness and scripted discovery were assembled quickly with AI-assisted coding, and a reusable `setup_all` / `run_eval` script set removed repeated manual steps. Stages 1 to 4 each ran slightly over plan; stage 6 covers the report, demonstration and packaging.
+Table 28 and Figure 9 compare planned and actual hours by stage ([Effort_Log.md](../workbooks/Effort_Log.md)). Planned effort was 84 hours across a three-week plan; actual effort was about 62.5 hours, 21.5 hours under plan. The build and revision stage (stage 5) took 26.0 hours against 48.0 planned, an underrun of 22.0 hours: the pipeline stages, harness and scripted discovery were assembled quickly with AI-assisted coding, and a reusable `setup_all` / `run_eval` script set removed repeated manual steps. Stages 1 to 4 each ran slightly over plan; stage 6 covers the written report and closing documentation.
 
 **Table 28.** Planned versus actual effort by stage (hours).
 
@@ -769,13 +778,13 @@ Table 28 and Figure 9 compare planned and actual hours by stage ([Effort_Log.md]
 | 3. Prompt library | 4.0 | 5.0 | +1.0 | Mapping each requirement to tests; injection-defence notes |
 | 4. Sprint plan | 2.0 | 2.5 | +0.5 | Capacity table redone after totalling the backlog |
 | 5. Build and revision | 48.0 | 26.0 | -22.0 | Underrun vs plan: AI-assisted implementation and scripted harness; included first gate run, classifier and threshold rework, fairness fix, LangGraph and backoff work, human evaluation |
-| 6. Report, video, packaging | 12.0 | 10.5 | -1.5 | Report, demonstration and packaging; final zip rename on hand-in |
+| 6. Report and closing docs | 12.0 | 10.5 | -1.5 | Report, workbooks and governance close-out |
 | Total | 84.0 | 62.5 | -21.5 | Build underrun dominates; stages 1–4 slightly over plan |
 
 ```mermaid
 xychart-beta
     title "Planned (bars) versus actual (line) hours by stage"
-    x-axis ["1 Discovery", "2 Requirements", "3 Prompts", "4 Sprint plan", "5 Build", "6 Report/video"]
+    x-axis ["1 Discovery", "2 Requirements", "3 Prompts", "4 Sprint plan", "5 Build", "6 Report"]
     y-axis "Hours" 0 --> 60
     bar [10, 8, 4, 2, 48, 12]
     line [11.5, 9, 5, 2.5, 26, 10.5]
@@ -796,8 +805,8 @@ Steps are listed in priority order; each can be done without changing the stack.
 1. **Tighten routing to respect `answerable_from_docs`** when the label exists, and strengthen label-free proxies (for example a stricter grounded-override floor), so the 17 unsupported auto_respond decisions on validation are reduced without raising the escalation share above its limit.
 2. **Extend human review to live generate-on drafts** from `validation_20261122T131433Z` with two reviewers and an agreement statistic.
 3. **Scope the decision export to a single run** and add a harness assertion that exported rows equal rows written for that run; make the test files read `DATASETS_PATH`.
-4. **Run the hidden set once** when graders inject it (zero runs to date — state the date and run count in this report after that single run; do not tune against it).
-5. **Recalibrate classifier confidence** and add a region segment to the fairness report.
+4. **Recalibrate classifier confidence** and add a region segment to the fairness report.
+5. **When the assessor issues the hidden file**, run the harness against it exactly once, record the date and count in section 8.7, and do not tune against the result.
 
 ---
 
@@ -897,12 +906,8 @@ Cost control is a non-functional requirement. The design confines model calls to
 
 ## Appendix H — Clean-checkout expectations
 
-A grader machine will not contain `storage/chroma` or the trained classifier file. The README steps are to create a virtual environment, install the requirements, copy `.env.example` to `.env`, point `DATASETS_PATH` at the reference datasets pack (or inject paths), run `setup_all.sh` to train the classifier and build the index, then run the tests and the harness (section 8.8). The step-by-step checklist is [clean-checkout-rehearsal.md](../plan/clean-checkout-rehearsal.md); it records the rehearsal from the package tree (classifier and index rebuild, full route-only validation run, API health and kill switch, package assembly). Secrets never ship in the archive: the package script excludes `.env` and `storage/` and includes a curated metrics snapshot so that acceptance criterion A10 evidence exists without re-running generation.
+A grader machine will not contain `storage/chroma` or the trained classifier file. The README steps are to create a virtual environment, install the requirements, copy `.env.example` to `.env`, point `DATASETS_PATH` at the in-tree datasets (or inject paths), run `setup_all.sh` to train the classifier and build the index, then run the tests and the harness (section 8.8). The step-by-step checklist is [clean-checkout-rehearsal.md](../plan/clean-checkout-rehearsal.md). Secrets stay out of the shipped source tree (`.env` and `storage/` are excluded); curated metrics snapshots support acceptance criterion A10 without re-running generation.
 
-## Appendix I — Acceptance walkthrough for the video
-
-The demonstration ([demo.mp4](../video/demo.mp4)) shows a success path (a high-confidence, well-retrieved ticket with generation cached or live via LiteLLM → Groq), an escalation on a policy must-not ticket and on the kill switch, a guardrail block on an engineered citation failure, an unattended harness run on a short slice, the `/health` endpoint showing 59 chunks in the index, decision-log rows, and the recorded generate-on FCR of 82.5% with citation ID validity 1.0. The close summarises the next engineering priorities in section 10.4.
-
-## Appendix J — Related work stance
+## Appendix I — Related work stance
 
 Commercial chatbots tend to optimise engagement. CloudServe Assistant optimises triage: retrieve, route, cite, or escalate with context. That stance comes from the interviews and not from model fashion, and the reference datasets pack’s Evaluation and Governance Frameworks constrain claims further: do not invent satisfaction figures, log decisions, test fairness and be able to stop automation.

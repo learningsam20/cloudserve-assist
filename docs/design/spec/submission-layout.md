@@ -1,47 +1,39 @@
 # Submission and repo layout
 
-## Graded zip (Capstone Submission Guide)
+## Public git repository (this tree)
 
-Top-level folders only (names exact; at **zip root**):
+| Artifact | Filename in git |
+|----------|-----------------|
+| Demonstration video | `docs/video/demo.mp4` |
+| Report PDF | `docs/report/CloudServe_Assistant_Report.pdf` |
+| Packaging script | **Not in this repo** (parent Capstone `scripts/`) |
 
-1. `01_Video` — `FirstnameLastname_Capstone_Video.mp4` (1080p+)
-2. `02_Report` — one PDF, 20–30 pages excluding appendices
-3. `03_Workbooks` — five stage workbooks + effort log (PDF or DOCX)
+## Graded hand-in archive (assembled outside git)
+
+Archive: `SameerJoshi_Capstone_Report.zip` — four folders at zip root:
+
+1. `01_Video` — `SameerJoshi_Capstone_Video.mp4`
+2. `02_Report` — `SameerJoshi_Capstone_Report.pdf` (+ Markdown)
+3. `03_Workbooks` — Stage 1–5 + Effort Log (**PDF**)
 4. `04_Source_Code` — complete repository **including history**, tests, working README
-
-Archive name: `FirstnameLastname_Capstone_Submission.zip`  
-(Default in this tree: `SameerJ_Capstone_Submission.zip`.)
-
-## This workspace’s working split
-
-| Path | Role |
-|------|------|
-| `submission/` | Submit-ready source (ships as `04_Source_Code`, with `.git`) |
-| `_package/` | Assembled hand-in (outside git) |
-| `_bmad-output/` / `capstone_guide/` | Builder tooling / Pack — not in the zip |
 
 ## Required shape inside `04_Source_Code`
 
 ```
-.git/                     # history required
+.git/
 README.md
 requirements.txt
-.env.example              # never ship .env
+.env.example
 .gitignore
-src/
-prompts/
-tests/
-evaluation/
-docs/
-datasets/
+src/ prompts/ tests/ evaluation/ docs/ datasets/
 .github/workflows/ci.yml
+docs/report/CloudServe_Assistant_Report.pdf
+docs/video/demo.mp4   # may be omitted from zip binary copy; README documents it
 ```
-
-Datasets ship in-tree at `datasets/` (`DATASETS_PATH=./datasets`).
 
 ## Rules that catch people out
 
-- Clean-checkout: follow the README on a machine that is not yours before packaging.
-- No API key, token or password in code **or git history**.
-- Hidden evaluation set: run once when injected; state date and run count in the report.
-- Attribute anything not written by you, including AI-assisted code (see report declaration).
+- Clean-checkout: follow the README on a machine that is not yours.
+- No API key in code or git history.
+- Hidden evaluation set: run once when injected; state date and run count.
+- Attribute AI-assisted work (see report declaration).

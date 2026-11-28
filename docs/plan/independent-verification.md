@@ -10,7 +10,7 @@
 | ID | Original blocker | Status now | Residual |
 |----|------------------|------------|----------|
 | B1/B2 | Unresolvable Pack pins / wrong chromadb | **Resolved** for install | `requirements.txt` ranges + `requirements-pin-log.md`; verified 28 pytest on 3.11 |
-| B3 | No video; no AI declaration; Effort Log not PDF | **Partial** | AI declaration in report **done**; **video still unrecorded**; Effort Log still md/docx |
+| B3 | No video; no AI declaration; Effort Log not PDF | **Closed for docs** | AI declaration done; Effort Log + Stage workbooks now PDF; video is operator-owned |
 | B4 | Stale zip | **Open (operator)** | Re-run package after video; rename to release name |
 | B5 | Gold must_not; FCR claim flags; missing metric fields | **Partial** | `USE_EVAL_LABELS`; label-free rates in `eval-runs.md`; route-auto wording; per-class precision / retrieval hit / guardrail-by-type still thin |
 | B6 | Default datasets path | **Mostly resolved** | README requires absolute `DATASETS_PATH` before setup |
@@ -71,10 +71,10 @@ Checked against `Submission_Guide.docx` and the packaged tree `_package/CloudSer
 
 | Item | Required | Found | Status |
 |------|----------|-------|--------|
-| Archive name | `FirstnameLastname_Capstone_Submission.zip` | Packaged as `SameerJ_Capstone_Submission.zip` (four folders at zip root) | ✅ after package script |
-| Zip is current | contains 01–04 | Re-run `package_submission.sh` after each doc/video change | ⬜ operator |
-| **01_Video** | MP4, 1080p+, `FirstnameLastname_Capstone_Video.mp4` | Script renames [demo.mp4](../video/demo.mp4) → `SameerJ_Capstone_Video.mp4` | ✅ (repackage after video revision) |
-| **02_Report** | single PDF, 20–30 pp excl. appendices; AI-use declaration | `SameerJ_Capstone_Report.pdf`; AI declaration present at top of report | ✅ |
+| Archive name | Enrolment-named zip | Hand-in: `SameerJoshi_Capstone_Report.zip` (assembled outside git) | ✅ via parent packager |
+| Zip is current | contains 01–04 | Re-run parent `scripts/package_capstone_submission.sh` after video/docs change | ⬜ operator |
+| **01_Video** | `FirstnameLastname_Capstone_Video.mp4` | Repo keeps [demo.mp4](../video/demo.mp4); package renames to `SameerJoshi_Capstone_Video.mp4` | ✅ |
+| **02_Report** | single PDF, 20–30 pp excl. appendices; AI-use declaration | Repo: `CloudServe_Assistant_Report.pdf`; package: `SameerJoshi_Capstone_Report.pdf` | ✅ |
 | **03_Workbooks** | 5 stage workbooks + effort log; log named `..._Effort_Log.pdf` | Five workbooks and Effort Log as `.docx` + `.md`, plus `human_eval_appendix.md`. **Effort log is not a PDF.** Effort log content vs file evidence: see B7 | ⚠️ |
 | **04_Source_Code** | README, pinned `requirements.txt`, `.env.example`, `src/`, `prompts/`, `tests/`, `evaluation/`, `docs/`, `data/`, `.github/workflows/` | All present. `requirements.txt` is pinned but unresolvable (B1). `data/` is empty (acceptable: Pack datasets are external). `evaluation/results/` ships one curated snapshot | ⚠️ |
 | Hidden set used once and date reported | required | 0 runs; report says so | ⚠️ honest |

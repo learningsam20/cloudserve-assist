@@ -152,7 +152,7 @@ Publish both labelled and label-free rates when discussing API / hidden-set beha
 ## How to re-run (grader / demo)
 
 ```bash
-cd submission
+# From the service root (git clone of cloudserve-assist, or 04_Source_Code/)
 # labelled (default)
 ./scripts/run_eval.sh validation
 
@@ -162,6 +162,16 @@ USE_EVAL_LABELS=false ./scripts/run_eval.sh validation
 # hybrid comparison + Grafana export
 ./scripts/run_hybrid_eval.sh validation
 
-# generate-on FCR (needs OpenRouter key; see .env.example)
+# generate-on FCR (needs Groq or OpenRouter key; see .env.example)
 GENERATE=1 ./scripts/run_eval.sh validation
 ```
+
+---
+
+## Hidden evaluation set (assessor-held)
+
+| Field | Value |
+|-------|-------|
+| Times run | **0** |
+| Date | **Not applicable** (file not in Capstone Pack; not issued to builder as of **2026-11-28**) |
+| Rule | When issued, run **once** via `python -m evaluation.harness --input <path> --output <dir>`; do not tune; append results here and update report §8.7 |

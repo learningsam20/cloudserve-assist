@@ -1,22 +1,9 @@
 # Demonstration video — CloudServe Assistant
 
-**Status: RECORDED** (revision may replace the file before hand-in).  
-**Working file:** [demo.mp4](demo.mp4)  
-**Packaged name (Submission Guide):** `SameerJ_Capstone_Video.mp4`
+**Public repo filename:** [demo.mp4](demo.mp4)  
+**Hand-in filename (outside this repo’s packaging step):** `SameerJoshi_Capstone_Video.mp4`
 
-`scripts/package_submission.sh` copies this README and renames the recording to  
-`{STUDENT_SLUG}_Capstone_Video.mp4` (default `SameerJ`) inside package `01_Video/`.
-
-## After revising the video
-
-1. Replace `docs/video/demo.mp4` with the new recording (1080p or better).  
-2. Re-run:
-
-```bash
-PACKAGE_OUT=../_package STUDENT_SLUG=SameerJ ./scripts/package_submission.sh
-```
-
-3. Confirm `_package/SameerJ_Capstone_Submission/01_Video/SameerJ_Capstone_Video.mp4`.
+Keep the recording in this folder as `demo.mp4` only. Enrolment renaming happens when the Capstone hand-in archive is assembled outside this git repository.
 
 ## Contents of the recording
 

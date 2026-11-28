@@ -2,7 +2,7 @@
 
 Review date: **2026-11-22**. Updated after Groq generate-on validation (`validation_20261122T131433Z`).
 
-Status legend: **Closed** · **Partial** (evidence incomplete) · **Pending** (needs an action outside the repository, e.g. camera capture).
+Status legend: **Closed** · **Partial** (evidence incomplete) · **Pending** (needs an action outside the repository).
 
 ---
 
@@ -29,7 +29,7 @@ Status legend: **Closed** · **Partial** (evidence incomplete) · **Pending** (n
 
 | # | Item | Status |
 |---|------|--------|
-| 1 | Submission artifacts (report/workbooks/video) | **Closed**. Report/workbooks present; video recorded at [`docs/video/demo.mp4`](../video/demo.mp4). |
+| 1 | Submission artifacts (report/workbooks) | **Closed**. Report PDF + Stage 1–5 / Effort Log as PDF (+ md). |
 | 2–12 | Gap-closure items | **Closed** (see prior revision + `independent-verification.md`) |
 
 ---
@@ -47,4 +47,4 @@ Status legend: **Closed** · **Partial** (evidence incomplete) · **Pending** (n
 
 1. Rotate any API keys that lived in shared `.env` / chat logs; ensure none appear in git history.
 2. Optional: dual review of live generate-on drafts (A6).
-3. Hidden set: run once when injected; record date + count in the report.
+3. Hidden set: **0 runs** as of 2026-11-28 (file not issued). When issued, run once only; update report §8.7 + `eval-runs.md`.

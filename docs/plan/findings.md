@@ -156,4 +156,4 @@ Concrete cases:
 
 ## Change control
 
-When implementation discovers another pack contradiction, append a new `D#` here and mirror a line in `_bmad-output/change-log.md`.
+When implementation discovers another pack contradiction, append a new `D#` here (builder change log stays outside this repository).

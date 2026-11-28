@@ -340,7 +340,7 @@ Settled from builder comments (2026-11-22):
 - AI-tool use allowed with declaration; do not invent discovery findings.
 - Individual work; no sharing of code/prompts/workbooks.
 - Local models preferred for classify (and any scores feeding route); remote LLM only where generation/language is required (see SPEC / stack-and-env).
-- Docs stay in `_bmad-output/` until promote-just-before-development.
+- Draft planning docs stay outside this repository until promoted here.
 
 ## 11. Cross-Cutting NFRs
 

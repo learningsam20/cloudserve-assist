@@ -64,6 +64,22 @@ Thumbs.db
 .idea/
 .vscode/
 *.code-workspace
+.cursor/
+.cursorignore
+
+# Agent tooling / logs / scratch (never ship in git or Capstone zip)
+AGENTS.md
+.agents/
+_bmad/
+_bmad-output/
+agent-transcripts/
+**/agent-transcripts/
+**/compaction/
+**/AgentStores/
+**/agent-tools/
+**/*memlog*
+**/.agent*
+**/cursor_agent_stores/
 
 # Video recordings (script stays; binary stays local until zip)
 docs/video/*.mp4
@@ -72,8 +88,17 @@ docs/video/*.webm
 docs/video/*.m4v
 docs/video/*.mkv
 
-# Local package / release dumps
+# Local package / release dumps (hand-in lives outside this repo)
 _package/
 dist/
 *.zip
 !docs/**/*.zip
+
+# Enrolment-named report PDFs belong only in the hand-in zip, not this git repo
+docs/report/SameerJ*.pdf
+docs/report/*_Capstone_Report.pdf
+!docs/report/CloudServe_Assistant_Report.pdf
+
+# Packaging script is kept outside this repository (parent Capstone scripts/)
+scripts/package_submission.sh
+scripts/package_capstone_submission.sh

@@ -200,7 +200,6 @@ python -m scripts.export_eval_metrics --results-dir evaluation/results/validatio
 | `./scripts/run_tests.sh` | `pytest tests/ -v` |
 | `./scripts/kill_on.sh` / `kill_off.sh` | Kill-switch file |
 | `./scripts/grafana_up.sh` / `down` / `load_dashboards.sh` | Optional Grafana |
-| `./scripts/package_submission.sh` | Assemble release zip layout under `./_package/` |
 | `./scripts/export_eval_metrics.py` | `metrics.json` → Prometheus textfile |
 
 ```bash
@@ -262,14 +261,12 @@ Postman (optional): `docs/postman/CloudServe_Assistant.postman_collection.json`
 | `docs/design/architecture/` | Spine, design, data-flow diagrams |
 | `docs/design/spec/` | SPEC, stack-and-env, acceptance |
 | `docs/report/` | CloudServe report (PDF) |
-| `docs/workbooks/` | Stage 1–5 + Effort Log |
+| `docs/workbooks/` | Stage 1–5 + Effort Log (PDF + md) |
 | `docs/video/` | Demonstration recording ([demo.mp4](docs/video/demo.mp4)) |
 | `docs/governance/` | Risk, fairness, incident, kill-switch |
 | `docs/postman/` | Optional API collection |
 
 Index: [`docs/README.md`](docs/README.md).
 
-Package (Submission Guide names; set `PACKAGE_OUT` outside this tree):  
-`PACKAGE_OUT=../_package STUDENT_SLUG=SameerJ ./scripts/package_submission.sh`  
-→ `../_package/SameerJ_Capstone_Submission/` (four folders) + `SameerJ_Capstone_Submission.zip`  
-(Video packaged as `SameerJ_Capstone_Video.mp4`; `04_Source_Code` includes `.git`.)
+Hand-in packaging is **outside** this repository (parent Capstone `scripts/package_capstone_submission.sh`).  
+This repo keeps `docs/video/demo.mp4` and `docs/report/CloudServe_Assistant_Report.pdf`.
