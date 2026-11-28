@@ -19,7 +19,7 @@ Starting point from product brief / Setup Guide + that folder. Departures need a
 | Remote LLM | **LiteLLM** SDK → **OpenRouter** (default); swap provider via env without code rewrites |
 | API | FastAPI + uvicorn |
 | Decision log | SQLite via SQLAlchemy (`DATABASE_URL`) unless Postgres justified |
-| Metrics | prometheus-client `/metrics`; optional Grafana+Prometheus compose under `observability/` (demo dashboards) |
+| Metrics | prometheus-client `/metrics`; Grafana + Prometheus compose under `observability/` |
 | CI | GitHub Actions running pytest |
 
 ## Env vars
@@ -55,7 +55,7 @@ LEXICAL_INDEX_PATH=./storage/lexical_index.joblib
 LLM_MIN_INTERVAL_SECONDS=4.0
 ```
 
-Optional demo only (not required at runtime): Docker Compose under `observability/` (Grafana + Prometheus + eval textfile exporter).
+Observability stack: Docker Compose under `observability/` (Grafana + Prometheus + eval textfile exporter).
 
 - Copy pack template → `submission/.env.example` → local `.env`; never commit `.env`.
 - `CONFIDENCE_THRESHOLD` is a starting value; measure then freeze (findings D3).

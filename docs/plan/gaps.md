@@ -45,6 +45,6 @@ Status legend: **Closed** · **Partial** (evidence incomplete) · **Pending** (n
 
 ## Still for marks (student hand-in)
 
-1. **Record the video** from `docs/video/video-script.md` (mention generate-on FCR 82.5% and optional Grafana).
+1. **Record the video** from `docs/video/video-script.md` (mention generate-on FCR 82.5% and Grafana boards).
 2. Re-assemble package (`PACKAGE_NO_ZIP=1 ./scripts/package_submission.sh`), add video, zip under enrolment name.
 3. Rotate any API keys that lived in shared `.env` / chat logs.

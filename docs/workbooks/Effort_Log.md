@@ -106,7 +106,7 @@ Week three is Monday 2026-11-16 to Sunday 2026-11-22. Hours worked: approximatel
 | Which task took far longer than you expected, and why? | Diagnosing the first unattended run: every ticket escalated with no raised error because the embedding model had silently fallen back. The fix drove the confidence and threshold rework. |
 | Which task was easier than you expected, and why? | Chunking, indexing and retrieval on a 29-article corpus once `doc_id` was enforced (finding D2). |
 | What would you allocate differently if you started again on Monday? | Run the harness and threshold sweep earlier in week two; start a generate-on batch earlier; reserve calendar time for the video instead of leaving capture to the end. |
-| What did you spend time on that turned out not to matter? | The GLiNER classification plan (abandoned under D5). Grafana was first deferred, then restored as an optional observability demo. |
+| What did you spend time on that turned out not to matter? | The GLiNER classification plan (abandoned under D5). Grafana was deferred mid-sprint, then restored under `observability/` for API and evaluation boards. |
 
 ## 8 Declaration
 

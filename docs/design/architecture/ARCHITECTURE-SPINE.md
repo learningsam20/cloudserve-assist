@@ -153,7 +153,7 @@ flowchart TB
 | pytest / pytest-asyncio | CloudServe pins |
 | pandas / numpy / scikit-learn | CloudServe pins (discovery, metrics, **trained classifier**) |
 | litellm | **Additive** — generation via OpenRouter or Groq; swap via `LITELLM_MODEL` |
-| Grafana / Prometheus | **Optional demo** — `observability/` Docker Compose |
+| Grafana / Prometheus | `observability/` Docker Compose — API `/metrics`, eval exporter, Generate-on FCR boards |
 
 No framework swaps. Only approved additive beyond `06_Configuration`: `litellm`. Classifier uses pack sklearn.
 

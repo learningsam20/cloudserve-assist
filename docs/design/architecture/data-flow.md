@@ -86,20 +86,22 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-  IN[tickets.json path] --> H[harness]
-  H --> G[run_ticket per row]
-  G --> OUT[results.jsonl]
-  G --> M[metrics.json / .md]
-  G --> D[decisions_export.jsonl]
-  M --> EXP[export_eval_metrics → *.prom]
-  EXP --> GRAF[Grafana Generate-on FCR / Eval boards]
+  IN["tickets.json path"] --> H[harness]
+  H --> G["run_ticket per row"]
+  G --> OUT["results.jsonl"]
+  G --> M["metrics.json and metrics.md"]
+  G --> D["decisions_export.jsonl"]
+  M --> EXP["export_eval_metrics to prom files"]
+  EXP --> GRAF["Grafana FCR and eval boards"]
 ```
 
-## Observability (optional demo)
+## Observability
 
 ```mermaid
 flowchart LR
-  API[/metrics :8000] --> PROM[Prometheus]
-  EXP[eval-exporter :9101] --> PROM
-  PROM --> GRAF[Grafana :3000]
+  API["FastAPI /metrics<br/>port 8000"] --> PROM[Prometheus]
+  EXP["eval-exporter<br/>port 9101"] --> PROM
+  PROM --> GRAF["Grafana<br/>port 3000"]
 ```
+
+API process metrics and exported evaluation metrics are scraped by Prometheus and shown in Grafana. Compose and dashboards live under `observability/`; see [observability/README.md](../../../observability/README.md).
