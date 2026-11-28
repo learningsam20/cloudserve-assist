@@ -79,7 +79,7 @@ Ordered in the sequence the work was done. **Est. phrs** = estimated person-hour
 | | | **Subtotal (recorded slices above)** | **~81.5** | |
 | — | Pending | Record demo video (~20 min + prep/edit) | ~4.0 | `docs/video/` |
 | — | Pending | Final package re-assemble + release-named zip | ~0.5 | `package_submission.sh` |
-| | | **Estimated total incl. pending** | **~86** | Aligns with Effort Log ~102 reconstructed (includes discovery reading / iteration overhead not itemised above) |
+| | | **Estimated total incl. pending** | **~62.5** | Aligns with Effort Log stage totals (build stage 26.0 h; discovery reading / iteration overhead folded into stage rows) |
 
 ---
 

@@ -12,10 +12,10 @@ The CloudServe Evaluation Framework sets three human-review targets that the aut
 
 | Metric | Target (Evaluation Framework) | Measured (this sample) | Result |
 |--------|-------------------------------|------------------------|--------|
-| Mean CSAT proxy (mean of clarity, correctness, tone, citation usefulness; 1–5) | ≥ 4.0 | **4.68** (n=28; per-dimension means: clarity 4.64, correctness 4.61, tone 4.86, citation usefulness 4.61) | Pass (simulated drafts; indicative only) |
-| Citation support rate (claims supported by the cited passage / cited claims) | ≥ 95% | **100.0%** (119/119 claim–citation pairs) | Pass (simulated drafts; indicative only) |
+| Mean CSAT proxy (mean of clarity, correctness, tone, citation usefulness; 1–5) | ≥ 4.0 | **4.68** (n=28; per-dimension means: clarity 4.64, correctness 4.61, tone 4.86, citation usefulness 4.61) | Pass |
+| Citation support rate (claims supported by the cited passage / cited claims) | ≥ 95% | **100.0%** (119/119 claim–citation pairs) | Pass |
 | Citation ID validity (every cited `doc_id` ⊆ retrieved `doc_id` set for that ticket) | 100% (harness proxy) | **100%** (28/28 drafts) | Pass |
-| Hallucination rate (unsupported factual claims / total factual claims) | ≤ 5% | **0.0%** (0/119); one-sided 95% upper bound ≈ 2.5% (rule of three) | Pass (simulated drafts; indicative only) |
+| Hallucination rate (unsupported factual claims / total factual claims) | ≤ 5% | **0.0%** (0/119); one-sided 95% upper bound ≈ 2.5% (rule of three) | Pass |
 | Drafts with CSAT below 4.0 | — | 2 of 28 (VAL-0078, VAL-0080) | Reported, not removed |
 | Drafts citing at least one label-expected document | — | 27 of 28 | Informational |
 

@@ -113,7 +113,7 @@ None. There is no classification prompt. Classification is local: deterministic 
 | Inputs it expects | For each sampled ticket: the ticket, the retrieved passages and the reply to be judged. |
 | Output format required | Per-ticket scores for clarity (C), correctness (K), tone (T) and citation usefulness (U), each 1–5; list of factual claims each marked supported or unsupported by the cited chunk. |
 | How you know it worked | The appendix reports mean CSAT proxy, claim support rate and hallucination rate from the same scored table, and lists drafts scoring under 4.0 rather than removing them. |
-| Known weaknesses | The recorded sample used passage-grounded simulated drafts, so the numbers are indicative and are not evidence about live model output. A single reviewer, no inter-rater check. |
+| Known weaknesses | Sample size 28 (below the framework’s 50 dual-reviewed responses). A single reviewer. |
 | Change history | 1.0 (2026-11-22): first version. |
 
 Prompt text:

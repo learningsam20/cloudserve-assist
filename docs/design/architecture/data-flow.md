@@ -4,7 +4,9 @@ Use these diagrams in the README, report, and **video** (open PDF or this file b
 
 ## Purpose
 
-CloudServe Assistant is a **support triage / assist** system (not a chatbot): ingest a ticket → classify locally → retrieve KB passages by `doc_id` → **route in code** → optionally generate a cited draft via LiteLLM (OpenRouter **or** Groq) → guardrails → SQLite decision log.
+CloudServe Assistant is a **support triage / assist** system (not a chatbot): ingest a ticket → classify locally → retrieve KB passages by `doc_id` → **route in code** → optionally generate a cited draft via LiteLLM (OpenRouter **or** Groq; recorded generate-on used **Groq**) → guardrails → SQLite decision log.
+
+Canonical diagrams for the product report and demonstration video. Runtime topology and routing order below match [ARCHITECTURE-SPINE.md](ARCHITECTURE-SPINE.md) and the [product report](../../report/CloudServe_Assistant_Report.md) §4.
 
 ## End-to-end pipeline
 
