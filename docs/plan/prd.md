@@ -318,15 +318,15 @@ Builder can run documented scripts that read ticket/corpus paths and emit Stage-
 2. Hidden set size 100 vs 120 — treat as “unknown N, same schema”.
 3. Validation set: tune on development; validation for self-check; record run counts (confirm).
 
-Settled 2026-11-22: name **CloudServe Assistant**; generation **LiteLLM → OpenRouter**; classify **rules then trained local classifier** (findings D5); kill-switch **findings D4**. Config baseline: `06_Configuration`.
+Settled 2026-11-22: name **CloudServe Assistant**; generation **LiteLLM → OpenRouter or Groq**; classify **rules then trained local classifier** (findings D5); kill-switch **findings D4**. Config baseline: `06_Configuration`.
 
 ## 9. Assumptions Index
 
 Settled from builder comments (2026-11-22):
 
-- product brief stack is the default. **Any conflict or departure: ask before changing** — do not silently diverge. Pack conflicts: `submission/docs/plan/findings.md` (D1–D5). Additive package approved: `litellm` only (classifier uses pack sklearn).
+- Product brief stack is the default. Stack conflicts and departures are recorded in `submission/docs/plan/findings.md` (D1–D5) before implementation. Additive package approved: `litellm` only (classifier uses pack sklearn).
 - **Business targets (success table):** FCR ≥60%, reply &lt;5 min, CSAT ≥4.0, escalation ≤30%. Client wish-list row (65% / 2h / 4.2) is report context only — see findings D1.
-- `CONFIDENCE_THRESHOLD` may be tuned on development data, then **frozen before the recorded eval run**; no further threshold edits after that freeze without a logged PRD revision — see findings D3. Env `0.80` is boot default only.
+- `CONFIDENCE_THRESHOLD` is tuned on development data and frozen before the recorded evaluation run (findings D3). Subsequent changes to the operating threshold require a logged PRD revision before a new recorded evaluation. Pack env `0.80` is illustrative only.
 - Corpus / citation IDs use **`doc_id`** (not Setup Guide `id`) — see findings D2.
 - A12 tests cover **all acceptance behaviours needed for A1–A12** (full required matrix, not a stub suite). No decorative extra suites beyond that.
 - Runtime decision store is SQLite; for submission, **export/dump** decisions to a shippable artifact (e.g. `evaluation/results/decisions_export.md` or `.jsonl`) in addition to the DB.

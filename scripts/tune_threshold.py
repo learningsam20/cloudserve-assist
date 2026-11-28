@@ -171,9 +171,10 @@ def main() -> None:
         "candidates": candidates,
         "recommended": best,
         "freeze_instructions": (
-            "Set CONFIDENCE_THRESHOLD to recommended.threshold in .env, log freeze date "
-            "in docs/plan/work-log.md and _bmad-output/change-log.md (findings D3). "
-            "Do not change after the recorded validation harness run without a PRD revision."
+            "Set CONFIDENCE_THRESHOLD to recommended.threshold in .env and record the freeze "
+            "in docs/plan/threshold-freeze.md, docs/plan/work-log.md, and "
+            "_bmad-output/change-log.md (findings D3). Subsequent changes to the operating "
+            "threshold require a logged PRD revision before a new recorded evaluation."
         ),
     }
 

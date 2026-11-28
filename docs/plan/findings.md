@@ -2,17 +2,25 @@
 
 Decisions taken where the reference datasets pack documents disagree or mislead. Source: pack text (Brief, Setup Guide, Dataset Guide, Evaluation Framework) and suggested config under `reference 06_Configuration/` (`.env.example`, `requirements.txt`). Used by the report, PRD revision log, and implementation.
 
-**Config baseline:** always start from `06_Configuration`; document additives here or in the change-log — do not silently replace pack keys.
+**Config baseline:** Pack `06_Configuration` is the starting point for environment keys and dependencies. Additive pins and departures are recorded here and in the change log.
+
+## Pack findings D1–D5 (summary)
+
+- **D1 — One success bar.** Adopt the Evaluation Framework success table only: FCR ≥60%, reply under 5 minutes, CSAT ≥4.0, escalation ≤30%. The Brief’s stricter wish-list row is context, not the pass bar.
+- **D2 — `doc_id`, never `id`.** Corpus metadata and citations always use `doc_id`. Setup Guide `doc["id"]` is a documentation error.
+- **D3 — Measure, then freeze the threshold.** Pack `CONFIDENCE_THRESHOLD=0.80` is illustrative. Operating value measured on development data and frozen at **0.35** before recorded evaluation. Detail: [threshold-freeze.md](threshold-freeze.md).
+- **D4 — Kill switch with defined in-flight behaviour.** Switch is env flag or file, re-read live, checked at route and around generation; while on, never `auto_respond`; in-flight drafts are discarded from the auto path and escalated.
+- **D5 — No GLiNER; supervised classifier.** Rules first, then a trained local scikit-learn classifier. The LLM generates cited drafts only on `auto_respond`; it never labels intent or urgency.
 
 ## Settled choices
 
 | Topic | Choice | Date |
 |-------|--------|------|
 | Product name | **CloudServe Assistant** | 2026-11-22 |
-| Business success targets | **Success table:** FCR ≥60%, reply &lt;5 min, CSAT ≥4.0, escalation ≤30% | 2026-11-22 |
-| Classification | Deterministic **rules first**, then **trained local sklearn classifier**; low conf → escalate (no LLM labelling) | 2026-11-22 |
+| Business success targets | **Success table:** FCR ≥60%, reply &lt;5 min, CSAT ≥4.0, escalation ≤30% (D1) | 2026-11-22 |
+| Classification | Deterministic **rules first**, then **trained local sklearn classifier**; low conf → escalate (D5) | 2026-11-22 |
 | Generation | **LiteLLM** → **OpenRouter or Groq** (provider from `LITELLM_MODEL` prefix; recorded generate-on used Groq) | 2026-11-22 |
-| Routing | Deterministic code over Confidence + frozen Threshold + kill switch | 2026-11-22 |
+| Routing | Deterministic code over confidence + frozen threshold **0.35** (D3) + kill switch (D4) | 2026-11-22 |
 | Kill switch in-flight | See **D4** | 2026-11-22 |
 
 ---
@@ -44,7 +52,7 @@ These figures are not pack deviations. They are produced by `python -m scripts.d
 | CSAT | 4.2 | **≥4.0** |
 | Escalation | (implied via FCR) | **≤30%** |
 
-**Deviation we adopt:** Report and evaluate against the **success / outcomes table** only. The stricter client wish-list row is mentioned in the report as aspirational context, not as the pass bar.
+**Deviation we adopt:** Report and evaluate against the **success / outcomes table** only. The stricter client wish-list row is context, not the pass bar.
 
 **Why:** The success table includes explicit calculation definitions (Evaluation Framework / Brief). Holding two incompatible bars would make metrics and the PRD ambiguous.
 
@@ -64,26 +72,39 @@ These figures are not pack deviations. They are produced by `python -m scripts.d
 
 ---
 
-## D3 — Confidence threshold duplication / illustrative default
+## D3 — Confidence threshold: illustrative pack default vs measured freeze
 
 **Where:**
 
-- `.env.example` / Setup Guide ship `CONFIDENCE_THRESHOLD=0.80`.
-- Project Brief states the 0.80 figure is **illustrative**; the operating threshold must be **determined from data**.
+- Pack `.env.example` / Setup Guide ship `CONFIDENCE_THRESHOLD=0.80`.
+- Project Brief states 0.80 is **illustrative**; the operating threshold must be **determined from data**.
 - Routing must be deterministic once set (A5).
 
 **Deviation we adopt:**
 
-1. Pack `0.80` is illustrative only (Brief); not used as the operating value.
+1. Pack `0.80` is illustrative only; it is not the operating value.
 2. Measure the operating threshold on development data via `scripts/tune_threshold.py`.
-3. **Freeze** that value before the recorded evaluation run; further changes require a logged PRD revision.
-4. Decision log records `threshold_applied` on every routing decision so the frozen value is auditable.
+3. Freeze that value before the recorded evaluation run.
+4. Log `threshold_applied` on every routing decision.
 
-**Freeze (2026-11-22):** `CONFIDENCE_THRESHOLD=0.35` on `development_tickets.json` (n=500). At 0.35: FCR proxy ~74%, escalation ~26%, auto precision ~0.76. Pack 0.80 yields ~6% FCR on this classifier’s confidence distribution. Evidence: `storage/reports/threshold_tune.json`. Routing confidence uses **intent** `predict_proba` (not `min(intent, urgency)`). Recorded validation: `docs/plan/eval-runs.md`.
+**Freeze record**
 
-**Why:** Blindly shipping 0.80 without measurement contradicts the Brief; changing the threshold after eval invalidates reported metrics.
+| Item | Value |
+|------|-------|
+| Operating threshold | **0.35** |
+| Freeze date | 2026-11-22 |
+| Tune set | `development_tickets.json` (n=500) |
+| At 0.35 | FCR proxy 74.2%; escalation 25.8%; auto precision 0.7574 |
+| At pack 0.80 | FCR proxy 5.8%; escalation 94.2%; auto precision 0.8966 |
+| Routing confidence | Intent `predict_proba` only |
+| Full note | [threshold-freeze.md](threshold-freeze.md) |
+| Evaluation under freeze | [eval-runs.md](eval-runs.md) |
 
-**Risk if ignored:** Untuned routing (over-auto-respond or over-escalate); non-reproducible A5 if the env drifts between runs.
+**Change control:** Subsequent changes to the operating threshold require a logged PRD revision and a new recorded evaluation. Metrics published under `0.35` remain tied to that freeze.
+
+**Why:** Shipping 0.80 without measurement contradicts the Brief. An unlogged post-evaluation threshold change invalidates reported metrics.
+
+**Risk if ignored:** Untuned routing (over-auto-respond or over-escalate); non-reproducible A5 if the environment drifts between runs.
 
 ---
 
@@ -113,6 +134,16 @@ Concrete cases:
 
 ---
 
+## D5 — Classification approach (GLiNER dropped)
+
+**Earlier plan:** rules + GLiNER zero-shot.
+
+**Adopted:** rules + **supervised local classifier** trained on development ticket labels (`scripts/train_classifier.py`, sklearn already in `06_Configuration/requirements.txt`). Persist with joblib under `CLASSIFIER_DIR`.
+
+**LLM role:** generate cited answers only when route is `auto_respond` (LiteLLM → OpenRouter or Groq). If the classifier cannot meet the frozen confidence threshold → **escalate**; the LLM is not used for labelling.
+
+---
+
 ## Related pack inconsistencies (tracked, not separate product deviations)
 
 | ID | Issue | Working stance |
@@ -120,16 +151,6 @@ Concrete cases:
 | R1 | Hidden set size stated as 100 in some places, 120 in others | Design for arbitrary N; same schema |
 | R2 | Validation set “use freely” vs Brief “run once near the end” | Tune on development; validation for self-check; record run counts |
 | R3 | Setup Guide category count wording vs listed category names | Use Dataset Guide / data enums via scripts |
-
----
-
-## D5 — Classification approach (GLiNER dropped)
-
-**Earlier plan:** rules + GLiNER zero-shot.
-
-**Adopted:** rules + **supervised local classifier** trained on development ticket labels (`scripts/train_classifier.py`, sklearn already in `06_Configuration/requirements.txt`). Persist with joblib under `CLASSIFIER_DIR`.
-
-**LLM role:** generate cited answers only when route is `auto_respond` (LiteLLM → OpenRouter or Groq). If the classifier cannot meet the frozen confidence threshold → **escalate**, do not ask the LLM to classify.
 
 ---
 

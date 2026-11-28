@@ -1,6 +1,6 @@
 # Work log — CloudServe Assistant
 
-Part of the submission package. Updated as each delivery stage / build slice lands. Prefer real reference datasets pack datasets; do not invent ticket bodies unless a criterion forces a fixture.
+Part of the submission package. Updated as each delivery stage or build slice lands. Evaluation and training use Capstone Pack datasets; synthetic ticket bodies appear only where a criterion requires a fixture.
 
 **How to use:** append under the matching stage when work completes. Keep evidence paths concrete.
 

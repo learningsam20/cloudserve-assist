@@ -1,29 +1,31 @@
 # Confidence threshold freeze
 
+## Decision
+
 | Field | Value |
 |-------|-------|
-| Date | 2026-11-22 |
-| Value | **0.35** |
-| Script | `python -m scripts.tune_threshold --input <development_tickets.json>` |
-| Full report | `storage/reports/threshold_tune.json` (local; `storage/` gitignored) |
-| Findings | D3 |
+| Operating threshold | **`CONFIDENCE_THRESHOLD=0.35`** |
+| Freeze date | 2026-11-22 |
+| Finding | D3 |
+| Tune script | `python -m scripts.tune_threshold --input <development_tickets.json>` |
+| Tune artefact | `storage/reports/threshold_tune.json` (local; `storage/` is gitignored) |
+| Confidence used for routing | Intent `predict_proba` only (not `min(intent, urgency)`) |
 
-## Development-set snapshot (n=500)
+**What “freeze” means:** The value `0.35` is the operating threshold used for all recorded evaluation runs. It is written to every routing decision as `threshold_applied`. Changing the operating threshold requires a logged PRD revision (Stage 5 revision log) and a new recorded evaluation; the previously published metrics remain tied to `0.35`.
 
-### Frozen operating point — threshold **0.35**
+**What was rejected:** Pack / Setup Guide `CONFIDENCE_THRESHOLD=0.80` is illustrative only (Project Brief). It is not the operating value.
 
-- **Route auto % (FCR proxy on tune set):** ~74%
-- **Escalation %:** ~26%
-- **Auto precision (vs expected_route where labelled):** ~0.76
+## Why 0.35 (development sample, n=500)
 
-### Pack illustrative — threshold **0.80** (not used)
+| Threshold | First-contact proxy | Escalation | Auto precision | Role |
+|-----------|---------------------|------------|----------------|------|
+| **0.35** | **74.2%** | **25.8%** | **0.7574** | **Frozen operating point** |
+| 0.80 (Pack) | 5.8% | 94.2% | 0.8966 | Illustrative only — not used |
 
-- **Route auto %:** ~6%
-- **Escalation %:** ~94%
-- **Auto precision:** ~0.90
+Business targets (finding D1: FCR ≥60%, escalation ≤30%) select between the two rows. At 0.80 almost no tickets auto-respond on this classifier’s confidence distribution.
 
-Re-confirmed 2026-11-22 after routing confidence = **intent only** (not `min(intent, urgency)`).
+Re-confirmed 2026-11-22 after routing confidence was set to intent-only; the tune still recommended 0.35.
 
-Business targets (findings D1) lead selection; pack 0.80 is not used as the operating value.
+## Recorded evaluation under the freeze
 
-Recorded validation run: `docs/plan/eval-runs.md` (80 tickets, 2026-11-22). Do not change after that without a PRD revision.
+Evidence under `CONFIDENCE_THRESHOLD=0.35`: [eval-runs.md](eval-runs.md) (80 validation tickets, 2026-11-22), including route-only `validation_fairness_fix` and generate-on `validation_20261122T131433Z` (LiteLLM → Groq, customer FCR 82.5%).

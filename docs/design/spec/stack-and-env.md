@@ -68,7 +68,7 @@ Optional demo only (not required at runtime): Docker Compose under `observabilit
 
 1. Copy `reference 06_Configuration/requirements.txt` → `submission/requirements.txt`.
 2. Append **only** approved additive: `litellm` (pin after clean venv resolve; log in change-log). Classifier uses pack-pinned `scikit-learn` (+ `joblib` via sklearn).
-3. Verify install on Python ≥3.10 (CI 3.11). Pin conflicts → ask before changing CloudServe pins.
+3. Verify install on Python ≥3.10 (CI 3.11). Pin conflicts are recorded before changing CloudServe pins (see `requirements-pin-log.md`).
 
 ## Project modules (Setup Guide shape)
 
@@ -97,7 +97,7 @@ tests/
 
 ## Chunking note
 
-Setup Guide suggests trying ≥2 chunk configs (example starter `chunk_size=800`, `overlap=120`), measuring retrieval quality via scripts, and recording the choice. Do not split inside numbered resolution sequences inside articles (Dataset Guide).
+Setup Guide suggests trying at least two chunk configs (starter `chunk_size=800`, `overlap=120`), measuring retrieval quality via scripts, and recording the choice. The Dataset Guide requires that numbered resolution sequences inside articles remain intact (no mid-sequence splits).
 
 ## What uses a remote LLM vs local
 

@@ -7,37 +7,37 @@
 Format for every beat:
 
 - **[SHOW]** what is on screen  
-- **[SAY]** spoken narration (documentary register; third person about the product where natural)
+- **[SAY]** spoken narration — product walkthrough voice; concrete and specific
 
 ---
 
 ## Demo fixtures
 
-Fixtures are in `storage/demo_tickets/` — a deliberate mix from the validation set:
+Fixtures are in `storage/demo_tickets/` (validation tickets prepared for the live section):
 
 | File | Ticket | Expected outcome |
 |------|--------|------------------|
 | `ticket_auto.json` | VAL-0010 (billing) | `auto_respond` |
-| `ticket_auto_generate.json` | VAL-0010 | auto + cited draft (optional live generate) |
+| `ticket_auto_generate.json` | VAL-0010 | `auto_respond` plus cited draft (optional) |
 | `ticket_escalate.json` | VAL-0002 | `escalate` (policy must-not) |
-| `ticket_auto_again.json` | VAL-0010 | auto normally; escalate when kill switch is on |
+| `ticket_auto_again.json` | VAL-0010 | `auto_respond` normally; `escalate` when kill switch is on |
 
-| Cue card |
-|----------|
-| threshold **0.35** · Chroma **59** · **66 / 14** · generate-on **FCR 82.5%** (LiteLLM → Groq) · fairness **0 pp** · **28** tests |
+| Reference numbers |
+|-------------------|
+| Threshold **0.35** · Chroma **59** chunks · Route-only / generate-on **66 auto / 14 escalate** · Generate-on **FCR 82.5%** (LiteLLM → Groq) · Fairness gap **0.0 pp** · **28** pytest tests |
 
-**Never show:** `.env`, API keys, billing pages.
+**On camera / screen:** do not display `.env`, API keys, or billing pages.
 
 ---
 
-## Opening visuals (0:00–~1:15)
+## Opening visuals (0:00–1:15)
 
-Start on camera briefly (name and product). Then screen:
+On camera for name and product (20–30 seconds), then screen share:
 
-1. Report title (`docs/report/CloudServe_Assistant_Report.md`)  
-2. [data-flow.md](../design/architecture/data-flow.md) — end-to-end pipeline mermaid  
+1. Report title — `docs/report/CloudServe_Assistant_Report.md`  
+2. Pipeline diagram — [data-flow.md](../design/architecture/data-flow.md)  
 
-Do not open the terminal or Grafana in the first minute.
+Keep the terminal and Grafana closed until the live section.
 
 ---
 
@@ -50,7 +50,7 @@ cd submission
 # fixtures already at storage/demo_tickets/
 ```
 
-Day-of dry-run: health → `ticket_auto` → `ticket_escalate` → kill on → `ticket_auto_again` → kill off → harness `--limit 5`.
+Dry-run before recording: health → `ticket_auto` → `ticket_escalate` → kill on → `ticket_auto_again` → kill off → harness `--limit 5`.
 
 ---
 
@@ -58,58 +58,66 @@ Day-of dry-run: health → `ticket_auto` → `ticket_escalate` → kill on → `
 
 ### 0:00–1:15 · Open
 
-**[SHOW]** Camera → report title → `data-flow.md` pipeline  
+**[SHOW]** Camera → report title → `data-flow.md` end-to-end pipeline  
 
 **[SAY]**  
-This is CloudServe Assistant — a support triage and assist system for CloudServe Solutions. The original ask was a chatbot. Discovery with support stakeholders and the ticket aggregates pointed elsewhere: wrong answers are worse than a slow human reply. The product classifies each ticket, retrieves reviewed knowledge-base passages, and decides in code whether to draft a cited reply or escalate with context.
+I'm Sameer. This is CloudServe Assistant.
 
-The demonstration covers the problem, the architecture, a live run of at least seven minutes, and the recorded evaluation — including a generate-on first-contact resolution of 82.5% via LiteLLM to Groq.
+CloudServe Solutions asked for a chatbot. After stakeholder interviews and the ticket data, that was the wrong product. A confident wrong reply is worse than a slow human one. CloudServe Assistant is a triage and assist service: it classifies a support ticket, retrieves passages from the reviewed knowledge base, and then — in code — either drafts a cited reply or escalates with a summary and sources.
+
+I'll walk through the business problem, the design decisions, a live run of the API, and the recorded evaluation numbers. The generate-on validation batch reached 82.5% first-contact resolution through LiteLLM to Groq.
 
 ---
 
 ### 1:15–2:45 · Problem
 
-**[SHOW]** Report stakeholder table (section 1)  
+**[SHOW]** Report Table 1 — stakeholder needs  
 
 **[SAY]**  
-Marcus Adeyemi leads support — about five hundred tickets a week with six agents. First reply averages eight to twelve hours against a two-hour agreement. Historical first-contact resolution on the development sample is 43.8%; escalation is 56.2%.
+Marcus Adeyemi runs support: roughly five hundred tickets a week, six agents. First reply averages eight to twelve hours against a two-hour service agreement. On the five-hundred-ticket development sample, historical first-contact resolution is 43.8% and escalation is 56.2%.
 
-Sofia on Tier One needs findable documentation instead of private snippet files. Ines maintains twenty-nine reviewed articles that customers use and agents largely do not. Daniel on Tier Two wants escalations that show sources and uncertainty. Ravi, as a customer, accepts automation when it is labelled, cited and honest.
+Sofia on Tier One needs the right article at hand instead of a private snippet file. Ines maintains twenty-nine reviewed knowledge-base articles that customers already use; agents rarely find them because search matches titles, not customer wording. Daniel on Tier Two needs escalations that show what was tried and which pages were considered. Ravi, as a customer, accepts an automated first reply when it is labelled, cites a page, and stays honest.
 
-The locked success bar is first-contact resolution at least 60%, reply under five minutes, satisfaction at least 4.0, and escalation at most 30%.
+The pass bar we locked is finding D1: first-contact resolution at least 60%, mean reply under five minutes, satisfaction at least 4.0, escalation at most 30%.
 
 ---
 
 ### 2:45–4:15 · Discovery and findings
 
-**[SHOW]** [findings.md](../plan/findings.md) — scroll **Discovery anchors**, then **D1–D5**; optional [threshold-freeze.md](../plan/threshold-freeze.md)  
+**[SHOW]** [findings.md](../plan/findings.md) — Discovery anchors table, then Pack findings D1–D5; for D3 switch to [threshold-freeze.md](../plan/threshold-freeze.md)  
 
 **[SAY]**  
-Discovery figures come from scripts on the ticket JSON — not from reading ticket bodies by hand. On the development sample (n=500): 71.4% are answerable from documentation; 17.4% carry policy must-not and must never be auto-answered. Historical first-contact resolution was 43.8%.
+Every development figure comes from `scripts.discovery_stats` on the ticket JSON — channel, labels, and history fields — not from reading ticket bodies. On that sample of five hundred tickets: 71.4% are answerable from documentation; 17.4% are policy must-not and must never be auto-answered; historical first-contact resolution is 43.8%.
 
-Five pack findings shaped the build: use `doc_id` for citations; freeze confidence at 0.35 because the pack’s 0.80 is illustrative and would automate almost nothing; define kill-switch behaviour for in-flight work; and keep the language model for drafting only. Classification is rules first, then a trained scikit-learn model.
+Five pack findings drove the build:
+
+- D1 — One success bar. We evaluate against the Evaluation Framework table only: FCR at least 60%, reply under five minutes, CSAT at least 4.0, escalation at most 30%.
+- D2 — Field name `doc_id`. Index metadata and citations always use `doc_id`. The Setup Guide sample that used `id` is wrong and would break citation resolution.
+- D3 — Threshold freeze. The pack ships `CONFIDENCE_THRESHOLD=0.80` as an illustrative default. We tuned on the development set and froze the operating value at 0.35. At 0.80 the tune set auto-responds on 5.8% of tickets and escalates 94.2%. At 0.35 it auto-responds on 74.2% and escalates 25.8%, with auto precision 0.7574. Every recorded validation run used 0.35; each routing decision logs `threshold_applied`.
+- D4 — Kill switch in flight. The switch is an environment flag or a flag file, re-read live. While it is on, the system never returns `auto_respond` — including tickets already past the route stage.
+- D5 — Classification. GLiNER was dropped. Rules run first; then a supervised scikit-learn classifier. The language model only drafts cited answers on the auto-respond path. It never assigns intent or urgency.
 
 ---
 
 ### 4:15–5:30 · Architecture
 
-**[SHOW]** [data-flow.md](../design/architecture/data-flow.md) — pipeline, topology, then routing flowchart  
+**[SHOW]** [data-flow.md](../design/architecture/data-flow.md) — pipeline, then runtime topology, then routing flowchart (point with cursor)  
 
 **[SAY]**  
-The path is ingest, classify, retrieve with MiniLM into Chroma, route in code, and — only on auto_respond — generate through LiteLLM to OpenRouter or Groq. The recorded generate-on batch used Groq. Guardrails follow; every decision is written to SQLite.
+Here is the pipeline on screen. A ticket enters ingest, then classify, then retrieve with MiniLM embeddings into Chroma — fifty-nine chunks from the twenty-nine articles. Routing is pure code. Only if the route is `auto_respond` does the system call LiteLLM. The recorded generate-on batch used Groq; OpenRouter remains a configuration option. Guardrails run on every draft. Every stage writes to the SQLite decision log.
 
-The stack is Python, LangGraph, scikit-learn, Chroma, LiteLLM, FastAPI and SQLite. Prometheus and Grafana are optional for the evaluation boards.
+Stack: Python, LangGraph, scikit-learn, Chroma, LiteLLM, FastAPI, SQLite. Prometheus and Grafana are optional for evaluation dashboards.
 
-On the routing diagram: kill switch, then must-not policy, then empty retrieval, then confidence against 0.35, with a grounded override when retrieval is strong. The language model never chooses escalate versus auto — the code does. The API and the evaluation harness both call the same `run_ticket` entrypoint.
+On the routing flowchart: kill switch first, then policy must-not, then empty retrieval, then confidence against the frozen 0.35, with a grounded override when the top passage is strong and confidence is near the threshold. The language model does not choose escalate versus auto — `src/route.py` does. FastAPI and the evaluation harness both call the same `run_ticket` entrypoint.
 
 ---
 
 ### 5:30–12:45 · Live demonstration (≥7 min)
 
-**[SHOW]** Terminal in `submission/`  
+**[SHOW]** Terminal in `submission/` (large font)  
 
 **[SAY]**  
-Three live beats. First, VAL-0010 — a billing ticket that should auto-respond. Second, VAL-0002 — a policy must-not that should escalate. Third, the kill switch on the same success ticket so the stop behaviour is visible. Optional: live generate on VAL-0010; otherwise a guardrail unit test shows a block.
+Live system next. Three tickets from the validation set. VAL-0010 should auto-respond. VAL-0002 should escalate on policy. Then I turn the kill switch on and send VAL-0010 again so the same success ticket is forced to escalate. I'll also show a guardrail block through the test suite, and a short harness run.
 
 #### Health
 
@@ -121,7 +129,7 @@ curl -s localhost:8000/health | python3 -m json.tool
 ```
 
 **[SAY]**  
-Status ok, kill switch false, Chroma count 59 — the knowledge-base index is wired.
+`/health` returns status ok, kill switch false, and Chroma count 59. The index is loaded.
 
 #### Success path — VAL-0010
 
@@ -134,9 +142,9 @@ curl -s -X POST localhost:8000/tickets/process \
 ```
 
 **[SAY]**  
-Invoice higher than expected — billing intent, high confidence, billing `doc_id` passages, route auto_respond at threshold 0.35.
+VAL-0010 — invoice higher than expected. Intent is billing, confidence is above 0.35, retrieved passages carry billing `doc_id` values, and the route is `auto_respond`.
 
-*(Optional generate: `ticket_auto_generate.json` — same ticket with a live cited draft.)*
+*(Optional: repeat with `ticket_auto_generate.json` to show a live cited draft from Groq.)*
 
 #### Policy escalate — VAL-0002
 
@@ -149,7 +157,7 @@ curl -s -X POST localhost:8000/tickets/process \
 ```
 
 **[SAY]**  
-Must-not policy — escalate with an escalation summary for the agent. This is a genuine policy escalate, not a retrieval failure.
+VAL-0002 carries `must_not_auto_respond`. The action is `escalate`, with an escalation summary and the sources considered. That is policy, not a failed retrieve.
 
 #### Guardrail
 
@@ -160,7 +168,7 @@ python3 -m pytest tests/test_gaps_closure.py -k guardrail_block_through_run_tick
 ```
 
 **[SAY]**  
-An engineered bad generation is blocked through the full graph.
+This test injects a generation with a forged citation through the full graph. The guardrail blocks it; the ticket does not leave as an auto-reply.
 
 #### Kill switch
 
@@ -176,7 +184,7 @@ curl -s -X POST localhost:8000/tickets/process \
 ```
 
 **[SAY]**  
-Same VAL-0010 that auto-responded a moment ago. With the kill switch on, the ticket escalates. Kill off restores normal operation.
+Kill switch is now on — `/health` shows it. I send VAL-0010 again, the same ticket that auto-responded earlier. The action is now `escalate`. Clearing the switch restores normal routing.
 
 #### Short harness
 
@@ -190,43 +198,43 @@ python3 -m evaluation.harness \
 ```
 
 **[SAY]**  
-Path in, path out, five tickets, no silent drops. The full eighty-ticket metrics are already on disk.
+Unattended harness: `--input` and `--output` paths, five tickets, generation off. No silent drops. The full eighty-ticket results are already under `evaluation/results/`.
 
 ---
 
 ### 12:45–15:30 · Evaluation
 
-**[SHOW]** [eval-runs.md](../plan/eval-runs.md), then `evaluation/results/validation_fairness_fix/metrics.md`, then `validation_20261122T131433Z/metrics.md`  
-*(Optional: Grafana → Generate-on FCR board)*
+**[SHOW]** [eval-runs.md](../plan/eval-runs.md) → `evaluation/results/validation_fairness_fix/metrics.md` → `evaluation/results/validation_20261122T131433Z/metrics.md`  
+*(Optional: Grafana Generate-on FCR dashboard)*
 
 **[SAY]**  
-First recorded run: retrieval broken — eighty escalations, zero percent auto. Empty passages after a silent embedding fallback; escalating was correct.
+Evaluation history, starting with the first gate run. Retrieval was broken: the embedding model had fallen back silently, every similarity score fell below the floor, all eighty tickets escalated, auto-respond rate 0%. Escalating was the correct behaviour for empty evidence.
 
-After the fix: 65.0% auto-respond, with a fairness tier gap of approximately 35 percentage points.
+After the embedding fix and intent-only confidence: 65.0% auto-respond on validation, with a tier fairness gap near 35 percentage points on the raw mix.
 
-Fairness-fix snapshot: 66 auto, 14 escalate, 82.5% route-auto, 17.5% escalation, classification 98.75%, fairness gap zero. Generate was off on that run, so the metrics withhold a customer FCR claim.
+After the fairness fix — character n-grams, grounded override, quality-based fairness metric — the route-only snapshot is 66 auto-respond, 14 escalate, all fourteen policy must-not. That is 82.5% route auto and 17.5% escalation. Classification accuracy is 98.75%. Fairness quality gap is 0.0 points for tier and for fluency. Generation was off, so that run does not claim customer first-contact resolution.
 
-Generate-on with LiteLLM to Groq: same 66 and 14, customer FCR 82.5% with the claim allowed, fairness still zero, citation identifiers valid on 65 generations. Human review on twenty-eight drafts: satisfaction proxy 4.68, 119 of 119 claims supported.
+Generate-on batch, LiteLLM to Groq, same eighty tickets: again 66 and 14, customer FCR 82.5% with `fcr_claim_allowed` true, fairness gap still 0.0, citation ID validity 1.0 on 65 generations. Human review of twenty-eight drafts: satisfaction proxy 4.68, 119 of 119 claims supported.
 
 ---
 
 ### 15:30–16:45 · Governance
 
-**[SHOW]** Risk register or report governance section  
+**[SHOW]** [risk-register.md](../governance/risk-register.md) or report section 9  
 
 **[SAY]**  
-Every automated decision is written to the SQLite log — classify, route, and generate when used. The harness reconciles coverage. Principal risks are unsafe auto-replies and provider failures; containment begins with the kill switch demonstrated earlier.
+Every automated decision is persisted in SQLite — classification, routing, and generation when it runs. The harness reconciles decision rows to tickets processed. The main operational risks are an unsafe auto-reply reaching a customer and a provider outage or rate limit. Containment starts with the kill switch we just exercised.
 
 ---
 
 ### 16:45–18:00 · Close
 
-**[SHOW]** Next-steps list from the report → camera  
+**[SHOW]** Report section 10.4 next steps → back on camera  
 
 **[SAY]**  
-Next engineering priorities: tighten routing on tickets not answerable from documentation, run the hidden set when graders inject it, and complete packaging after this recording.
+Remaining work: tighten routing where tickets are labelled not answerable from documentation, run the hidden set when it is injected, and package the release after this recording.
 
-CloudServe Assistant is triage and assist — retrieve, route, cite, or escalate with context. The recorded generate-on first-contact resolution is 82.5%. Report, workbooks and source are in the submission package.
+CloudServe Assistant retrieves, routes in code, cites, or escalates with context. The recorded generate-on first-contact resolution is 82.5%. The product report, workbooks, and source are in the submission package.
 
 **[SHOW]** Hold · end  
 
@@ -245,22 +253,22 @@ CloudServe Assistant is triage and assist — retrieve, route, cite, or escalate
 | 15:30–16:45 | Governance |
 | 16:45–18:00 | Close |
 
-If over time: shorten discovery first. Do not cut the live demonstration below seven minutes.
+If over time: shorten discovery first. Keep the live demonstration at or above seven minutes.
 
 ---
 
 ## Claims checklist
 
-- [ ] Route-only 82.5% = automation rate; generate-on 82.5% = customer FCR (LiteLLM → Groq)  
-- [ ] Named the 0% retrieve failure  
+- [ ] Route-only 82.5% stated as automation rate; generate-on 82.5% stated as customer FCR (LiteLLM → Groq)  
+- [ ] Named the 0% retrieve failure and the silent embedding fallback  
 - [ ] Spoken mix: VAL-0010 auto · VAL-0002 policy escalate · kill forces VAL-0010 escalate  
-- [ ] Generate plan (live or route-only + guardrail test) stated once  
-- [ ] On camera open and close; no secrets  
+- [ ] Optional generate vs guardrail test stated once  
+- [ ] On-camera open and close; no secrets on screen  
 
 ---
 
 ## After recording
 
 1. Save `FirstnameLastname_CloudServe_Demo.mp4` under `docs/video/`  
-2. Mark [README.md](README.md) RECORDED  
+2. Mark [README.md](README.md) as RECORDED  
 3. Package per root `instructions.md`

@@ -96,9 +96,9 @@ The interviews disagreed in six places. Table 3 states each disagreement, how th
 | How many escalations Tier One could have resolved (Daniel: about half) | Of 281 escalations, 138 (49.1%) were answerable from documentation and 107 (38.1%) were answerable and not policy-restricted. | A large part of the escalation load is a findability and confidence problem. Automation can lift first-contact resolution without touching genuinely hard tickets. |
 | How repetitive the work is (Sofia: seven in ten) | 71.4% of tickets (357 of 500) are answerable from documentation, but the intent mix is flat: the largest intent is 5.8% and the smallest 2.6%. | Repetition sits at the article level, not the topic level. A topic-based canned-response library would need more than twenty buckets; retrieval over 29 articles with citations fits better. |
 | Whether the documentation is the problem (Sofia and Ines) | Answers exist for 71.4% of tickets, yet 38.1% of escalations were answerable and non-policy: the answers were available and unused. | Build meaning-based retrieval with citations rather than rewrite content; restrict the corpus to the 29 reviewed articles. |
-| Whether non-fluent customers have the worst satisfaction (Sofia) | 120 tickets (24.0%) are non-fluent. Satisfaction is 3.04 versus 2.95 for fluent customers; resolution takes 466.1 versus 407.7 minutes (about 14% longer). | Do not claim a historical satisfaction gap. Keep a fluency segment in the fairness check, because the risk is the new system misreading non-fluent wording. |
+| Whether non-fluent customers have the worst satisfaction (Sofia) | 120 tickets (24.0%) are non-fluent. Satisfaction is 3.04 versus 2.95 for fluent customers; resolution takes 466.1 versus 407.7 minutes (14.3% longer). | No historical satisfaction gap is claimed. Fluency remains a fairness segment because the new system may misread non-fluent wording. |
 | One response-time number versus urgency-dependent pain (Marcus and Ravi) | High-urgency tickets are 29.2% of volume and fare worse: first-contact resolution 39.7% versus 48.4% for low urgency. | Urgency is an explicit classification output and appears on escalations; reporting should be split by urgency. |
-| Whether enterprise customers are better served (Ravi) | Enterprise tickets (83, or 16.6%) have the lowest first-contact resolution (37.3%) and the highest escalation rate (62.7%). | Do not assume enterprise is well served; keep a tier fairness check. |
+| Whether enterprise customers are better served (Ravi) | Enterprise tickets (83, or 16.6%) have the lowest first-contact resolution (37.3%) and the highest escalation rate (62.7%). | Enterprise is not treated as well served a priori; tier remains a fairness segment. |
 
 ### 2.3 The development sample in numbers
 
@@ -176,13 +176,13 @@ xychart-beta
 
 ### 2.5 Findings D1–D5
 
-Reading the reference datasets pack surfaced five conflicts or errors, logged as numbered findings in [findings.md](../plan/findings.md). Each carries a stance that later documents and code cite by identifier; changing a finding requires a logged revision.
+Reading the reference datasets pack surfaced five conflicts or errors, logged in [findings.md](../plan/findings.md). Each carries a stance that later documents and code cite by identifier; changing a finding requires a logged revision.
 
-- **D1 — One success bar.** The Pack’s two success tables disagree. *Stance:* adopt the Evaluation Framework table — first-contact resolution at least 60%, reply under 5 minutes, satisfaction at least 4.0, escalation at most 30%.
-- **D2 — `doc_id`, never `id`.** The Setup Guide sample indexes documents by `id`. *Stance:* the field is `doc_id` everywhere, matching the Dataset Guide and ground-truth links.
-- **D3 — Measure the threshold, then freeze it.** The Pack’s `CONFIDENCE_THRESHOLD=0.80` is illustrative. *Stance:* measure on development data and freeze at 0.35 before the recorded run ([threshold-freeze.md](../plan/threshold-freeze.md)).
-- **D4 — Kill switch with defined in-flight behaviour.** The Brief leaves in-flight work underspecified. *Stance:* environment flag or file, re-read live, checked at route and around generation; never auto_respond while on.
-- **D5 — No GLiNER; supervised classifier.** The zero-shot plan was dropped. *Stance:* rules plus a supervised scikit-learn classifier; the language model only generates and never labels.
+- **D1 — One success bar.** The Pack’s two success tables disagree. Stance: adopt the Evaluation Framework table — first-contact resolution at least 60%, reply under 5 minutes, satisfaction at least 4.0, escalation at most 30%.
+- **D2 — `doc_id`, never `id`.** The Setup Guide sample indexes documents by `id`. Stance: the field is `doc_id` everywhere, matching the Dataset Guide and ground-truth links.
+- **D3 — Measure, then freeze the threshold.** Pack `CONFIDENCE_THRESHOLD=0.80` is illustrative. Stance: measure on development data; freeze the operating value at **0.35** before recorded evaluation. At 0.80 the tune set auto-responds on 5.8% of tickets; at 0.35, 74.2% with escalation 25.8%. Full freeze record: [threshold-freeze.md](../plan/threshold-freeze.md).
+- **D4 — Kill switch with defined in-flight behaviour.** The Brief leaves in-flight work underspecified. Stance: environment flag or file, re-read live, checked at route and around generation; never auto_respond while on.
+- **D5 — No GLiNER; supervised classifier.** The zero-shot plan was dropped. Stance: rules plus a supervised scikit-learn classifier; the language model only generates and never labels.
 
 **Table 7.** Reference datasets pack deviations logged as findings D1–D5.
 
@@ -190,7 +190,7 @@ Reading the reference datasets pack surfaced five conflicts or errors, logged as
 |----|---------|--------------|
 | D1 | Pack success tables disagree slightly | Locked targets: first-contact resolution at least 60%, reply under 5 minutes, satisfaction at least 4.0, escalation at most 30% |
 | D2 | Setup Guide sample uses `id` for corpus documents | Always use `doc_id`, the field in the Dataset Guide and the ground-truth links |
-| D3 | Pack `CONFIDENCE_THRESHOLD=0.80` is described as illustrative | Measured on development data and frozen at 0.35 before the recorded run |
+| D3 | Pack `CONFIDENCE_THRESHOLD=0.80` is illustrative | Operating threshold measured then frozen at 0.35 (tune: 74.2% FCR proxy vs 5.8% at 0.80) |
 | D4 | Kill-switch behaviour for in-flight work is underspecified | Environment flag or file; re-read live; checked at route and around generation; never auto_respond while on |
 | D5 | The GLiNER zero-shot plan | Dropped for rules plus a supervised scikit-learn classifier; the language model only generates, never labels |
 
@@ -281,7 +281,7 @@ The product requirements document was revised from version 1.0 to version 2.0 du
 | Change | Requirement | What changed | Trigger |
 |--------|-------------|--------------|---------|
 | C-01 | FR-02 | GLiNER dropped; supervised classifier added; no language-model labelling | Finding D5 |
-| C-02 | FR-04 | Threshold measured and frozen at 0.35 instead of the Pack default of 0.80 | Threshold sweep: about 6% first-contact proxy at 0.80 versus about 74% at 0.35 |
+| C-02 | FR-04 | Threshold measured and frozen at 0.35 instead of the Pack default of 0.80 | Threshold sweep: FCR proxy 5.8% at 0.80 versus 74.2% at 0.35 |
 | C-03 | FR-04 | Routing confidence is the intent probability only | Taking the minimum with urgency collapsed first-contact resolution |
 | C-04 | FR-04 | Grounded override for strong retrieval with near-threshold confidence | First fairness measurement showed a tier gap of about 35 points |
 | C-05 | FR-04 | Label-free text rules for security, legal and self-harm language | The hidden set may omit the `must_not_auto_respond` label |
@@ -414,27 +414,27 @@ Routing confidence is the maximum intent probability, not the minimum of the int
 
 ### 6.2 Threshold measurement and freeze (D3)
 
-The Pack’s `.env.example` ships `CONFIDENCE_THRESHOLD=0.80`, and the Brief calls that figure illustrative. The project measured instead. `scripts/tune_threshold.py` sweeps candidate thresholds from 0.30 to 0.95 in steps of 0.05 on the development labels and reports, for each, a first-contact proxy, an escalation share and the precision of the tickets it would auto-answer. Table 16 and Figure 4 show the two rows that matter. At the Pack value, about 6% of tickets would be auto-answered and about 94% escalated, because this classifier’s confidence distribution sits far below 0.80; at 0.35 about 74% would be auto-answered with about 26% escalated and an auto-answer precision of about 0.76. The chosen value is 0.35, frozen before the recorded validation run. The sweep was repeated after the confidence definition changed to intent-only and still recommended 0.35 ([threshold-freeze.md](../plan/threshold-freeze.md)).
+The Pack’s `.env.example` ships `CONFIDENCE_THRESHOLD=0.80`, and the Brief calls that figure illustrative. The project measured instead. `scripts/tune_threshold.py` sweeps candidate thresholds from 0.30 to 0.95 in steps of 0.05 on the development labels and reports, for each, a first-contact proxy, an escalation share and the precision of the tickets it would auto-answer. Table 16 and Figure 4 show the two rows that matter. At the Pack value, 5.8% of tickets would be auto-answered and 94.2% escalated, because this classifier’s confidence distribution sits far below 0.80; at 0.35, 74.2% would be auto-answered with 25.8% escalated and an auto-answer precision of 0.7574. The chosen value is 0.35, frozen before the recorded validation run. The sweep was repeated after the confidence definition changed to intent-only and still recommended 0.35 ([threshold-freeze.md](../plan/threshold-freeze.md)).
 
-**Table 16.** Development-set threshold sweep (n=500), values from `threshold-freeze.md`.
+**Table 16.** Development-set threshold sweep (n=500), values from [threshold-freeze.md](../plan/threshold-freeze.md) / `threshold_tune.json`.
 
 | Threshold | First-contact proxy | Escalation | Auto-answer precision |
 |-----------|---------------------|------------|-----------------------|
-| 0.35 (frozen) | about 74% | about 26% | about 0.76 |
-| 0.80 (Pack illustrative) | about 6% | about 94% | about 0.90 |
+| 0.35 (frozen) | 74.2% | 25.8% | 0.7574 |
+| 0.80 (Pack illustrative) | 5.8% | 94.2% | 0.8966 |
 
 ```mermaid
 xychart-beta
     title "Threshold sweep, development set (n=500): 0.35 frozen (bars) vs 0.80 Pack (line), %"
     x-axis ["First-contact proxy", "Escalation", "Auto-answer precision"]
     y-axis "Percent" 0 --> 100
-    bar [74, 26, 76]
-    line [6, 94, 90]
+    bar [74.2, 25.8, 75.7]
+    line [5.8, 94.2, 89.7]
 ```
 
-**Figure 4.** The same sweep as Table 16. Bars: threshold 0.35 (frozen); line: threshold 0.80 (Pack). Auto-answer precision is shown as a percentage (0.76 and 0.90 multiplied by 100). A higher threshold buys precision at the cost of near-total escalation.
+**Figure 4.** The same sweep as Table 16. Bars: threshold 0.35 (frozen); line: threshold 0.80 (Pack). Auto-answer precision is shown as a percentage (0.7574 → 75.7; 0.8966 → 89.7). A higher threshold increases precision and reduces automation.
 
-The pack value is more precise per automated reply but automates almost nothing, and an assistant that escalates 94% of tickets does not meet Marcus’s need. The business targets from finding D1 decided between the two. Because changing a threshold after the recorded run would invalidate the reported metrics, any later change requires a logged revision of the requirements, and the value in force is written to every routing decision as `threshold_applied`.
+The pack value is more precise per automated reply but automates almost nothing; an assistant that escalates 94.2% of tickets does not meet Marcus’s need. The business targets from finding D1 decided between the two. The frozen threshold is written to every routing decision as `threshold_applied`. Subsequent changes to the operating threshold require a logged PRD revision before a new recorded evaluation.
 
 ### 6.3 The route function
 

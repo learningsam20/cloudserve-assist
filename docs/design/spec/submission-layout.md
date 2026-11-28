@@ -20,7 +20,7 @@ Archive name: `FirstnameLastname_CloudServe_Release.zip` (release name).
 | `cloudserve_guide/` | Untouched reference datasets pack |
 | `docs/` (repo root) | Optional non-submission working notes / pointers |
 
-Do not put exploratory tests, half-written prompts, or agent memlogs into `submission/` until they are grader-ready.
+`submission/` contains grader-ready artefacts only. Exploratory tests, draft prompts, and agent working notes remain outside this tree until promoted.
 
 ## Required shape inside `04_Source_Code` / `submission/` when ready
 
