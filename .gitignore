@@ -81,8 +81,10 @@ agent-transcripts/
 **/.agent*
 **/cursor_agent_stores/
 
-# Video recordings (script stays; binary stays local until zip)
+# Video: keep public-repo name demo.mp4 in git; ignore other recordings / enrolment names
 docs/video/*.mp4
+!docs/video/demo.mp4
+docs/video/*_Capstone_Video.mp4
 docs/video/*.mov
 docs/video/*.webm
 docs/video/*.m4v

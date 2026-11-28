@@ -1,9 +1,9 @@
 # Demonstration video — CloudServe Assistant
 
-**Public repo filename:** [demo.mp4](demo.mp4)  
-**Hand-in filename (outside this repo’s packaging step):** `SameerJoshi_Capstone_Video.mp4`
+**Git / public repo:** [demo.mp4](demo.mp4) (tracked under this name)  
+**Hand-in `01_Video/`:** `SameerJoshi_Capstone_Video.mp4` (renamed only when packaging outside this repo)
 
-Keep the recording in this folder as `demo.mp4` only. Enrolment renaming happens when the Capstone hand-in archive is assembled outside this git repository.
+Do not commit enrolment-named copies here.
 
 ## Contents of the recording
 
